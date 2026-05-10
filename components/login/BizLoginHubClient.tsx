@@ -98,22 +98,17 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
   if (useHeroPhoto) {
     return (
       <div
-        className="relative isolate h-full min-h-0 w-full flex-1"
-        style={{ backgroundColor: panelGray }}
+        className="relative isolate h-full min-h-0 w-full flex-1 overflow-hidden"
         aria-hidden
       >
-        <div className="absolute inset-0 flex items-center justify-center px-[clamp(8px,3vw,20px)] py-[clamp(12px,3.5vh,36px)]">
-          <div className="relative mx-auto h-full w-full min-h-0 max-h-[min(92vh,100%)] max-w-full">
-            <Image
-              src={LOGIN_HERO_SRC}
-              alt=""
-              fill
-              className="object-contain object-center"
-              sizes="(max-width: 1024px) 0px, min(26vw, 480px)"
-              priority
-            />
-          </div>
-        </div>
+        <Image
+          src={LOGIN_HERO_SRC}
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="(max-width: 1024px) 0px, min(28vw, 520px)"
+          priority
+        />
       </div>
     )
   }
