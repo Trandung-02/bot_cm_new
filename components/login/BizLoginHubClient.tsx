@@ -102,14 +102,14 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
         style={{ backgroundColor: panelGray }}
         aria-hidden
       >
-        <div className="absolute inset-0 flex items-center justify-center px-[clamp(10px,4.5vw,26px)] py-[clamp(12px,3.5vh,36px)]">
-          <div className="relative h-full w-full max-h-[min(88vh,900px)] min-h-0">
+        <div className="absolute inset-0 flex items-center justify-center px-[clamp(8px,3vw,20px)] py-[clamp(12px,3.5vh,36px)]">
+          <div className="relative mx-auto h-full w-full min-h-0 max-h-[min(92vh,100%)] max-w-full">
             <Image
               src={LOGIN_HERO_SRC}
               alt=""
               fill
               className="object-contain object-center"
-              sizes="(max-width: 1024px) 0px, 22vw"
+              sizes="(max-width: 1024px) 0px, 18vw"
               priority
             />
           </div>
@@ -144,7 +144,7 @@ export default function BizLoginHubClient({ useHeroPhoto }: { useHeroPhoto: bool
       <div id="pagelet_login_content">
         <div className="mx-auto flex min-h-screen w-full max-w-[1920px] flex-col lg:min-h-[100dvh] lg:flex-row">
           <section
-            className="order-1 flex w-full flex-col justify-center overflow-y-auto border-[#e4e6eb] px-8 py-12 sm:px-10 sm:py-16 lg:order-1 lg:min-h-screen lg:flex-[0_0_38%] lg:border-r lg:px-12 lg:py-[clamp(3rem,5vw,4.75rem)] lg:pr-[clamp(2rem,3.5vw,3.25rem)] xl:px-14 xl:pl-16"
+            className="order-1 flex w-full flex-col justify-center overflow-y-auto border-[#e4e6eb] px-8 py-12 sm:px-10 sm:py-16 lg:order-1 lg:min-h-screen lg:flex-[0_0_40%] lg:border-r lg:px-12 lg:py-[clamp(3rem,5vw,4.75rem)] lg:pr-[clamp(2rem,3.5vw,3.25rem)] xl:px-14 xl:pl-16"
             style={{
               background:
                 'linear-gradient(158deg, #ffffff 0%, #f7f9fc 32%, #edf2f8 62%, #f1f5fa 100%)',
@@ -207,11 +207,11 @@ export default function BizLoginHubClient({ useHeroPhoto }: { useHeroPhoto: bool
             </div>
           </section>
 
-          <div className="hidden min-h-0 w-full shrink-0 overflow-hidden border-[#e4e6eb] lg:order-2 lg:flex lg:min-h-screen lg:min-h-0 lg:min-w-0 lg:flex-[0_0_28%] lg:flex-col lg:border-r">
+          <div className="hidden min-h-0 w-full shrink-0 overflow-hidden border-[#e4e6eb] lg:order-2 lg:flex lg:min-h-screen lg:min-h-0 lg:min-w-0 lg:flex-[0_0_22%] lg:flex-col lg:border-r">
             <IllustrationColumn useHeroPhoto={useHeroPhoto} />
           </div>
 
-          <aside className="order-2 flex min-w-0 shrink-0 flex-col overflow-y-auto border-t border-[#e4e6eb] bg-white lg:order-3 lg:min-h-screen lg:flex-[0_0_34%] lg:border-t-0">
+          <aside className="order-2 flex min-w-0 shrink-0 flex-col overflow-y-auto border-t border-[#e4e6eb] bg-white lg:order-3 lg:min-h-screen lg:flex-[0_0_38%] lg:border-t-0">
             <div
               id="login-panel-container"
               className="mx-auto flex min-h-0 w-full max-w-[382px] flex-1 flex-col justify-between px-7 py-11 sm:px-9 lg:min-h-screen lg:max-w-[400px] lg:px-10 lg:py-[clamp(3rem,4.5vw,4.25rem)] lg:pr-12"
