@@ -3,7 +3,7 @@
 export function FbLoginForm() {
   return (
     <form
-      className="mt-8 flex flex-col gap-[10px]"
+      className="mt-9 flex flex-col gap-3 sm:gap-3"
       onSubmit={(e) => {
         e.preventDefault()
       }}
