@@ -27,7 +27,8 @@ const metaBlueLegacy = '#0668E1'
 const textPrimary = '#1c1e21'
 const textSecondary = '#65676b'
 const borderButton = '#DADDE1'
-const panelGray = '#f0f2f5'
+/** Cột minh họa — xám stripe kiểu Meta (gần #E9EBEE) */
+const panelGray = '#E9EBEE'
 
 /** Minh họa vector — không dùng emoji, bố cục gần mockup Meta Business Tools */
 function MetaBusinessIllustrationSvg() {
@@ -186,7 +187,7 @@ function MetaBusinessIllustrationSvg() {
 function IllustrationColumnFallback() {
   return (
     <div
-      className="flex min-h-[min(60vh,520px)] flex-1 items-center justify-center px-6 py-10 lg:min-h-screen lg:py-0"
+      className="flex h-full min-h-[min(60vh,520px)] flex-1 items-center justify-center px-6 py-10 lg:min-h-screen lg:h-screen lg:py-0"
       style={{ backgroundColor: panelGray }}
       aria-hidden
     >
@@ -199,17 +200,18 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
   if (useHeroPhoto) {
     return (
       <div
-        className="relative flex min-h-[min(50vh,480px)] flex-1 items-center justify-center px-6 py-10 lg:min-h-screen"
+        className="flex w-full flex-1 flex-col items-center justify-center px-5 py-10 sm:px-6 sm:py-14 lg:h-screen lg:max-h-screen lg:min-h-screen lg:flex-none lg:overflow-hidden lg:px-4 lg:py-12"
         style={{ backgroundColor: panelGray }}
         aria-hidden
       >
-        <div className="relative h-[min(72vh,520px)] w-full max-w-[400px] min-h-[300px]">
+        {/* Khung cao ~full viewport để PNG phóng to gần sát stripe giống bản Meta */}
+        <div className="relative h-[min(76vh,700px)] w-full max-w-[540px] min-h-[400px] sm:h-[min(82vh,820px)] sm:max-w-[580px] lg:h-[min(93vh,960px)] lg:max-h-[960px] lg:w-full lg:max-w-none lg:min-h-[660px]">
           <Image
             src={LOGIN_HERO_SRC}
             alt=""
             fill
             className="object-contain object-center"
-            sizes="(max-width: 1024px) 100vw, 32vw"
+            sizes="(max-width: 1024px) 95vw, 22vw"
             priority
           />
         </div>
@@ -228,7 +230,7 @@ export default function LoginPage() {
       <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row">
         {/* Cột trái ~40% — gradient xanh nhạt → trắng */}
         <section
-          className="order-2 flex w-full flex-col justify-center bg-gradient-to-br from-[#edf4ff] via-[#f6f9fd] to-white px-8 py-12 sm:px-10 sm:py-16 lg:order-1 lg:w-[40%] lg:min-w-0 lg:shrink-0 lg:px-12 lg:py-[4.5rem] xl:px-16"
+          className="order-2 flex w-full flex-col justify-center overflow-y-auto bg-gradient-to-r from-[#e9f2ff] via-[#f2f7fc] to-[#fdfefe] px-8 py-12 sm:px-10 sm:py-16 lg:order-1 lg:h-screen lg:w-[40%] lg:min-w-0 lg:shrink-0 lg:px-12 lg:py-[4.5rem] xl:px-16"
         >
           <div className="mx-auto w-full max-w-[480px]">
             <SiMeta
@@ -261,7 +263,7 @@ export default function LoginPage() {
               ].map((line) => (
                 <li key={line.slice(0, 24)} className="flex gap-3">
                   <span
-                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+                    className="mt-[0.4rem] size-1.5 shrink-0 rounded-[1px]"
                     style={{ backgroundColor: textPrimary }}
                     aria-hidden
                   />
@@ -272,14 +274,14 @@ export default function LoginPage() {
           </div>
         </section>
 
-        {/* Cột giữa ~26% — xám */}
-        <div className="order-3 flex min-h-[min(50vh,380px)] w-full min-w-0 shrink-0 justify-center lg:order-2 lg:min-h-screen lg:w-[26%] lg:max-w-none">
+        {/* Cột giữa ~22% — stripe xám, hẹp (ảnh Meta) */}
+        <div className="order-3 flex w-full min-w-0 shrink-0 flex-col lg:order-2 lg:h-screen lg:w-[22%] lg:min-w-[200px] lg:overflow-hidden">
           <IllustrationColumn useHeroPhoto={hasLoginHeroAsset} />
         </div>
 
-        {/* Cột phải ~34% */}
+        {/* Cột phải ~38% */}
         <aside
-          className="order-1 flex min-w-0 flex-1 flex-col border-t border-[#e4e6eb] bg-white px-6 py-12 sm:px-10 lg:order-3 lg:border-l lg:border-t-0 lg:px-10 lg:py-16 xl:px-12"
+          className="order-1 flex min-w-0 shrink-0 flex-col overflow-y-auto border-t border-[#e4e6eb] bg-white px-6 py-12 sm:px-10 lg:order-3 lg:h-screen lg:w-[38%] lg:border-l lg:border-t-0 lg:px-10 lg:py-16 xl:px-12"
         >
           <div className="mx-auto flex w-full max-w-[380px] flex-1 flex-col lg:py-4">
             <h2 className="text-center text-[1.25rem] font-semibold leading-snug tracking-[-0.01em]">
@@ -332,10 +334,11 @@ export default function LoginPage() {
 
             <div className="my-10 h-px w-full shrink-0 bg-[#ced0d4]" />
 
-            <p className="text-center text-[0.9375rem] leading-snug">
-              <Link href="#" style={{ color: META_BRAND_BLUE }} className="hover:underline">
-                Log in with a managed Meta account
-              </Link>
+            <p
+              className="text-center text-[0.9375rem] leading-snug"
+              style={{ color: textSecondary }}
+            >
+              Log in with a managed Meta account
             </p>
 
             <div className="mt-auto flex flex-1 flex-col justify-end pb-4 pt-16">
