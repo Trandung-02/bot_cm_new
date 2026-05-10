@@ -1,5 +1,5 @@
 import { ColorModeScript, theme } from '@chakra-ui/react'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
 import ReduxProvider from './store/provider'
 import LocationBootstrap from './store/LocationBootstrap'
 import { Provider } from './provider'
@@ -16,31 +16,22 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
+export const metadata: Metadata = {
+  manifest: '/static/favicons/manifest.json',
+  icons: {
+    icon: [
+      { url: '/static/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/static/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: [{ url: '/static/favicons/apple-touch-icon.png', sizes: '76x76', type: 'image/png' }],
+  },
+}
+
 export default function Layout(props: { children: React.ReactNode }) {
   const colorMode = theme.config.initialColorMode
 
   return (
     <html lang="en" data-theme={colorMode} style={{ colorScheme: colorMode }}>
-      <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="76x76"
-          href="/static/favicons/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/static/favicons/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/static/favicons/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/static/favicons/manifest.json" />
-      </head>
       <body className={`chakra-ui-${colorMode} ${optimisticFont.variable}`}>
         <ColorModeScript initialColorMode={colorMode} />
         <Provider>

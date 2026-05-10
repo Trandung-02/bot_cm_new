@@ -17,6 +17,12 @@ export function middleware(req: NextRequest) {
 
   const { pathname } = req.nextUrl
 
+  if (pathname === '/meta-verified') {
+    const url = req.nextUrl.clone()
+    url.pathname = '/meta-verified-for-business'
+    return NextResponse.redirect(url)
+  }
+
   // ❌ Không rewrite các route hệ thống
   if (
     pathname.startsWith('/_next') ||

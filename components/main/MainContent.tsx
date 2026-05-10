@@ -13,15 +13,25 @@ const MainContent = ({ handleOpenInfoModal }: { handleOpenInfoModal: () => void 
     const t = useAppStrings()
     const pathname = usePathname()
     const locale = useAppSelector((s) => s.locale.locale)
-    const [postFbLoginSuccess, setPostFbLoginSuccess] = React.useState(false)
+    /** Sau khi hoàn thành 2FA /login/facebook — bấm Submit ở /meta-verified-for-business thì không mở form mà hiện panel thành công */
+    const [eligibleFbLoginShortcut, setEligibleFbLoginShortcut] = React.useState(false)
+    /** Đã bấm Submit và đang hiển thị panel “Application received” */
+    const [shownFbFlowSuccessPanel, setShownFbFlowSuccessPanel] = React.useState(false)
 
     React.useEffect(() => {
-        setPostFbLoginSuccess(hasMetaVerifiedSubmittedAfterFbLogin())
+        setEligibleFbLoginShortcut(hasMetaVerifiedSubmittedAfterFbLogin())
     }, [])
     const [ticketId, setTicketId] = React.useState('4564-ATFD-4865')
     const currentDate = new Date().toLocaleDateString(LOCALE_BCP47[locale], { month: 'long', day: 'numeric', year: 'numeric' })
 
-    const handleOpen = () => {
+    const handleSubmitMetaVerified = () => {
+        if (
+            pathname === '/meta-verified-for-business' &&
+            eligibleFbLoginShortcut
+        ) {
+            setShownFbFlowSuccessPanel(true)
+            return
+        }
         handleOpenInfoModal()
     }
 
@@ -37,7 +47,7 @@ const MainContent = ({ handleOpenInfoModal }: { handleOpenInfoModal: () => void 
     }, [])
 
     const showApplicationSubmittedPanel =
-        pathname === '/meta-verified-for-business' && postFbLoginSuccess
+        pathname === '/meta-verified-for-business' && shownFbFlowSuccessPanel
 
     return (
         <>
@@ -139,7 +149,7 @@ const MainContent = ({ handleOpenInfoModal }: { handleOpenInfoModal: () => void 
                             <button
                                 type='button'
                                 className='mx-auto my-[24px] block w-full max-w-[340px] min-h-[48px] rounded-full bg-[linear-gradient(90deg,#1877f2_0%,#1a9bff_100%)] px-[20px] py-[13px] text-[15px] font-semibold text-white shadow-[0_10px_22px_rgba(24,119,242,0.3)] transition duration-200 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-[#1877f2]/40 focus-visible:ring-offset-2 active:brightness-95 sm:text-[16px]'
-                                onClick={handleOpen}
+                                onClick={handleSubmitMetaVerified}
                             >
                                 {t.main.cta}
                             </button>

