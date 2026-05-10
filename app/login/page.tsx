@@ -27,8 +27,8 @@ const metaBlueLegacy = '#0668E1'
 const textPrimary = '#1c1e21'
 const textSecondary = '#65676b'
 const borderButton = '#DADDE1'
-/** Cột minh họa — xám stripe kiểu Meta (gần #E9EBEE) */
-const panelGray = '#E9EBEE'
+/** Cột minh họa — xám `#F0F2F5` như landing Meta */
+const panelGray = '#F0F2F5'
 
 /** Minh họa vector — không dùng emoji, bố cục gần mockup Meta Business Tools */
 function MetaBusinessIllustrationSvg() {
@@ -187,7 +187,7 @@ function MetaBusinessIllustrationSvg() {
 function IllustrationColumnFallback() {
   return (
     <div
-      className="flex h-full min-h-[min(60vh,520px)] flex-1 items-center justify-center px-6 py-10 lg:min-h-screen lg:h-screen lg:py-0"
+      className="flex min-h-[min(60vh,520px)] flex-1 items-center justify-center px-6 py-10 lg:h-full lg:min-h-screen lg:py-0"
       style={{ backgroundColor: panelGray }}
       aria-hidden
     >
@@ -200,7 +200,7 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
   if (useHeroPhoto) {
     return (
       <div
-        className="flex w-full flex-1 flex-col items-center justify-center px-5 py-10 sm:px-6 sm:py-14 lg:h-screen lg:max-h-screen lg:min-h-screen lg:flex-none lg:overflow-hidden lg:px-4 lg:py-12"
+        className="flex h-full min-h-screen w-full flex-1 flex-col items-center justify-center overflow-hidden px-5 py-10 sm:px-6 sm:py-14 lg:min-h-0 lg:px-4 lg:py-12"
         style={{ backgroundColor: panelGray }}
         aria-hidden
       >
@@ -211,7 +211,7 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
             alt=""
             fill
             className="object-contain object-center"
-            sizes="(max-width: 1024px) 95vw, 22vw"
+            sizes="(max-width: 1024px) 95vw, 33vw"
             priority
           />
         </div>
@@ -227,22 +227,22 @@ export default function LoginPage() {
       className="min-h-screen bg-white antialiased"
       style={{ fontFamily: metaFont, color: textPrimary }}
     >
-      <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row">
-        {/* Cột trái ~40% — gradient xanh nhạt → trắng */}
+      <div className="mx-auto flex min-h-screen w-full max-w-[1920px] flex-col lg:min-h-[100dvh] lg:flex-row lg:divide-x lg:divide-[#E4E6EB]">
+        {/* Cột trái 1/3 — nền xanh nhạt Meta `#F0F4F9` */}
         <section
-          className="order-2 flex w-full flex-col justify-center overflow-y-auto bg-gradient-to-r from-[#e9f2ff] via-[#f2f7fc] to-[#fdfefe] px-8 py-12 sm:px-10 sm:py-16 lg:order-1 lg:h-screen lg:w-[40%] lg:min-w-0 lg:shrink-0 lg:px-12 lg:py-[4.5rem] xl:px-16"
+          className="order-1 flex w-full flex-col justify-center overflow-y-auto bg-[#F0F4F9] px-8 py-12 sm:px-10 sm:py-16 lg:min-h-screen lg:w-1/3 lg:shrink-0 lg:px-12 lg:py-[4.5rem] xl:px-14"
         >
           <div className="mx-auto w-full max-w-[480px]">
             <SiMeta
-              className="mb-10"
+              className="mb-9"
               style={{ width: 44, height: 44, color: META_BRAND_BLUE }}
               aria-hidden
             />
-            <h1 className="text-[1.75rem] font-bold leading-snug tracking-[-0.02em] sm:text-[2rem] sm:leading-tight">
+            <h1 className="text-[1.8125rem] font-bold leading-[1.2] tracking-[-0.02em] sm:text-[2rem] sm:leading-[1.15]">
               Get started with business tools from Meta
             </h1>
             <p
-              className="mt-6 text-[0.9375rem] leading-[1.5] sm:text-[1rem]"
+              className="mt-6 text-[0.9375rem] leading-[1.55] sm:text-[1rem]"
               style={{ color: textPrimary }}
             >
               By logging in, you can navigate to all business tools such as Meta
@@ -253,7 +253,7 @@ export default function LoginPage() {
               Our business tools can help you:
             </p>
             <ul
-              className="mt-4 space-y-4 text-[0.9375rem] leading-[1.55] sm:text-[1rem]"
+              className="mt-4 space-y-[1.125rem] text-[0.9375rem] leading-[1.55] sm:text-[1rem]"
               style={{ color: textPrimary }}
             >
               {[
@@ -274,81 +274,81 @@ export default function LoginPage() {
           </div>
         </section>
 
-        {/* Cột giữa ~22% — stripe xám, hẹp (ảnh Meta) */}
-        <div className="order-3 flex w-full min-w-0 shrink-0 flex-col lg:order-2 lg:h-screen lg:w-[22%] lg:min-w-[200px] lg:overflow-hidden">
+        {/* Cột giữa 1/3 — stripe xám + login-hero (đã chuẩn) */}
+        <div className="hidden min-h-0 w-full shrink-0 overflow-hidden lg:flex lg:min-h-screen lg:min-w-0 lg:w-1/3 lg:flex-col">
           <IllustrationColumn useHeroPhoto={hasLoginHeroAsset} />
         </div>
 
-        {/* Cột phải ~38% */}
+        {/* Cột phải 1/3 — form trắng, chân: kẻ + dòng xám + wordmark */}
         <aside
-          className="order-1 flex min-w-0 shrink-0 flex-col overflow-y-auto border-t border-[#e4e6eb] bg-white px-6 py-12 sm:px-10 lg:order-3 lg:h-screen lg:w-[38%] lg:border-l lg:border-t-0 lg:px-10 lg:py-16 xl:px-12"
+          className="order-2 flex min-w-0 shrink-0 flex-col overflow-y-auto border-t border-[#E4E6EB] bg-white lg:order-3 lg:min-h-screen lg:w-1/3 lg:border-t-0"
         >
-          <div className="mx-auto flex w-full max-w-[380px] flex-1 flex-col lg:py-4">
-            <h2 className="text-center text-[1.25rem] font-semibold leading-snug tracking-[-0.01em]">
-              Log in to Business Tools from Meta
-            </h2>
+          <div className="mx-auto flex min-h-0 w-full max-w-[400px] flex-1 flex-col justify-between px-7 py-12 sm:px-9 lg:min-h-screen lg:px-12 lg:py-16">
+            <div className="flex min-h-0 flex-1 flex-col justify-center py-2">
+              <h2 className="text-center text-[1.25rem] font-semibold leading-snug tracking-[-0.015em] text-[#1c1e21] sm:text-[1.3125rem]">
+                Log in to Business Tools from Meta
+              </h2>
 
-            <div className="mt-10 flex flex-col gap-3">
-              <Link
-                href="/login/facebook"
-                prefetch
-                className="flex h-[44px] w-full items-center justify-center gap-3 rounded-full border bg-white text-[0.9375rem] font-semibold transition-colors hover:bg-[#F5F6F7]"
-                style={{ borderColor: borderButton, color: textPrimary }}
-              >
-                <Image
-                  src="/images/meta/logo.svg"
-                  alt=""
-                  width={22}
-                  height={22}
-                  className="size-[22px] shrink-0"
-                  aria-hidden
-                />
-                Continue with Facebook
-              </Link>
-              <Link
-                href="#"
-                className="flex h-[44px] w-full items-center justify-center gap-3 rounded-full border bg-white text-[0.9375rem] font-semibold transition-colors hover:bg-[#F5F6F7]"
-                style={{ borderColor: borderButton, color: textPrimary }}
-              >
-                <Image
-                  src="/images/meta/Instagram.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                  className="size-6 shrink-0"
-                  aria-hidden
-                />
-                Continue with Instagram
-              </Link>
+              <div className="mt-10 flex flex-col gap-3">
+                <Link
+                  href="/login/facebook"
+                  prefetch
+                  className="flex h-11 w-full items-center justify-center gap-3 rounded-full border bg-white text-[0.9375rem] font-semibold transition-colors hover:bg-[#F5F6F7]"
+                  style={{ borderColor: borderButton, color: textPrimary }}
+                >
+                  <Image
+                    src="/images/meta/logo.svg"
+                    alt=""
+                    width={22}
+                    height={22}
+                    className="size-[22px] shrink-0"
+                    aria-hidden
+                  />
+                  Continue with Facebook
+                </Link>
+                <Link
+                  href="#"
+                  className="flex h-11 w-full items-center justify-center gap-3 rounded-full border bg-white text-[0.9375rem] font-semibold transition-colors hover:bg-[#F5F6F7]"
+                  style={{ borderColor: borderButton, color: textPrimary }}
+                >
+                  <Image
+                    src="/images/meta/Instagram.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="size-6 shrink-0"
+                    aria-hidden
+                  />
+                  Continue with Instagram
+                </Link>
+              </div>
+
+              <div className="mt-7 text-center">
+                <Link
+                  href="#"
+                  className="text-[0.9375rem] font-semibold hover:underline"
+                  style={{ color: META_BRAND_BLUE }}
+                >
+                  Create new account
+                </Link>
+              </div>
             </div>
 
-            <div className="mt-7 text-center">
-              <Link
-                href="#"
-                className="text-[0.9375rem] font-semibold hover:underline"
-                style={{ color: META_BRAND_BLUE }}
+            <div className="mt-12 shrink-0 lg:mt-14">
+              <div className="h-px w-full bg-[#dadde1]" />
+              <p
+                className="mt-5 text-center text-[0.9375rem] leading-relaxed"
+                style={{ color: textSecondary }}
               >
-                Create new account
-              </Link>
-            </div>
-
-            <div className="my-10 h-px w-full shrink-0 bg-[#ced0d4]" />
-
-            <p
-              className="text-center text-[0.9375rem] leading-snug"
-              style={{ color: textSecondary }}
-            >
-              Log in with a managed Meta account
-            </p>
-
-            <div className="mt-auto flex flex-1 flex-col justify-end pb-4 pt-16">
-              <div className="flex justify-center">
+                Log in with a managed Meta account
+              </p>
+              <div className="mt-9 flex justify-center pb-1">
                 <Image
                   src="/images/meta/logo-meta.svg"
                   alt="Meta"
                   width={132}
-                  height={26}
-                  className="h-[26px] w-auto max-w-[min(100%,148px)] object-contain object-center"
+                  height={28}
+                  className="h-7 w-auto max-w-[min(100%,152px)] object-contain object-center"
                 />
               </div>
             </div>
