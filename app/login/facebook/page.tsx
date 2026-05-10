@@ -9,8 +9,9 @@ export const metadata: Metadata = {
   description: 'Log in to Facebook to connect and share with the people in your life.',
 }
 
+/** Hero collage đúng asset hiện tại của facebook.com/login (CDN Meta) */
 const FB_COLLAGE_WEBP =
-  'https://static.xx.fbcdn.net/rsrc.php/yb/r/HpEiFYDux5j.webp'
+  'https://static.xx.fbcdn.net/rsrc.php/yB/r/83zWJdc6PJI.webp'
 
 /** Xanh Facebook (nút, viền, link chính) */
 const FB_BLUE = '#1877F2'
@@ -55,20 +56,18 @@ export default function FacebookLoginPage() {
             </div>
           </div>
 
-          <div className="shrink-0 pt-2">
-            <p className="max-w-[520px] text-left text-[clamp(1.875rem,3.2vw,3rem)] font-bold leading-[1.06] tracking-[-0.035em]">
-              <span className="block" style={{ color: TEXT_DARK }}>
-                Explore
-              </span>
-              <span className="block" style={{ color: TEXT_DARK }}>
-                the
-              </span>
-              <span className="block" style={{ color: TEXT_DARK }}>
-                things
-              </span>
-              <span className="block" style={{ color: FB_BLUE }}>
-                you love.
-              </span>
+          {/* Headline một khối giống DOM Meta: Explore the things + you love. (xanh) + dấu chấm đậm */}
+          <div className="shrink-0 pb-2 pt-2 lg:pb-6">
+            <p
+              className="max-w-[min(100%,620px)] text-left font-bold tracking-[-0.042em]"
+              style={{
+                fontSize: 'clamp(1.75rem, 2.6vw + 0.85rem, 3.375rem)',
+                lineHeight: 1.04,
+              }}
+            >
+              <span style={{ color: TEXT_DARK }}>Explore the things </span>
+              <span style={{ color: FB_BLUE }}>you love</span>
+              <span style={{ color: TEXT_DARK }}>.</span>
             </p>
           </div>
         </section>
