@@ -102,21 +102,18 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
   if (useHeroPhoto) {
     return (
       <div
-        className="flex h-full min-h-screen w-full flex-1 flex-col items-center justify-center overflow-hidden px-5 py-10 sm:px-6 sm:py-14 lg:min-h-0 lg:px-4 lg:py-12"
+        className="relative isolate min-h-0 h-full w-full flex-1"
         style={{ backgroundColor: panelGray }}
         aria-hidden
       >
-        {/* Khung cao ~full viewport để PNG phóng to gần sát stripe giống bản Meta */}
-        <div className="relative h-[min(76vh,700px)] w-full max-w-[540px] min-h-[400px] sm:h-[min(82vh,820px)] sm:max-w-[580px] lg:h-[min(93vh,960px)] lg:max-h-[960px] lg:w-full lg:max-w-none lg:min-h-[660px]">
-          <Image
-            src={LOGIN_HERO_SRC}
-            alt=""
-            fill
-            className="object-contain object-center"
-            sizes="(max-width: 1024px) 95vw, 33vw"
-            priority
-          />
-        </div>
+        <Image
+          src={LOGIN_HERO_SRC}
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="(max-width: 1024px) 0px, 28vw"
+          priority
+        />
       </div>
     )
   }
@@ -218,8 +215,8 @@ export default function LoginPage() {
           </div>
         </section>
 
-        {/* 2 — Cột minh họa (~28%) — xám #F0F2F5; order luôn 2 trên desktop (trước đây order:0 khiến cột này lệch trái) */}
-        <div className="hidden min-h-0 w-full shrink-0 overflow-hidden border-[#e4e6eb] lg:order-2 lg:flex lg:min-h-screen lg:min-w-0 lg:flex-[0_0_28%] lg:flex-col lg:border-r">
+        {/* 2 — Cột minh họa (~28%) — login-hero phủ tràn không padding/object-contain */}
+        <div className="hidden min-h-0 w-full shrink-0 overflow-hidden border-[#e4e6eb] lg:order-2 lg:flex lg:min-h-screen lg:min-h-0 lg:min-w-0 lg:flex-[0_0_28%] lg:flex-col lg:border-r">
           <IllustrationColumn useHeroPhoto={hasLoginHeroAsset} />
         </div>
 

