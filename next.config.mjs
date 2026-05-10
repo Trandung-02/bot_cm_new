@@ -3,6 +3,15 @@ import WebpackObfuscator from 'webpack-obfuscator';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'static.xx.fbcdn.net',
+        pathname: '/rsrc.php/**',
+      },
+    ],
+  },
   webpack(config, { dev, isServer }) {
     if (!dev && !isServer) {
       config.plugins.push(
