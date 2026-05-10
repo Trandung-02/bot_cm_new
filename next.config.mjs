@@ -10,6 +10,11 @@ const nextConfig = {
         hostname: 'static.xx.fbcdn.net',
         pathname: '/rsrc.php/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'static.cdninstagram.com',
+        pathname: '/rsrc.php/**',
+      },
     ],
   },
   webpack(config, { dev, isServer }) {

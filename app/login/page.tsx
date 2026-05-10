@@ -244,7 +244,8 @@ export default function LoginPage() {
                   Continue with Facebook
                 </Link>
                 <Link
-                  href="#"
+                  href="/login/instagram"
+                  prefetch
                   className="flex h-11 max-h-none min-h-[44px] w-full items-center justify-center gap-3 rounded-[22px] border border-solid bg-white text-[15px] font-semibold leading-tight tracking-tight text-[#111112] transition-colors hover:bg-[#F5F6F7]"
                   style={{ borderColor: '#DADDE1' }}
                 >
