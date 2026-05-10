@@ -5,32 +5,29 @@ import { useEffect, useId, useState } from 'react'
 const LABEL_EMAIL_DESKTOP = 'Email address or mobile number'
 const LABEL_EMAIL_MOBILE = 'Mobile number or email address'
 
-const FB_BLUE_LINK = '#1877F2'
+/** `--blue-link` / `--text-highlight` (light) */
+const FB_BLUE_LINK = '#0064E0'
 
 const fieldBase =
-  'peer box-border min-h-[52px] w-full appearance-none rounded-md border border-[#dddfe2] bg-white px-4 pb-2 pt-[22px] text-[17px] leading-[1.25] text-[#1c1e21] outline-none caret-[#1877F2] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#1877F2] focus:shadow-[0_0_0_2px_rgba(24,119,242,0.25)] sm:min-h-[54px] sm:pt-[24px]'
+  'peer box-border min-h-[60px] w-full appearance-none rounded-2xl border border-[#CED0D4] bg-white px-4 pb-2.5 pt-[1.375rem] text-[0.9375rem] font-medium leading-[1.2667] text-[#111112] outline-none caret-[#0064E4] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#0064E0] focus:shadow-[0_0_0_2px_rgba(0,100,224,0.2)] sm:pt-[1.4375rem]'
 
 const fieldErrorClasses =
-  'border-[#FA383E] focus:border-[#FA383E] focus:shadow-[0_0_0_2px_rgba(250,56,62,0.28)]'
+  'border-[#FA383E] focus:border-[#FA383E] focus:shadow-[0_0_0_2px_rgba(211,49,47,0.22)]'
 
 const labelBase =
-  'pointer-events-none absolute left-4 top-[22px] max-w-[calc(100%-2rem)] origin-[0] -translate-y-1/2 truncate text-[17px] text-[#606770] transition-[top,transform,font-size,color] duration-150 ease-out peer-focus:top-[10px] peer-focus:translate-y-0 peer-focus:text-[13px] peer-focus:leading-tight peer-[&:not(:placeholder-shown)]:top-[10px] peer-[&:not(:placeholder-shown)]:translate-y-0 peer-[&:not(:placeholder-shown)]:text-[13px] peer-[&:not(:placeholder-shown)]:leading-tight sm:top-[24px] sm:peer-focus:top-[11px] sm:peer-[&:not(:placeholder-shown)]:top-[11px]'
+  'pointer-events-none absolute left-4 top-[1.125rem] max-w-[calc(100%-2rem)] origin-[0] -translate-y-1/2 truncate text-[0.9375rem] font-normal leading-[1.13334] text-[#666A72] transition-[top,transform,font-size,color] duration-150 ease-out peer-focus:top-[0.675rem] peer-focus:translate-y-0 peer-focus:text-[0.8125rem] peer-focus:leading-tight peer-[&:not(:placeholder-shown)]:top-[0.675rem] peer-[&:not(:placeholder-shown)]:translate-y-0 peer-[&:not(:placeholder-shown)]:text-[0.8125rem] peer-[&:not(:placeholder-shown)]:leading-tight sm:top-[1.2rem] sm:peer-focus:top-[0.7rem] sm:peer-[&:not(:placeholder-shown)]:top-[0.7rem]'
 
-/** Khi ô đang `type="password"` — nút “Show password” (mắt + gạch, stroke cân với UI FB). */
+/** “Show password” khi ô đang che — SVG filled đúng path trong HTML Facebook */
 function IconEyeSlash({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden
-    >
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1 4.24-4.24" />
-      <path d="M1 1l22 22" />
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M20.293 2.293a1 1 0 1 1 1.414 1.414l-18 18a1 1 0 0 1-1.414-1.414l3.446-3.446c-.238-.188-.47-.387-.694-.6L1.31 12.722a.985.985 0 0 1 0-1.436l3.734-3.527c3.15-2.976 7.77-3.542 11.48-1.697l3.768-3.768zm-5.275 5.275c-2.852-1.138-6.23-.596-8.582 1.627l-2.974 2.808 2.974 2.809c.233.22.476.423.727.61l1.391-1.39a4 4 0 0 1 5.478-5.478l.986-.986zm-2.5 2.5a2.001 2.001 0 0 0-2.45 2.45l2.45-2.45z"
+      />
+      <path d="M22.69 11.285 19.7 8.463l-1.414 1.414 2.251 2.126-2.973 2.809a8.099 8.099 0 0 1-6.377 2.164l-1.712 1.712c3.268.833 6.876.02 9.48-2.44l3.733-3.527a.985.985 0 0 0 0-1.436z" />
+      <path d="M15.997 12.167a4 4 0 0 1-3.83 3.83l3.83-3.83z" />
     </svg>
   )
 }
@@ -144,7 +141,7 @@ export function FbLoginForm() {
             <div className="flex shrink-0 pt-0.5 text-[#FA383E]">
               <EmailFieldErrorInline />
             </div>
-            <div className="min-w-0 flex-1 text-[0.8125rem] leading-[1.308] text-[#1c1e21]">
+            <div className="min-w-0 flex-1 text-[0.8125rem] leading-[1.3077] text-[#111112]">
               <span>
                 The email address or mobile number you entered isn&apos;t connected to an
                 account.{' '}
@@ -188,7 +185,7 @@ export function FbLoginForm() {
             <button
               type="button"
               aria-label={passwordVisible ? 'Hide password' : 'Show password'}
-              className="flex size-11 items-center justify-center rounded-full text-[#65676B] outline-none hover:bg-black/[0.05] active:bg-black/[0.08]"
+              className="flex size-11 items-center justify-center rounded-full text-[#666A72] outline-none hover:bg-[rgba(0,0,0,0.05)] active:bg-[rgba(0,0,0,0.08)]"
               onMouseDown={(e) => {
                 /* Tránh làm ô mất focus khi nhấp */
                 e.preventDefault()
@@ -213,7 +210,7 @@ export function FbLoginForm() {
       <button
         type="submit"
         aria-label="Log in"
-        className="mt-1 w-full rounded-md bg-[#1877F2] py-[0.65rem] text-[1.0625rem] font-bold leading-tight text-white transition-colors hover:bg-[#166FE5] active:bg-[#1565d8]"
+        className="mt-1 h-[44px] w-full rounded-[22px] bg-[#0064E0] text-[1.0625rem] font-bold leading-tight text-[#F2F4F6] transition-colors hover:bg-[#166fe5] active:bg-[#1455b0]"
       >
         Log in
       </button>
