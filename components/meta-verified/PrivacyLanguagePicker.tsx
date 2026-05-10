@@ -17,8 +17,16 @@ function applyDocumentLang(locale: AppLocale) {
   }
 }
 
-export default function PrivacyLanguagePicker() {
+type PrivacyLanguagePickerProps = {
+  /** Gắn id riêng cho `<select>` (tránh duplicate id giữa nhiều instance). */
+  selectId?: string
+}
+
+export default function PrivacyLanguagePicker({
+  selectId,
+}: PrivacyLanguagePickerProps = {}) {
   const t = useAppStrings()
+  const computedId = selectId ?? 'meta-verified-display-lang'
   const dispatch = useAppDispatch()
   const currentLocale = useAppSelector((s) => s.locale.locale)
 
@@ -42,10 +50,10 @@ export default function PrivacyLanguagePicker() {
   }
 
   return (
-    <div className="mx-auto mb-[14px] w-full">
+    <div className="mx-auto w-full lg:mb-0">
       <div className="mx-auto w-full max-w-[220px] min-w-0 sm:max-w-[240px]">
         <select
-          id="meta-verified-display-lang"
+          id={computedId}
           value={pickerValue}
           onChange={handleChange}
           className="block w-full min-h-[34px] cursor-pointer rounded-[10px] border border-[#dbe9ff] bg-white px-[10px] py-[5px] text-[11px] font-medium leading-tight text-[#1f2a45] shadow-sm outline-none transition duration-150 hover:border-[#1877f2] focus-visible:ring-2 focus-visible:ring-[#1877f2]/30 sm:min-h-[36px] sm:px-[11px] sm:text-[12px]"

@@ -102,14 +102,18 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
         style={{ backgroundColor: panelGray }}
         aria-hidden
       >
-        <Image
-          src={LOGIN_HERO_SRC}
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="(max-width: 1024px) 0px, 28vw"
-          priority
-        />
+        <div className="absolute inset-0 flex items-center justify-center px-[clamp(10px,4.5vw,26px)] py-[clamp(12px,3.5vh,36px)]">
+          <div className="relative h-full w-full max-h-[min(88vh,900px)] min-h-0">
+            <Image
+              src={LOGIN_HERO_SRC}
+              alt=""
+              fill
+              className="object-contain object-center"
+              sizes="(max-width: 1024px) 0px, 22vw"
+              priority
+            />
+          </div>
+        </div>
       </div>
     )
   }

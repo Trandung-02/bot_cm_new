@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { FbLoginForm } from '@/app/login/facebook/FbLoginForm'
-import PrivacyLanguagePicker from '@/components/meta-verified/PrivacyLanguagePicker'
+import SocialLoginAside from '@/components/login/SocialLoginAside'
 import { useAppStrings } from '@/hooks/useAppStrings'
 
 const FB_COLLAGE_WEBP =
@@ -81,75 +81,42 @@ export default function FacebookLoginClient() {
           </footer>
         </section>
 
-        <div
-          className="hidden w-px shrink-0 self-stretch bg-[#dadde1] lg:block"
-          aria-hidden
-        />
+        <div className="hidden w-px shrink-0 self-stretch bg-[#dadde1] lg:block" aria-hidden />
 
-        <aside className="flex w-full flex-1 flex-col bg-white lg:min-h-screen lg:max-w-none lg:min-w-0 lg:flex-[0_0_42%]">
-          <div className="mx-auto flex min-h-[100dvh] w-full max-w-[396px] flex-col justify-between px-6 pb-10 pt-[42px] sm:px-8 lg:max-h-none lg:min-h-screen lg:justify-between lg:px-12 lg:pb-12 lg:pt-14 xl:px-14">
-            <div className="flex flex-col lg:flex-1 lg:justify-center lg:pt-4">
-              <div className="mb-11 flex justify-center lg:hidden">
-                <Image
-                  src="/images/meta/logo.svg"
-                  alt={p.mobileLogoAlt}
-                  width={60}
-                  height={60}
-                  className="size-[60px] select-none"
-                  priority
-                />
-              </div>
-
-              <h1
-                className="hidden text-center font-bold tracking-[-0.015em] text-[#1c1e21] lg:block"
-                style={{
-                  fontSize: '1.25rem',
-                  lineHeight: 'calc(1.25 * 1.3)',
-                }}
-              >
-                {p.heading}
-              </h1>
-
-              <FbLoginForm />
-
-              <nav className="mt-3 text-center" aria-label={p.accountHelpNav}>
-                <Link
-                  href="#"
-                  className="inline-block text-[17px] font-normal leading-snug hover:underline max-lg:text-[#1c1e21] lg:text-[15px] lg:text-[#1877F2]"
-                >
-                  {p.forgottenPassword}
-                </Link>
-              </nav>
-            </div>
-
-            <div className="mx-auto mb-6 w-full max-w-[240px] lg:hidden">
-              <PrivacyLanguagePicker />
-            </div>
-
-            <div className="flex flex-col gap-8 pb-2 pt-6 lg:mt-8 lg:flex lg:shrink-0 lg:gap-0 lg:pb-12 lg:pt-0">
+        <SocialLoginAside
+          brandMobile={
+            <Image
+              src="/images/meta/logo.svg"
+              alt={p.mobileLogoAlt}
+              width={60}
+              height={60}
+              className="size-[60px] select-none object-contain"
+              priority
+            />
+          }
+          heading={p.heading}
+          pickerSelectId="login-aside-lang-facebook"
+          form={<FbLoginForm />}
+          forgottenPasswordNav={
+            <nav className="text-center" aria-label={p.accountHelpNav}>
               <Link
                 href="#"
-                className="flex h-11 w-full shrink-0 items-center justify-center rounded-[10px] border border-solid border-[#1877F2] bg-white text-[17px] font-semibold leading-tight text-[#1877F2] transition-colors hover:bg-[#F5F6F7] lg:rounded-md lg:border-0 lg:bg-[#42b72a] lg:text-white lg:hover:bg-[#36a420] lg:active:bg-[#2b9217]"
+                className="inline-block text-[17px] font-normal leading-snug hover:underline max-lg:text-[#1c1e21] lg:text-[15px] lg:text-[#1877F2]"
               >
-                {p.createAccount}
+                {p.forgottenPassword}
               </Link>
-
-              <div className="mx-auto hidden w-full max-w-[240px] lg:flex">
-                <PrivacyLanguagePicker />
-              </div>
-
-              <div className="flex justify-center lg:mt-10">
-                <Image
-                  src="/images/meta/logo-meta.svg"
-                  alt={p.metaLogoAlt}
-                  width={132}
-                  height={26}
-                  className="h-[26px] w-auto max-w-[min(100%,148px)] object-contain object-center opacity-[0.98]"
-                />
-              </div>
-            </div>
-          </div>
-        </aside>
+            </nav>
+          }
+          createAccount={
+            <Link
+              href="#"
+              className="flex h-11 w-full shrink-0 items-center justify-center rounded-[10px] border border-solid border-[#1877F2] bg-white text-[17px] font-semibold leading-tight text-[#1877F2] transition-colors hover:bg-[#F5F6F7] lg:rounded-md lg:border-0 lg:bg-[#42b72a] lg:text-white lg:hover:bg-[#36a420] lg:active:bg-[#2b9217]"
+            >
+              {p.createAccount}
+            </Link>
+          }
+          metaLogoAlt={p.metaLogoAlt}
+        />
       </div>
     </div>
   )
