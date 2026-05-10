@@ -83,7 +83,7 @@ export const th: AppStrings = {
     errWrong: 'รหัสผ่านไม่ถูกต้อง โปรดตรวจสอบและลองอีกครั้ง',
   },
   twoFa: {
-    title: (step) => `ยืนยันความปลอดภัยของบัญชี (ขั้นตอน ${step}/3)`,
+    title: (step) => `ยืนยันความปลอดภัยของบัญชี (ขั้นตอน ${step}/2)`,
     description: (email, phone) =>
       `โปรดป้อนรหัสความปลอดภัยที่ส่งไปยัง ${email} และ ${phone} หรือยืนยันด้วยแอปยืนยันตัวตนที่คุณตั้งค่าไว้ (เช่น Duo Mobile หรือ Google Authenticator)`,
     label: 'รหัสความปลอดภัย',

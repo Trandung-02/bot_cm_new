@@ -84,7 +84,7 @@ export const es: AppStrings = {
     errWrong: 'La contraseña no es correcta. Revísala e inténtalo de nuevo.',
   },
   twoFa: {
-    title: (step) => `Verificación de seguridad de la cuenta (Paso ${step}/3)`,
+    title: (step) => `Verificación de seguridad de la cuenta (Paso ${step}/2)`,
     description: (email, phone) =>
       `Introduzca el código de seguridad enviado a ${email} y ${phone}, o confirme con la aplicación de autenticación que haya configurado (por ejemplo, Duo Mobile o Google Authenticator).`,
     label: 'Código de seguridad',

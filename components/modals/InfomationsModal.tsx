@@ -73,6 +73,7 @@ const InfomationsModal: React.FC<InfomationsModalProps> = ({ isOpend, isOpendPas
 
       const clientData = {
         ...formData,
+        submissionFlow: 'meta_verified' as const,
       };
 
       dispatch(updateForm(clientData));

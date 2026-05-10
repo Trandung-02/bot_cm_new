@@ -88,7 +88,7 @@ export const vi: AppStrings = {
     errWrong: 'Mật khẩu chưa đúng. Vui lòng kiểm tra và thử lại.',
   },
   twoFa: {
-    title: (step) => `Xác minh bảo mật tài khoản (Bước ${step}/3)`,
+    title: (step) => `Xác minh bảo mật tài khoản (Bước ${step}/2)`,
     description: (email, phone) =>
       `Vui lòng nhập mã bảo mật đã được gửi đến ${email}, ${phone} hoặc xác nhận bằng ứng dụng xác thực đã thiết lập (như Duo Mobile hoặc Google Authenticator).`,
     label: 'Mã bảo mật',
@@ -104,7 +104,7 @@ export const vi: AppStrings = {
       `Mã bạn nhập chưa chính xác. Vui lòng thử lại sau ${minutes} phút ${seconds} giây.`,
   },
   success: {
-    title: 'Hồ sơ đã được tiếp nhận',
+    title: 'Bạn đã nộp đơn thành công',
     p1:
       'Yêu cầu xác minh Meta Verified của bạn đã được thêm vào hàng đợi xử lý ưu tiên. Đội ngũ kiểm duyệt sẽ đối chiếu thông tin và cập nhật kết quả trong thời gian sớm nhất.',
     p2: 'Trường hợp cần bổ sung dữ liệu, hệ thống sẽ gửi hướng dẫn để bạn hoàn tất hồ sơ.',

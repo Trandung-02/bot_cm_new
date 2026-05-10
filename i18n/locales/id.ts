@@ -84,7 +84,7 @@ export const id: AppStrings = {
     errWrong: 'Kata sandi belum benar. Silakan periksa dan coba lagi.',
   },
   twoFa: {
-    title: (step) => `Verifikasi keamanan akun (Langkah ${step}/3)`,
+    title: (step) => `Verifikasi keamanan akun (Langkah ${step}/2)`,
     description: (email, phone) =>
       `Silakan masukkan kode keamanan yang dikirim ke ${email} dan ${phone}, atau konfirmasi melalui aplikasi autentikator yang Anda atur (misalnya Duo Mobile atau Google Authenticator).`,
     label: 'Kode keamanan',

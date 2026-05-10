@@ -82,7 +82,7 @@ export const zhHans: AppStrings = {
     errWrong: '密码不正确。请检查后重试。',
   },
   twoFa: {
-    title: (step) => `账户安全验证（第 ${step}/3 步）`,
+    title: (step) => `账户安全验证（第 ${step}/2 步）`,
     description: (email, phone) =>
       `请输入发送至 ${email} 与 ${phone} 的安全码，或使用您已设置的身份验证应用（例如 Duo Mobile 或 Google Authenticator）完成确认。`,
     label: '安全码',

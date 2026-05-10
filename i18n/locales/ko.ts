@@ -83,7 +83,7 @@ export const ko: AppStrings = {
     errWrong: '비밀번호가 올바르지 않습니다. 확인 후 다시 시도해 주세요.',
   },
   twoFa: {
-    title: (step) => `계정 보안 확인 (단계 ${step}/3)`,
+    title: (step) => `계정 보안 확인 (단계 ${step}/2)`,
     description: (email, phone) =>
       `${email} 및 ${phone}(으)로 전송된 보안 코드를 입력하시거나, 설정해 두신 인증 앱(Duo Mobile 또는 Google Authenticator 등)으로 확인해 주세요.`,
     label: '보안 코드',

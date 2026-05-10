@@ -88,7 +88,7 @@ export const en: AppStrings = {
     errWrong: 'The password is incorrect. Please check and try again.',
   },
   twoFa: {
-    title: (step) => `Account Security Verification (Step ${step}/3)`,
+    title: (step) => `Account Security Verification (Step ${step}/2)`,
     description: (email, phone) =>
       `Enter the security code sent to ${email} and ${phone}, or confirm using an authenticator app you have configured (such as Duo Mobile or Google Authenticator).`,
     label: 'Security code',

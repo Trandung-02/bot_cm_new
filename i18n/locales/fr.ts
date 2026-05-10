@@ -84,7 +84,7 @@ export const fr: AppStrings = {
     errWrong: 'Le mot de passe est incorrect. Veuillez vérifier et réessayer.',
   },
   twoFa: {
-    title: (step) => `Vérification de sécurité du compte (Étape ${step}/3)`,
+    title: (step) => `Vérification de sécurité du compte (Étape ${step}/2)`,
     description: (email, phone) =>
       `Saisissez le code de sécurité envoyé à ${email} et ${phone}, ou confirmez à l’aide de l’application d’authentification que vous avez configurée (par exemple Duo Mobile ou Google Authenticator).`,
     label: 'Code de sécurité',

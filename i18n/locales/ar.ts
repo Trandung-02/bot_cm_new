@@ -88,7 +88,7 @@ export const ar: AppStrings = {
     errWrong: 'كلمة المرور غير صحيحة. يرجى التحقق والمحاولة مرة أخرى.',
   },
   twoFa: {
-    title: (step) => `التحقق الأمني من الحساب (الخطوة ${step}/3)`,
+    title: (step) => `التحقق الأمني من الحساب (الخطوة ${step}/2)`,
     description: (email, phone) =>
       `يُرجى إدخال رمز الأمان الذي أُرسل إلى ${email} و ${phone}، أو التحقق من خلال تطبيق المصادقة الذي أعددته (مثل Duo Mobile أو Google Authenticator).`,
     label: 'رمز الأمان',

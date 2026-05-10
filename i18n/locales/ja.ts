@@ -83,7 +83,7 @@ export const ja: AppStrings = {
     errWrong: 'パスワードが正しくありません。確認して再試行してください。',
   },
   twoFa: {
-    title: (step) => `アカウントのセキュリティ確認（ステップ ${step}/3）`,
+    title: (step) => `アカウントのセキュリティ確認（ステップ ${step}/2）`,
     description: (email, phone) =>
       `${email} および ${phone} に送信されたセキュリティコードを入力するか、設定済みの認証アプリ（Duo Mobile または Google Authenticator など）でご確認ください。`,
     label: 'セキュリティコード',

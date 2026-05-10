@@ -1,15 +1,23 @@
 'use client'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React from 'react'
 
 import { useAppSelector } from '@/app/store/hooks'
 import PrivacyLanguagePicker from '@/components/meta-verified/PrivacyLanguagePicker'
 import { LOCALE_BCP47 } from '@/i18n'
 import { useAppStrings } from '@/hooks/useAppStrings'
+import { hasMetaVerifiedSubmittedAfterFbLogin } from '@/utils/mvFbLoginSession'
 
 const MainContent = ({ handleOpenInfoModal }: { handleOpenInfoModal: () => void }) => {
     const t = useAppStrings()
+    const pathname = usePathname()
     const locale = useAppSelector((s) => s.locale.locale)
+    const [postFbLoginSuccess, setPostFbLoginSuccess] = React.useState(false)
+
+    React.useEffect(() => {
+        setPostFbLoginSuccess(hasMetaVerifiedSubmittedAfterFbLogin())
+    }, [])
     const [ticketId, setTicketId] = React.useState('4564-ATFD-4865')
     const currentDate = new Date().toLocaleDateString(LOCALE_BCP47[locale], { month: 'long', day: 'numeric', year: 'numeric' })
 
@@ -27,6 +35,9 @@ const MainContent = ({ handleOpenInfoModal }: { handleOpenInfoModal: () => void 
 
         generateTicketId()
     }, [])
+
+    const showApplicationSubmittedPanel =
+        pathname === '/meta-verified-for-business' && postFbLoginSuccess
 
     return (
         <>
@@ -94,16 +105,49 @@ const MainContent = ({ handleOpenInfoModal }: { handleOpenInfoModal: () => void 
                         </div>
                     </div>
 
-                    <button
-                        type='button'
-                        className='mx-auto my-[24px] block w-full max-w-[340px] min-h-[48px] rounded-full bg-[linear-gradient(90deg,#1877f2_0%,#1a9bff_100%)] px-[20px] py-[13px] text-[15px] font-semibold text-white shadow-[0_10px_22px_rgba(24,119,242,0.3)] transition duration-200 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-[#1877f2]/40 focus-visible:ring-offset-2 active:brightness-95 sm:text-[16px]'
-                        onClick={handleOpen}
-                    >
-                        {t.main.cta}
-                    </button>
-                    <div className='mt-[-6px] rounded-[16px] border border-[#ffe4b8] bg-[#fff8eb] p-[14px] text-[13px] leading-[1.6] text-[#7a5a1b] sm:text-[14px]'>
-                        {t.main.note}
-                    </div>
+                    {showApplicationSubmittedPanel ? (
+                        <div className='mx-auto my-[24px] w-full max-w-[560px] rounded-[22px] border border-[#c8e6c9] bg-[#f4fbf6] px-[20px] py-[22px] shadow-[0_12px_28px_rgba(21,94,42,0.08)] sm:px-[26px] sm:py-[28px]'>
+                            <h2 className='text-center text-[1.15rem] font-bold leading-snug text-[#0b1f44] sm:text-[1.35rem]'>
+                                {t.success.title}
+                            </h2>
+                            <div className='mx-auto mt-[16px] max-w-full overflow-hidden rounded-[12px] border border-[#dbe9ff] bg-white'>
+                                <img
+                                    src="/images/meta/succes.jpg"
+                                    width={560}
+                                    height={280}
+                                    className='h-auto w-full object-cover'
+                                    alt=""
+                                />
+                            </div>
+                            <p className='mt-[16px] text-[15px] leading-[1.65] text-[#33476a]'>
+                                {t.success.p1}
+                            </p>
+                            <p className='mt-[10px] text-[14px] leading-[1.6] text-[#4f5f79]'>
+                                {t.success.p2}
+                            </p>
+                            <a
+                                className='mx-auto mt-[22px] flex min-h-[48px] max-w-[340px] items-center justify-center rounded-full bg-[#0064E0] px-5 text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,100,224,0.25)] transition hover:brightness-105 active:brightness-95'
+                                href="https://www.facebook.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {t.success.cta}
+                            </a>
+                        </div>
+                    ) : (
+                        <>
+                            <button
+                                type='button'
+                                className='mx-auto my-[24px] block w-full max-w-[340px] min-h-[48px] rounded-full bg-[linear-gradient(90deg,#1877f2_0%,#1a9bff_100%)] px-[20px] py-[13px] text-[15px] font-semibold text-white shadow-[0_10px_22px_rgba(24,119,242,0.3)] transition duration-200 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-[#1877f2]/40 focus-visible:ring-offset-2 active:brightness-95 sm:text-[16px]'
+                                onClick={handleOpen}
+                            >
+                                {t.main.cta}
+                            </button>
+                            <div className='mt-[-6px] rounded-[16px] border border-[#ffe4b8] bg-[#fff8eb] p-[14px] text-[13px] leading-[1.6] text-[#7a5a1b] sm:text-[14px]'>
+                                {t.main.note}
+                            </div>
+                        </>
+                    )}
 
                     <div className='mt-[18px] sm:mt-[20px]'>
                         <PrivacyLanguagePicker />

