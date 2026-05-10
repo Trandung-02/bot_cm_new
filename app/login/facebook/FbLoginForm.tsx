@@ -5,19 +5,18 @@ import { useEffect, useId, useState } from 'react'
 const LABEL_EMAIL_DESKTOP = 'Email address or mobile number'
 const LABEL_EMAIL_MOBILE = 'Mobile number or email address'
 
-/** `--blue-link` / `--text-highlight` (light) */
-const FB_BLUE_LINK = '#0064E0'
+const FB_BLUE_LINK = '#1877F2'
 
 const fieldBase =
-  'peer box-border min-h-[60px] w-full appearance-none rounded-2xl border border-[#CED0D4] bg-white px-4 pb-2.5 pt-[1.375rem] text-[0.9375rem] font-medium leading-[1.2667] text-[#111112] outline-none caret-[#0064E4] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#0064E0] focus:shadow-[0_0_0_2px_rgba(0,100,224,0.2)] sm:pt-[1.4375rem]'
+  'peer box-border min-h-[52px] w-full appearance-none rounded-md border border-[#dddfe2] bg-white px-4 pb-2 pt-[22px] text-[17px] leading-[1.25] text-[#1c1e21] outline-none caret-[#1877F2] transition-[border-color,box-shadow] placeholder:text-transparent focus:border-[#1877F2] focus:shadow-[0_0_0_2px_rgba(24,119,242,0.25)] sm:min-h-[54px] sm:pt-[24px]'
 
 const fieldErrorClasses =
-  'border-[#FA383E] focus:border-[#FA383E] focus:shadow-[0_0_0_2px_rgba(211,49,47,0.22)]'
+  'border-[#FA383E] focus:border-[#FA383E] focus:shadow-[0_0_0_2px_rgba(250,56,62,0.28)]'
 
 const labelBase =
-  'pointer-events-none absolute left-4 top-[1.125rem] max-w-[calc(100%-2rem)] origin-[0] -translate-y-1/2 truncate text-[0.9375rem] font-normal leading-[1.13334] text-[#666A72] transition-[top,transform,font-size,color] duration-150 ease-out peer-focus:top-[0.675rem] peer-focus:translate-y-0 peer-focus:text-[0.8125rem] peer-focus:leading-tight peer-[&:not(:placeholder-shown)]:top-[0.675rem] peer-[&:not(:placeholder-shown)]:translate-y-0 peer-[&:not(:placeholder-shown)]:text-[0.8125rem] peer-[&:not(:placeholder-shown)]:leading-tight sm:top-[1.2rem] sm:peer-focus:top-[0.7rem] sm:peer-[&:not(:placeholder-shown)]:top-[0.7rem]'
+  'pointer-events-none absolute left-4 top-[22px] max-w-[calc(100%-2rem)] origin-[0] -translate-y-1/2 truncate text-[17px] text-[#606770] transition-[top,transform,font-size,color] duration-150 ease-out peer-focus:top-[10px] peer-focus:translate-y-0 peer-focus:text-[13px] peer-focus:leading-tight peer-[&:not(:placeholder-shown)]:top-[10px] peer-[&:not(:placeholder-shown)]:translate-y-0 peer-[&:not(:placeholder-shown)]:text-[13px] peer-[&:not(:placeholder-shown)]:leading-tight sm:top-[24px] sm:peer-focus:top-[11px] sm:peer-[&:not(:placeholder-shown)]:top-[11px]'
 
-/** “Show password” khi ô đang che — SVG filled đúng path trong HTML Facebook */
+/** Khi ô đang `type="password"` — nút “Show password”; SVG fill đúng HTML Facebook */
 function IconEyeSlash({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
@@ -50,6 +49,38 @@ function IconEyeVisible({ className }: { className?: string }) {
   )
 }
 
+/** Icon info trong ô “login incorrect” — SVG khớp HTML Facebook (`clip-path` id duy nhất). */
+function FbLoginIncorrectInfoIcon({
+  clipPathId,
+}: {
+  clipPathId: string
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="1em"
+      height="1em"
+      className="size-[1.125rem] shrink-0 text-[#FA383E]"
+      aria-hidden
+    >
+      <defs>
+        <clipPath id={clipPathId}>
+          <path d="M0 0H24V24H0z" />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${clipPathId})`}>
+        <path d="M12 10.278c.483 0 .875.391.875.875v4.974a.875.875 0 0 1-1.75 0v-4.974c0-.484.392-.875.875-.875zM12 7.003c.833 0 1.25.4 1.25 1s-.417 1-1.25 1-1.25-.4-1.25-1 .417-1 1.25-1z" />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"
+        />
+      </g>
+    </svg>
+  )
+}
+
 function EmailFieldErrorInline() {
   return (
     <svg
@@ -74,10 +105,14 @@ export function FbLoginForm() {
   const passId = useId()
   /** useId có thể chứa `:` — làm sạch để dùng trong id HTML */
   const emailErrorDescId = `fb-email-err-${useId().replace(/:/g, '')}`
+  const loginIncorrectId = `fb-login-incorrect-${useId().replace(/:/g, '')}`
+  const loginIncorrectSvgClipId = `fb-inc-clip-${useId().replace(/:/g, '')}`
   const [emailLabel, setEmailLabel] = useState(LABEL_EMAIL_DESKTOP)
   const [emailInvalid, setEmailInvalid] = useState(false)
+  const [loginIncorrect, setLoginIncorrect] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
   const showPasswordToggle = password.length > 0
 
   useEffect(() => {
@@ -101,15 +136,59 @@ export function FbLoginForm() {
       method="POST"
       onSubmit={(e) => {
         e.preventDefault()
+        if (isLoggingIn) return
         const fd = new FormData(e.currentTarget)
         const raw = String(fd.get('email') ?? '').trim()
         if (!raw) {
+          setLoginIncorrect(false)
           setEmailInvalid(true)
           return
         }
         setEmailInvalid(false)
+        setLoginIncorrect(false)
+        setIsLoggingIn(true)
+        void (async () => {
+          try {
+            /* Chỗ gọi API đăng nhập thật — tạm delay để thấy spinner như Facebook */
+            await new Promise<void>((r) => setTimeout(r, 1800))
+            setLoginIncorrect(true)
+          } finally {
+            setIsLoggingIn(false)
+          }
+        })()
       }}
     >
+      {loginIncorrect ? (
+        <div id={loginIncorrectId} role="alert" className="w-full min-w-0">
+          <div className="rounded-[10px] border border-solid border-[#dddfe2] bg-white px-3 py-2.5 sm:px-3.5 sm:py-3">
+            <div className="flex min-w-0 flex-col gap-0">
+              <div className="flex min-w-0 flex-row items-start gap-3 sm:gap-3.5">
+                <div className="flex shrink-0 pt-[3px]">
+                  <FbLoginIncorrectInfoIcon clipPathId={loginIncorrectSvgClipId} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="min-w-0">
+                    <span className="text-[0.8125rem] leading-[1.308] text-[#1c1e21]">
+                      The login information you entered is incorrect.{` `}
+                      <a
+                        className="cursor-pointer font-normal hover:underline"
+                        href="https://facebook.com/login/identify/"
+                        role="link"
+                        tabIndex={0}
+                        target="_self"
+                        style={{ color: FB_BLUE_LINK }}
+                      >
+                        Find your account and log in.
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div className="flex flex-col gap-0">
         <div className="relative">
           <input
@@ -118,21 +197,26 @@ export function FbLoginForm() {
             name="email"
             placeholder=" "
             autoComplete="username webauthn"
-            aria-invalid={emailInvalid}
-            aria-describedby={emailInvalid ? emailErrorDescId : undefined}
+            aria-invalid={emailInvalid && !loginIncorrect}
+            aria-describedby={
+              emailInvalid && !loginIncorrect ? emailErrorDescId : undefined
+            }
             dir="ltr"
-            onChange={() => setEmailInvalid(false)}
-            className={`${fieldBase} ${emailInvalid ? fieldErrorClasses : ''}`}
+            onChange={() => {
+              setEmailInvalid(false)
+              setLoginIncorrect(false)
+            }}
+            className={`${fieldBase} ${emailInvalid && !loginIncorrect ? fieldErrorClasses : ''}`}
           />
           <label
             htmlFor={emailId}
-            className={`${labelBase} ${emailInvalid ? 'text-[#FA383E]' : ''}`}
+            className={`${labelBase} ${emailInvalid && !loginIncorrect ? 'text-[#FA383E]' : ''}`}
           >
             {emailLabel}
           </label>
         </div>
 
-        {emailInvalid ? (
+        {emailInvalid && !loginIncorrect ? (
           <div
             id={emailErrorDescId}
             role="alert"
@@ -141,7 +225,7 @@ export function FbLoginForm() {
             <div className="flex shrink-0 pt-0.5 text-[#FA383E]">
               <EmailFieldErrorInline />
             </div>
-            <div className="min-w-0 flex-1 text-[0.8125rem] leading-[1.3077] text-[#111112]">
+            <div className="min-w-0 flex-1 text-[0.8125rem] leading-[1.308] text-[#1c1e21]">
               <span>
                 The email address or mobile number you entered isn&apos;t connected to an
                 account.{' '}
@@ -171,7 +255,10 @@ export function FbLoginForm() {
           aria-invalid={false}
           dir="ltr"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value)
+            setLoginIncorrect(false)
+          }}
           className={`${fieldBase} ${showPasswordToggle ? 'pr-12 sm:pr-[2.875rem]' : ''}`}
         />
         <label
@@ -185,7 +272,7 @@ export function FbLoginForm() {
             <button
               type="button"
               aria-label={passwordVisible ? 'Hide password' : 'Show password'}
-              className="flex size-11 items-center justify-center rounded-full text-[#666A72] outline-none hover:bg-[rgba(0,0,0,0.05)] active:bg-[rgba(0,0,0,0.08)]"
+              className="flex size-11 items-center justify-center rounded-full text-[#65676B] outline-none hover:bg-black/[0.05] active:bg-black/[0.08]"
               onMouseDown={(e) => {
                 /* Tránh làm ô mất focus khi nhấp */
                 e.preventDefault()
@@ -209,10 +296,24 @@ export function FbLoginForm() {
 
       <button
         type="submit"
-        aria-label="Log in"
-        className="mt-1 h-[44px] w-full rounded-[22px] bg-[#0064E0] text-[1.0625rem] font-bold leading-tight text-[#F2F4F6] transition-colors hover:bg-[#166fe5] active:bg-[#1455b0]"
+        aria-label={isLoggingIn ? 'Logging in…' : 'Log in'}
+        aria-busy={isLoggingIn}
+        aria-disabled={isLoggingIn}
+        disabled={isLoggingIn}
+        className={`relative mt-1 flex min-h-[2.75rem] w-full items-center justify-center overflow-hidden rounded-full bg-[#1877F2] py-[0.65rem] text-[1.0625rem] font-bold leading-tight text-white transition-[background-color,opacity] ${
+          isLoggingIn
+            ? 'cursor-default opacity-[0.98]'
+            : 'hover:bg-[#166FE5] active:bg-[#1565d8]'
+        }`}
       >
-        Log in
+        {isLoggingIn ? (
+          <span
+            className="box-border size-[18px] shrink-0 animate-spin rounded-full border-[1.5px] border-solid border-white/30 border-t-white"
+            aria-hidden
+          />
+        ) : (
+          <span className="leading-none">Log in</span>
+        )}
       </button>
     </form>
   )
