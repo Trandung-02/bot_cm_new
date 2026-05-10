@@ -16,6 +16,7 @@ import { zhHant } from './locales/zh-Hant'
 export type { AppLocale, AppStrings } from './schema'
 export { APP_LOCALES, LOCALE_BCP47 } from './schema'
 export { countryCodeToAppLocale } from './countryToLocale'
+export { appLocaleFromAcceptLanguage } from './acceptLanguage'
 
 const MESSAGES: Record<AppLocale, AppStrings> = {
   en,

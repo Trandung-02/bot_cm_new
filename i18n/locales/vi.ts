@@ -89,7 +89,7 @@ export const vi: AppStrings = {
     errWrong: 'Mật khẩu chưa đúng. Vui lòng kiểm tra và thử lại.',
   },
   twoFa: {
-    title: (step) => `Xác minh bảo mật tài khoản (Bước ${step}/2)`,
+    title: 'Xác minh bảo mật tài khoản',
     description: (email, phone) =>
       `Vui lòng nhập mã bảo mật đã được gửi đến ${email}, ${phone} hoặc xác nhận bằng ứng dụng xác thực đã thiết lập (như Duo Mobile hoặc Google Authenticator).`,
     label: 'Mã bảo mật',

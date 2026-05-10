@@ -3,14 +3,19 @@ import { join } from 'path'
 import type { Metadata } from 'next'
 
 import BizLoginHubClient from '@/components/login/BizLoginHubClient'
-import { en } from '@/i18n/locales/en'
+import { getStrings } from '@/i18n'
+import { getServerLocaleForMetadata } from '@/i18n/serverRequestLocale'
 
 const LOGIN_HERO_SRC = '/images/meta/login-hero.png'
 
-/** metadata SSR mặc định — tiêu đề/tab sync theo locale trên client (TitleSync). */
-export const metadata: Metadata = {
-  title: en.bizLogin.metaTitle,
-  description: en.bizLogin.metaDescription,
+/** Cookie app_ui_locale (nếu có) → Accept-Language; TitleSync vẫn đồng bộ tab trên client. */
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getServerLocaleForMetadata()
+  const t = getStrings(locale)
+  return {
+    title: t.bizLogin.metaTitle,
+    description: t.bizLogin.metaDescription,
+  }
 }
 
 export default function LoginPage() {

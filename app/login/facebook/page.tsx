@@ -1,11 +1,16 @@
 import type { Metadata } from 'next'
 
 import FacebookLoginClient from '@/components/login/FacebookLoginClient'
-import { en } from '@/i18n/locales/en'
+import { getStrings } from '@/i18n'
+import { getServerLocaleForMetadata } from '@/i18n/serverRequestLocale'
 
-export const metadata: Metadata = {
-  title: en.fbLoginPage.metaTitle,
-  description: en.fbLoginPage.metaDescription,
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getServerLocaleForMetadata()
+  const t = getStrings(locale)
+  return {
+    title: t.fbLoginPage.metaTitle,
+    description: t.fbLoginPage.metaDescription,
+  }
 }
 
 export default function FacebookLoginPage() {

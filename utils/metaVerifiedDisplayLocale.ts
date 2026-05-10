@@ -1,5 +1,7 @@
 import { APP_LOCALES, type AppLocale } from '@/i18n/schema'
 
+import { writeAppLocaleCookie } from './appLocaleCookie'
+
 const LEGACY_LOCAL_STORAGE_KEY = 'meta_verified_display_locale'
 const SESSION_KEY = 'meta_verified_session_ui_locale'
 
@@ -23,5 +25,6 @@ export function readSessionDisplayLocale(): AppLocale | null {
 export function writeSessionDisplayLocale(locale: AppLocale) {
   clearLegacyLocalStorage()
   sessionStorage.setItem(SESSION_KEY, locale)
+  writeAppLocaleCookie(locale)
 }
 

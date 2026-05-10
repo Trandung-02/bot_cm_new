@@ -196,7 +196,7 @@ function FbRecaptchaFullScreenBody({
             </div>
             <div className="mb-[2px] flex flex-col items-center text-[#9d9ba7]">
               <Image
-                src="/images/meta/recaptcha.svg"
+                src="/images/meta/recaptcha.png"
                 alt={t.captcha.badgeAlt}
                 width={40}
                 height={40}

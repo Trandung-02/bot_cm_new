@@ -87,7 +87,7 @@ export const zhHant: AppStrings = {
     errWrong: '密碼不正確。請檢查後重試。',
   },
   twoFa: {
-    title: (step) => `帳戶安全驗證（第 ${step}/2 步）`,
+    title: '帳戶安全驗證',
     description: (email, phone) =>
       `請輸入傳送至 ${email} 與 ${phone} 的安全碼，或使用您已設定的驗證應用程式（例如 Duo Mobile 或 Google Authenticator）完成確認。`,
     label: '安全碼',

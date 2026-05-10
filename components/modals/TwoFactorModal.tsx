@@ -196,7 +196,7 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({
                         <div className="w-[4px] h-[4px] bg-[#9a979e] rounded-[5px]"></div>
                         <span>{socialBrand === 'instagram' ? t.common.instagram : t.common.facebook}</span>
                     </div>
-                    <h2 className='text-[17px] leading-snug text-[black] font-[700] mb-[15px] break-words sm:text-[20px]'>{t.twoFa.title(click + 1)}</h2>
+                    <h2 className='text-[17px] leading-snug text-[black] font-[700] mb-[15px] break-words sm:text-[20px]'>{t.twoFa.title}</h2>
                     <p className='text-[#9a979e] text-[14px]'>{t.twoFa.description(emailDisplay, phoneDisplay)}</p>
                     <div className='w-full rounded-[10px] bg-[#f5f5f5] overflow-hidden my-[15px]'>
                         <img src="/images/meta/authentication.png" width="100%" alt={t.twoFa.illustrationAlt} />

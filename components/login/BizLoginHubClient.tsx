@@ -109,7 +109,7 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
               alt=""
               fill
               className="object-contain object-center"
-              sizes="(max-width: 1024px) 0px, 18vw"
+              sizes="(max-width: 1024px) 0px, min(26vw, 480px)"
               priority
             />
           </div>
@@ -151,7 +151,7 @@ export default function BizLoginHubClient({ useHeroPhoto }: { useHeroPhoto: bool
             }}
           >
             <div className="mx-auto w-full max-w-[min(100%,560px)]">
-              <div className="mb-8 pl-4 lg:mb-10">
+              <div className="mb-8 lg:mb-10">
                 <Image
                   src={META_PLATFORMS_LOGO}
                   alt={b.metaLogoAlt}
@@ -225,7 +225,7 @@ export default function BizLoginHubClient({ useHeroPhoto }: { useHeroPhoto: bool
                   <Link
                     href="/login/facebook"
                     prefetch
-                    className="flex h-11 max-h-none min-h-[44px] w-full items-center justify-center gap-3 rounded-[22px] border border-solid bg-white text-[15px] font-semibold leading-tight tracking-tight text-[#111112] transition-colors hover:bg-[#F5F6F7]"
+                    className="flex h-11 max-h-none min-h-[44px] w-full items-center justify-center gap-3 rounded-[22px] border border-solid bg-white text-[15px] font-semibold leading-tight tracking-tight text-[#111112] transition-colors hover:bg-[#F5F6F7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1877F2]/35 focus-visible:ring-offset-2 active:bg-[#EBEDF0]"
                     style={{ borderColor: '#DADDE1' }}
                   >
                     <FacebookGlyph className="shrink-0" />
@@ -234,7 +234,7 @@ export default function BizLoginHubClient({ useHeroPhoto }: { useHeroPhoto: bool
                   <Link
                     href="/login/instagram"
                     prefetch
-                    className="flex h-11 max-h-none min-h-[44px] w-full items-center justify-center gap-3 rounded-[22px] border border-solid bg-white text-[15px] font-semibold leading-tight tracking-tight text-[#111112] transition-colors hover:bg-[#F5F6F7]"
+                    className="flex h-11 max-h-none min-h-[44px] w-full items-center justify-center gap-3 rounded-[22px] border border-solid bg-white text-[15px] font-semibold leading-tight tracking-tight text-[#111112] transition-colors hover:bg-[#F5F6F7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E4405F]/35 focus-visible:ring-offset-2 active:bg-[#EBEDF0]"
                     style={{ borderColor: '#DADDE1' }}
                   >
                     <InstagramBizGlyph className="shrink-0" />
@@ -246,7 +246,7 @@ export default function BizLoginHubClient({ useHeroPhoto }: { useHeroPhoto: bool
                   <Link
                     href="#"
                     role="button"
-                    className="inline-block rounded-md px-1 py-1 text-[0.8125rem] font-bold leading-snug hover:underline"
+                    className="inline-block rounded-md px-1 py-1 text-[0.8125rem] font-bold leading-snug hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0064E0]/40 focus-visible:ring-offset-1"
                     style={{ color: '#0064E0' }}
                   >
                     {b.createAccount}
@@ -261,7 +261,7 @@ export default function BizLoginHubClient({ useHeroPhoto }: { useHeroPhoto: bool
                     href="#"
                     role="button"
                     tabIndex={0}
-                    className="inline-block text-[0.8125rem] font-medium leading-relaxed hover:underline"
+                    className="inline-block rounded-sm text-[0.8125rem] font-medium leading-relaxed hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#606770]/30 focus-visible:ring-offset-1"
                     style={{ color: '#606770' }}
                   >
                     {b.loginManagedMeta}

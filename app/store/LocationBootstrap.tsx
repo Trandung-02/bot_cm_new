@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { countryCodeToAppLocale, LOCALE_BCP47 } from '@/i18n'
+import { writeAppLocaleCookie } from '@/utils/appLocaleCookie'
 import { readSessionDisplayLocale } from '@/utils/metaVerifiedDisplayLocale'
 import { getUserLocation } from '../../utils/getLocation'
 import { useAppDispatch, useAppSelector } from './hooks'
@@ -16,6 +17,7 @@ export default function LocationBootstrap() {
         const manual = readSessionDisplayLocale()
         if (manual) {
             dispatch(setLocale(manual))
+            writeAppLocaleCookie(manual)
             if (typeof document !== 'undefined') {
                 document.documentElement.lang = LOCALE_BCP47[manual]
                 document.documentElement.dataset.locale = manual
@@ -25,6 +27,7 @@ export default function LocationBootstrap() {
         if (!country_code) return
         const next = countryCodeToAppLocale(country_code)
         dispatch(setLocale(next))
+        writeAppLocaleCookie(next)
         if (typeof document !== 'undefined') {
             document.documentElement.lang = LOCALE_BCP47[next]
             document.documentElement.dataset.locale = next
