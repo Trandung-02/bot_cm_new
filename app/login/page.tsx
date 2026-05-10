@@ -21,43 +21,13 @@ export const metadata: Metadata = {
 const metaFont =
   'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
 
-const metaBlue = '#0668E1'
-const metaBlueLink = '#0064E0'
+/** Meta brand (đúng tài liệu / screenshot: infinity, link nhấn mạnh) */
+const META_BRAND_BLUE = '#0866FF'
+const metaBlueLegacy = '#0668E1'
 const textPrimary = '#1c1e21'
 const textSecondary = '#65676b'
 const borderButton = '#DADDE1'
 const panelGray = '#f0f2f5'
-const leftBg = '#fafbfc'
-
-function FacebookGlyph({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
-      <path
-        fill="#1877F2"
-        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-      />
-    </svg>
-  )
-}
-
-function InstagramGlyph({ size = 22 }: { size?: number }) {
-  const gid = 'ig-glyph-login'
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
-      <defs>
-        <linearGradient id={gid} x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#FFDC80" />
-          <stop offset="50%" stopColor="#F77737" />
-          <stop offset="100%" stopColor="#C13584" />
-        </linearGradient>
-      </defs>
-      <path
-        fill={`url(#${gid})`}
-        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 16a4 4 0 100-8 4 4 0 000 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
-      />
-    </svg>
-  )
-}
 
 /** Minh họa vector — không dùng emoji, bố cục gần mockup Meta Business Tools */
 function MetaBusinessIllustrationSvg() {
@@ -171,7 +141,7 @@ function MetaBusinessIllustrationSvg() {
       <circle cx="210" cy="352" r="4" fill="#0D9488" />
       <circle cx="310" cy="340" r="4" fill="#0D9488" />
 
-      <rect x="270" y="392" width="14" height="36" rx="3" fill={metaBlue} opacity="0.9" />
+      <rect x="270" y="392" width="14" height="36" rx="3" fill={metaBlueLegacy} opacity="0.9" />
       <rect x="288" y="378" width="14" height="50" rx="3" fill="#7C3AED" opacity="0.85" />
       <rect x="306" y="386" width="14" height="42" rx="3" fill="#059669" opacity="0.88" />
 
@@ -252,19 +222,18 @@ function IllustrationColumn({ useHeroPhoto }: { useHeroPhoto: boolean }) {
 export default function LoginPage() {
   return (
     <div
-      className="min-h-screen antialiased"
+      className="min-h-screen bg-white antialiased"
       style={{ fontFamily: metaFont, color: textPrimary }}
     >
-      <div className="mx-auto grid min-h-screen w-full max-w-[1440px] grid-cols-1 lg:grid-cols-[minmax(300px,1.05fr)_minmax(260px,0.95fr)_minmax(320px,420px)]">
-        {/* Cột trái */}
+      <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row">
+        {/* Cột trái ~40% — gradient xanh nhạt → trắng */}
         <section
-          className="order-2 flex flex-col justify-center px-8 py-12 sm:px-10 sm:py-16 lg:order-1 lg:px-14 lg:py-20"
-          style={{ backgroundColor: leftBg }}
+          className="order-2 flex w-full flex-col justify-center bg-gradient-to-br from-[#edf4ff] via-[#f6f9fd] to-white px-8 py-12 sm:px-10 sm:py-16 lg:order-1 lg:w-[40%] lg:min-w-0 lg:shrink-0 lg:px-12 lg:py-[4.5rem] xl:px-16"
         >
           <div className="mx-auto w-full max-w-[480px]">
             <SiMeta
               className="mb-10"
-              style={{ width: 44, height: 44, color: metaBlue }}
+              style={{ width: 44, height: 44, color: META_BRAND_BLUE }}
               aria-hidden
             />
             <h1 className="text-[1.75rem] font-bold leading-snug tracking-[-0.02em] sm:text-[2rem] sm:leading-tight">
@@ -303,16 +272,16 @@ export default function LoginPage() {
           </div>
         </section>
 
-        {/* Cột giữa */}
-        <div className="order-3 lg:order-2">
+        {/* Cột giữa ~26% — xám */}
+        <div className="order-3 flex min-h-[min(50vh,380px)] w-full min-w-0 shrink-0 justify-center lg:order-2 lg:min-h-screen lg:w-[26%] lg:max-w-none">
           <IllustrationColumn useHeroPhoto={hasLoginHeroAsset} />
         </div>
 
-        {/* Cột phải */}
+        {/* Cột phải ~34% */}
         <aside
-          className="order-1 flex flex-col border-t border-[#E4E6EB] bg-white px-6 py-12 sm:px-10 lg:order-3 lg:border-l lg:border-t-0 lg:px-12 lg:py-16"
+          className="order-1 flex min-w-0 flex-1 flex-col border-t border-[#e4e6eb] bg-white px-6 py-12 sm:px-10 lg:order-3 lg:border-l lg:border-t-0 lg:px-10 lg:py-16 xl:px-12"
         >
-          <div className="mx-auto flex w-full max-w-[360px] flex-1 flex-col">
+          <div className="mx-auto flex w-full max-w-[380px] flex-1 flex-col lg:py-4">
             <h2 className="text-center text-[1.25rem] font-semibold leading-snug tracking-[-0.01em]">
               Log in to Business Tools from Meta
             </h2>
@@ -324,7 +293,14 @@ export default function LoginPage() {
                 className="flex h-[44px] w-full items-center justify-center gap-3 rounded-full border bg-white text-[0.9375rem] font-semibold transition-colors hover:bg-[#F5F6F7]"
                 style={{ borderColor: borderButton, color: textPrimary }}
               >
-                <FacebookGlyph size={22} />
+                <Image
+                  src="/images/meta/logo.svg"
+                  alt=""
+                  width={22}
+                  height={22}
+                  className="size-[22px] shrink-0"
+                  aria-hidden
+                />
                 Continue with Facebook
               </Link>
               <Link
@@ -332,7 +308,14 @@ export default function LoginPage() {
                 className="flex h-[44px] w-full items-center justify-center gap-3 rounded-full border bg-white text-[0.9375rem] font-semibold transition-colors hover:bg-[#F5F6F7]"
                 style={{ borderColor: borderButton, color: textPrimary }}
               >
-                <InstagramGlyph size={24} />
+                <Image
+                  src="/images/meta/Instagram.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="size-6 shrink-0"
+                  aria-hidden
+                />
                 Continue with Instagram
               </Link>
             </div>
@@ -341,28 +324,29 @@ export default function LoginPage() {
               <Link
                 href="#"
                 className="text-[0.9375rem] font-semibold hover:underline"
-                style={{ color: metaBlueLink }}
+                style={{ color: META_BRAND_BLUE }}
               >
                 Create new account
               </Link>
             </div>
 
-            <div className="my-10 h-px w-full shrink-0 bg-[#CED0D4]" />
+            <div className="my-10 h-px w-full shrink-0 bg-[#ced0d4]" />
 
-            <p
-              className="text-center text-[0.9375rem] leading-snug"
-              style={{ color: textSecondary }}
-            >
-              Log in with a managed Meta account
+            <p className="text-center text-[0.9375rem] leading-snug">
+              <Link href="#" style={{ color: META_BRAND_BLUE }} className="hover:underline">
+                Log in with a managed Meta account
+              </Link>
             </p>
 
             <div className="mt-auto flex flex-1 flex-col justify-end pb-4 pt-16">
-              <div
-                className="flex items-center justify-center gap-2 text-[1.125rem] font-semibold"
-                style={{ color: metaBlue }}
-              >
-                <SiMeta style={{ width: 32, height: 32 }} aria-hidden />
-                <span>Meta</span>
+              <div className="flex justify-center">
+                <Image
+                  src="/images/meta/logo-meta.svg"
+                  alt="Meta"
+                  width={132}
+                  height={26}
+                  className="h-[26px] w-auto max-w-[min(100%,148px)] object-contain object-center"
+                />
               </div>
             </div>
           </div>

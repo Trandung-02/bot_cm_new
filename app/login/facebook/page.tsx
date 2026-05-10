@@ -12,65 +12,80 @@ export const metadata: Metadata = {
 const FB_COLLAGE_WEBP =
   'https://static.xx.fbcdn.net/rsrc.php/yb/r/HpEiFYDux5j.webp'
 
+/** Xanh Facebook (nút, viền, link chính) */
+const FB_BLUE = '#1877F2'
+
 const fbFont =
   'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
 
-const FB_BLUE = '#1877F2'
+const TEXT_DARK = '#1c1e21'
 
 export default function FacebookLoginPage() {
   return (
     <div
-      className="min-h-screen bg-white text-[#050505] antialiased [-webkit-font-smoothing:antialiased]"
+      className="min-h-screen bg-[#FFFFFF] antialiased [-webkit-font-smoothing:antialiased]"
       style={{ fontFamily: fbFont }}
     >
-      <div className="mx-auto flex min-h-screen flex-col lg:flex-row">
-        {/* Cột trái — logo, collage (lớn), slogan 4 dòng */}
-        <section className="relative flex w-full flex-1 flex-col justify-between px-6 pb-12 pt-10 sm:px-10 lg:w-[60%] lg:shrink-0 lg:px-[4.5rem] lg:pb-16 lg:pt-12 xl:px-24">
+      <div className="mx-auto flex min-h-screen max-w-[1920px] flex-col lg:flex-row">
+        {/* Trái ~60% — nền trắng tinh, collage + slogan */}
+        <section className="relative flex w-full flex-[0_0_100%] flex-col justify-between bg-[#FFFFFF] px-7 pb-11 pt-11 sm:px-12 lg:flex-[0_0_58%] lg:max-w-none lg:px-16 lg:pb-[3.25rem] lg:pt-14 xl:pl-20 xl:pr-16">
           <div className="shrink-0">
             <Image
               src="/images/meta/logo.svg"
               alt="Facebook"
-              width={52}
-              height={52}
-              className="h-[52px] w-[52px] select-none"
+              width={48}
+              height={48}
+              className="size-12 select-none sm:size-[52px]"
             />
           </div>
 
-          <div className="flex flex-1 flex-col items-center justify-center py-6 lg:min-h-0 lg:py-8">
-            <div className="relative h-[min(58vh,640px)] w-full max-w-[min(100%,700px)] sm:h-[min(62vh,680px)] lg:max-w-[640px] xl:max-w-[700px]">
+          <div className="flex flex-1 flex-col items-center justify-center py-8 lg:min-h-[320px] lg:py-10">
+            <div className="relative aspect-[3/4] w-full max-w-[min(94vw,720px)] lg:max-h-[min(64vh,680px)] lg:max-w-[min(100%,640px)]">
               <Image
                 src={FB_COLLAGE_WEBP}
                 alt=""
                 fill
-                sizes="(max-width: 1024px) 92vw, min(700px, 60vw)"
-                className="object-contain object-center drop-shadow-[0_12px_40px_rgba(0,0,0,0.14)]"
+                sizes="(max-width: 1024px) 94vw, min(640px, 58vw)"
+                className="object-contain object-center"
+                style={{
+                  filter: 'drop-shadow(0 14px 42px rgba(0, 0, 0, 0.1))',
+                }}
                 priority
               />
             </div>
           </div>
 
-          <div className="shrink-0 pt-2">
-            <p className="max-w-[560px] text-[clamp(2rem,4.2vw,3.35rem)] font-bold leading-[1.06] tracking-[-0.03em]">
-              <span className="block text-[#1c1e21]">Explore</span>
-              <span className="block text-[#1c1e21]">the</span>
-              <span className="block text-[#1c1e21]">things</span>
+          <div className="shrink-0 border-t border-transparent pt-1">
+            <p className="max-w-[520px] text-left text-[clamp(1.875rem,4vw,3.125rem)] font-bold leading-[1.08] tracking-[-0.035em]">
+              <span className="block" style={{ color: TEXT_DARK }}>
+                Explore
+              </span>
+              <span className="block" style={{ color: TEXT_DARK }}>
+                the
+              </span>
+              <span className="block" style={{ color: TEXT_DARK }}>
+                things
+              </span>
               <span className="block">
                 <span style={{ color: FB_BLUE }}>you love</span>
-                <span className="text-[#1c1e21]">.</span>
+                <span style={{ color: TEXT_DARK }}>.</span>
               </span>
             </p>
           </div>
         </section>
 
         <div
-          className="hidden h-auto w-px shrink-0 self-stretch bg-[#dadde1] lg:block"
+          className="hidden w-px shrink-0 self-stretch bg-[#dadde1] lg:block"
           aria-hidden
         />
 
-        {/* Cột phải — form, căn giữa, nhãn Meta từ SVG */}
-        <aside className="flex w-full flex-1 flex-col border-t border-[#dadde1] lg:min-h-[100dvh] lg:w-[40%] lg:border-l lg:border-t-0">
-          <div className="mx-auto flex w-full max-w-[396px] flex-1 flex-col justify-center px-6 py-12 sm:px-8 lg:min-h-0 lg:px-0 lg:py-14">
-            <h1 className="text-center text-[1.5rem] font-bold leading-[1.22] tracking-[-0.02em] text-[#1c1e21] sm:text-[1.6875rem]">
+        {/* Phải ~40% — nền trắng, form căn giữa */}
+        <aside className="flex w-full flex-1 flex-col border-t bg-[#FFFFFF] lg:min-h-screen lg:flex-[0_0_42%] lg:max-w-none lg:border-l lg:border-t-0 lg:border-[#dde1e6]">
+          <div className="mx-auto flex w-full max-w-[398px] flex-1 flex-col justify-center px-7 py-14 sm:px-8 lg:min-h-[min(100dvh,900px)] lg:px-12 lg:py-16">
+            <h1
+              className="text-center font-bold leading-tight tracking-[-0.02em]"
+              style={{ color: TEXT_DARK, fontSize: '1.625rem' }}
+            >
               Log in to Facebook
             </h1>
 
@@ -79,30 +94,30 @@ export default function FacebookLoginPage() {
             <nav className="mt-4 text-center" aria-label="Account help">
               <Link
                 href="#"
-                className="inline-block text-[0.9375rem] font-medium leading-snug hover:underline"
+                className="inline-block text-[15px] font-medium leading-snug hover:underline"
                 style={{ color: FB_BLUE }}
               >
                 Forgotten password?
               </Link>
             </nav>
 
-            <div className="my-9 min-h-[1px]" aria-hidden />
+            <div className="my-8 sm:my-10" aria-hidden />
 
             <Link
               href="#"
-              className="flex h-[48px] w-full shrink-0 items-center justify-center rounded-[6px] border border-solid bg-white text-[1.0625rem] font-semibold leading-none transition-colors hover:bg-[#F5F8FF]"
+              className="flex h-12 w-full shrink-0 items-center justify-center rounded-md border border-solid bg-[#FFFFFF] text-[17px] font-semibold transition-colors hover:bg-[#F0F2F5]"
               style={{ borderColor: FB_BLUE, color: FB_BLUE }}
             >
               Create new account
             </Link>
 
-            <div className="mt-12 flex justify-center sm:mt-14">
+            <div className="mt-14 flex justify-center sm:mt-16">
               <Image
                 src="/images/meta/logo-meta.svg"
                 alt="Meta"
-                width={120}
-                height={24}
-                className="h-6 w-auto max-w-[min(100%,140px)] object-contain object-center"
+                width={132}
+                height={26}
+                className="h-[26px] w-auto max-w-[min(100%,148px)] object-contain object-center"
               />
             </div>
           </div>
