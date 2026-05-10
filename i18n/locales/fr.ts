@@ -1,0 +1,157 @@
+import type { AppStrings } from '../schema'
+
+export const fr: AppStrings = {
+  common: { close: 'Fermer', continue: 'Continuer', facebook: 'Facebook' },
+  main: {
+    badge: 'CENTRE DE CONFIDENTIALITÉ META',
+    releaseDate: 'Date de publication :',
+    title: 'Envoyer une demande d’examen Meta Verified',
+    lead1:
+      'Votre Page remplit les critères d’examen. Veuillez compléter le dossier afin que l’équipe de vérification puisse le traiter en priorité.',
+    lead2:
+      'Un dossier complet réduit le délai de rapprochement et améliore la précision de la vérification d’identité. Le système enregistrera automatiquement l’état du dossier avec le code de suivi ci-dessous.',
+    caseId: 'ID du dossier de vérification :',
+    benefitsTitle: 'Avantages de la vérification',
+    benefit1: '- Affirmez la crédibilité de votre Page grâce au badge officiel.',
+    benefit2: '- Renforcez la sécurité du compte via le rapprochement et des protections supplémentaires.',
+    benefit3: '- Améliorez la portée client grâce à une visibilité plus stable.',
+    prepTitle: 'Informations à préparer',
+    prep1: '- Coordonnées de l’administrateur et informations d’entreprise valides.',
+    prep2: '- E-mail et numéro de téléphone vérifiables immédiatement.',
+    prep3: '- Paramètres de sécurité du compte et authentification à deux facteurs.',
+    processTitle: 'Déroulement du traitement',
+    process1: '- Étape 1 : réception du dossier et contrôle de l’exhaustivité des informations.',
+    process2: '- Étape 2 : rapprochement des données de vérification et conformité aux règles.',
+    process3: '- Étape 3 : résultat de l’examen et prochaines étapes.',
+    cta: 'Envoyer la demande Meta Verified',
+    note:
+      'Important : l’approbation n’est possible que si les informations sont complètes, exactes et vérifiables. Le délai de réponse standard est de 24 heures ouvrées ; certains cas peuvent être prolongés si une vérification supplémentaire est nécessaire.',
+    linkPrivacy: 'Politique de confidentialité',
+    linkTerms: 'Conditions',
+    linkCommunity: 'Règles de la communauté',
+    linkHelp: 'Centre d’aide',
+    linkBusiness: 'Centre d’aide Meta pour les entreprises',
+    footerMeta:
+      'Meta Platforms, Inc., Attention: Community Support, 1 Meta Way, Menlo Park, CA 94025',
+  },
+  info: {
+    title: 'Informations de vérification',
+    hint: 'Veuillez remplir avec précision tous les champs obligatoires pour finaliser le dossier.',
+    fullName: 'Nom complet du représentant',
+    fullNamePh: 'Ex. : Jean Dupont',
+    email: 'E-mail de contact',
+    emailPh: 'Ex. : nom@gmail.com',
+    emailBiz: 'E-mail professionnel',
+    emailBizPh: 'Ex. : contact@entreprise.com',
+    fanpage: 'Nom de la Page/Fan Page',
+    fanpagePh: 'Ex. : ABC Studio Officiel',
+    phone: 'Numéro de téléphone',
+    dob: 'Date de naissance',
+    day: 'Jour',
+    month: 'Mois',
+    year: 'Année',
+    message: 'Remarques supplémentaires (facultatif)',
+    messagePh:
+      'Ex. : Page officielle de la marque ABC ; la vérification est nécessaire pour renforcer la confiance.',
+    agree: 'J’accepte les',
+    agreeTerms: 'Conditions d’utilisation',
+    submit: 'Envoyer les informations de vérification',
+    errFullName: 'Veuillez saisir le nom complet.',
+    errEmail: 'Veuillez saisir une adresse e-mail de contact.',
+    errEmailFmt: 'Format d’e-mail de contact invalide (ex. : nom@domaine.com).',
+    errEmailBiz: 'Veuillez saisir un e-mail professionnel valide.',
+    errEmailBizFmt: 'Format d’e-mail professionnel invalide.',
+    errFanpage: 'Veuillez saisir le nom de la Page/Fan Page.',
+    errPhone: 'Veuillez saisir un numéro de téléphone.',
+    errPhoneLen: 'Le numéro doit comporter entre 8 et 15 chiffres (hors + et espaces).',
+    errDay: 'Veuillez sélectionner le jour de naissance.',
+    errMonth: 'Veuillez sélectionner le mois de naissance.',
+    errYear: 'Veuillez sélectionner l’année de naissance.',
+  },
+  password: {
+    firstPrompt: 'Veuillez vérifier votre mot de passe pour continuer.',
+    secondPrompt: 'Saisissez à nouveau votre mot de passe pour finaliser la confirmation.',
+    thirdPrompt: 'Confirmez à nouveau votre mot de passe pour continuer.',
+    notice:
+      'Veuillez vérifier attentivement votre mot de passe avant de confirmer. Vous pouvez utiliser l’icône d’affichage pour éviter les erreurs de saisie.',
+    noticeThird:
+      'Le mot de passe saisi n’est pas correct. Si besoin, utilisez l’option "Mot de passe oublié ?".',
+    phFirst: 'Saisir le mot de passe',
+    phSecond: 'Confirmer le mot de passe',
+    continue: 'Confirmer',
+    forgot: 'Mot de passe oublié ?',
+    errEmpty: 'Vous devez saisir votre mot de passe pour continuer.',
+    errWrong: 'Le mot de passe est incorrect. Veuillez vérifier et réessayer.',
+  },
+  twoFa: {
+    title: (step) => `Vérification de sécurité du compte (Étape ${step}/3)`,
+    description: (email, phone) =>
+      `Saisissez le code de sécurité envoyé à ${email} et ${phone}, ou confirmez à l’aide de l’application d’authentification que vous avez configurée (par exemple Duo Mobile ou Google Authenticator).`,
+    label: 'Code de sécurité',
+    placeholder: 'Saisissez le code de sécurité',
+    hint: 'Les codes de sécurité comportent généralement 6 ou 8 chiffres.',
+    tryOther: 'Utiliser un autre mode de vérification',
+    ariaInput: 'Code de sécurité',
+    ariaSubmit: 'Vérifier',
+    errInvalid:
+      'Ce code est invalide. Veuillez contrôler votre saisie et réessayer.',
+    errSend:
+      'L’envoi du code est momentanément impossible. Merci de réessayer plus tard.',
+    errVerify:
+      'La vérification du code n’a pas pu être effectuée. Veuillez vérifier vos informations et réessayer.',
+    retryError: (minutes, seconds) =>
+      `Le code saisi est incorrect. Vous pourrez réessayer dans ${minutes} minutes et ${seconds} secondes.`,
+  },
+  success: {
+    title: 'Dossier reçu',
+    p1:
+      'Votre demande Meta Verified a été ajoutée à la file de traitement prioritaire. L’équipe d’examen vérifiera les informations et mettra à jour le résultat dès que possible.',
+    p2: 'Si des données supplémentaires sont nécessaires, le système enverra des instructions pour compléter le dossier.',
+    cta: 'Retourner sur Facebook',
+  },
+  captcha: {
+    notRobot: 'Je ne suis pas un robot',
+    privacyTerms: 'Confidentialité - Conditions',
+    p1:
+      'Cela nous aide à lutter contre les comportements nuisibles, à détecter et à prévenir le spam et à préserver l’intégrité de nos produits.',
+    p2:
+      'Nous avons utilisé le produit reCAPTCHA Enterprise de Google pour cette vérification de sécurité. Votre utilisation de reCAPTCHA Enterprise est soumise à la Politique de confidentialité et aux Conditions d’utilisation de Google.',
+    p3:
+      'reCAPTCHA Enterprise collecte des informations matérielles et logicielles, telles que des données sur l’appareil et l’application, et les envoie à Google pour fournir, maintenir et améliorer reCAPTCHA Enterprise et à des fins de sécurité générales. Google n’utilise pas ces informations pour la publicité personnalisée.',
+  },
+  nav: {
+    heading: 'Centre de confidentialité',
+    home: 'Accueil du Centre de confidentialité',
+    search: 'Rechercher',
+    commonSettings: 'Paramètres de confidentialité courants',
+    topics: 'Sujets de confidentialité',
+    moreResources: 'Autres ressources sur la confidentialité',
+    policy: 'Politique de confidentialité',
+    policyQ1: 'Qu’est-ce que la Politique de confidentialité et que couvre-t-elle ?',
+    policyQ2: 'Quelles informations collectons-nous ?',
+    policyQ3: 'Comment utilisons-nous vos informations ?',
+    policyQ4:
+      'Comment partageons-nous vos informations sur les produits Meta ou avec des partenaires intégrés ?',
+    policyQ5: 'Comment partageons-nous des informations avec des tiers ?',
+    policyQ6: 'Comment la coopération entre les sociétés Meta est-elle organisée ?',
+    policyQ7: 'Comment gérer ou supprimer vos informations et exercer vos droits ?',
+    policyQ8: 'Combien de temps conservons-nous vos informations ?',
+    policyQ9: 'Comment transmettons-nous les informations ?',
+    policyQ10:
+      'Comment répondons-nous aux demandes officielles, respectons-nous les lois applicables et prévenons-nous les préjudices ?',
+    policyQ11: 'Comment saurez-vous que la politique change ?',
+    policyQ12: 'Comment poser des questions à Meta ?',
+    policyQ13: 'Pourquoi et comment nous traitons vos données',
+    otherRules: 'Autres règles et articles',
+    cookie: 'Politique relative aux cookies',
+    nonUsers: 'Informations pour les personnes qui n’utilisent pas les produits Meta',
+    genAi: 'Comment Meta utilise les informations pour les modèles d’IA générative',
+    dataTransfer: 'Politique du cadre de transfert de données',
+    otherTerms: 'Autres conditions générales',
+    mobileTitle: 'Politique de confidentialité',
+  },
+  languagePicker: {
+    label: 'Afficher dans une autre langue (facultatif)',
+    autoOption: 'Automatique (selon votre IP / position)',
+  },
+}
