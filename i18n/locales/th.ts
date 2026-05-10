@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const th: AppStrings = {
-  common: { close: 'ปิด', continue: 'ดำเนินการต่อ', facebook: 'Facebook' },
+  common: {
+    close: 'ปิด',
+    continue: 'ดำเนินการต่อ',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'META VERIFIED SUPPORT',
     releaseDate: 'วันที่เผยแพร่:',
@@ -100,6 +105,10 @@ export const th: AppStrings = {
       'ไม่สามารถยืนยันรหัสได้ โปรดตรวจสอบข้อมูลแล้วลองอีกครั้ง',
     retryError: (minutes, seconds) =>
       `รหัสที่ป้อนไม่ถูกต้อง โปรดลองใหม่อีกครั้งเมื่อครบ ${minutes} นาที ${seconds} วินาที`,
+    illustrationAlt: 'ภาพประกอบการยืนยันความปลอดภัยบัญชี',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'กำลังโหลด',
+    verifyingButton: 'กำลังยืนยัน…',
   },
   success: {
     title: 'ได้รับคำขอแล้ว',
@@ -111,6 +120,7 @@ export const th: AppStrings = {
   captcha: {
     notRobot: 'ฉันไม่ใช่โปรแกรมอัตโนมัติ',
     privacyTerms: 'ความเป็นส่วนตัว - ข้อกำหนด',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'สิ่งนี้ช่วยให้เราต่อต้านพฤติกรรมที่เป็นอันตราย ตรวจจับและป้องกันสแปม และรักษาความสมบูรณ์ของผลิตภัณฑ์ของเรา',
     p2:
@@ -150,5 +160,73 @@ export const th: AppStrings = {
   languagePicker: {
     label: 'ดูเป็นภาษาอื่น (ไม่บังคับ)',
     autoOption: 'อัตโนมัติ (ตาม IP)',
+  },
+  bizLogin: {
+    metaTitle: 'เข้าสู่เครื่องมือธุรกิจจาก Meta',
+    metaDescription:
+      'เริ่มใช้เครื่องมือธุรกิจจาก Meta — Meta Business Suite, Ads Manager และอื่นๆ',
+    heroLead: 'เริ่มต้นด้วย',
+    heroHighlight: 'เครื่องมือธุรกิจจาก Meta',
+    introBeforeSuite: 'เมื่อเข้าสู่ระบบ คุณสามารถไปยังเครื่องมือธุรกิจทั้งหมด เช่น ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: 'Ads Manager',
+    introAfter:
+      ' และอื่นๆ เพื่อเชื่อมต่อกับลูกค้าของคุณและพัฒนาผลลัพธ์ทางธุรกิจ',
+    benefitsHeading: 'เครื่องมือธุรกิจของเราช่วยคุณได้ดังนี้:',
+    benefit1:
+      'ประหยัดเวลาโดยเข้าถึงทุกอย่างที่ต้องใช้จัดการธุรกิจบน Facebook, Instagram และ Messenger ในที่เดียว',
+    benefit2:
+      'ติดต่อกับผู้ที่สำคัญที่สุดต่อธุรกิจของคุณผ่านกล่องจดหมายเดียว',
+    benefit3:
+      'ติดตามว่าอะไรให้ผลดีที่สุดด้วยข้อมูลประสิทธิภาพบนเทคโนโลยีของ Meta',
+    panelHeading: 'เข้าสู่เครื่องมือธุรกิจจาก Meta',
+    continueFacebook: 'ดำเนินการต่อด้วย Facebook',
+    continueInstagram: 'ดำเนินการต่อด้วย Instagram',
+    createAccount: 'สร้างบัญชีใหม่',
+    loginManagedMeta: 'เข้าสู่ระบบด้วยบัญชี Meta ที่ได้รับการจัดการ',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'เข้าสู่ระบบ Facebook',
+    metaDescription: 'เข้าสู่ระบบ Facebook เพื่อเชื่อมต่อและแบ่งปันกับคนรอบข้าง',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'สำรวจสิ่ง ',
+    sloganAccent: 'ที่คุณชอบ',
+    heading: 'เข้าสู่ระบบ Facebook',
+    forgottenPassword: 'ลืมรหัสผ่านใช่ไหม',
+    createAccount: 'สร้างบัญชีใหม่',
+    accountHelpNav: 'ความช่วยเหลือบัญชี',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'เข้าสู่ระบบ Instagram',
+    metaDescription:
+      'เข้าสู่ระบบ Instagram เพื่อแชร์ผลงาน เชื่อมต่อเพื่อน และสำรวจสิ่งใหม่ๆ',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'ดูโมเมนต์ในชีวิตประจำวันจาก ',
+    sloganHighlight: 'เพื่อนสนิทของคุณ',
+    heading: 'เข้าสู่ระบบ Instagram',
+    forgottenPassword: 'ลืมรหัสผ่านใช่ไหม',
+    createAccount: 'สร้างบัญชีใหม่',
+    accountHelpNav: 'ความช่วยเหลือบัญชี',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'อีเมลหรือหมายเลขโทรศัพท์มือถือ',
+    emailFbMobile: 'หมายเลขโทรศัพท์มือถือหรืออีเมล',
+    emailInstagram: 'หมายเลขมือถือ ชื่อผู้ใช้ หรืออีเมล',
+    password: 'รหัสผ่าน',
+    logIn: 'เข้าสู่ระบบ',
+    loggingIn: 'กำลังเข้าสู่ระบบ…',
+    showPassword: 'แสดงรหัสผ่าน',
+    hidePassword: 'ซ่อนรหัสผ่าน',
+    incorrectMsg: 'ข้อมูลเข้าสู่ระบบที่คุณป้อนไม่ถูกต้อง',
+    findAccount: 'ค้นหาบัญชีของคุณแล้วเข้าสู่ระบบ',
+    emailNotLinked: 'อีเมลหรือหมายเลขโทรศัพท์ที่คุณป้อนไม่ได้เชื่อมกับบัญชี',
+    emailNotLinkedInstagram:
+      'หมายเลขมือถือ ชื่อผู้ใช้ หรืออีเมลที่คุณป้อนไม่ได้เชื่อมกับบัญชี',
+    passwordEnter: 'โปรดป้อนรหัสผ่าน',
   },
 }

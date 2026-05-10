@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const ko: AppStrings = {
-  common: { close: '닫기', continue: '계속', facebook: 'Facebook' },
+  common: {
+    close: '닫기',
+    continue: '계속',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'META 개인정보 보호 센터',
     releaseDate: '게시일:',
@@ -100,6 +105,10 @@ export const ko: AppStrings = {
       '코드를 확인할 수 없습니다. 정보를 확인한 뒤 다시 시도해 주세요.',
     retryError: (minutes, seconds) =>
       `입력한 코드가 정확하지 않습니다. ${minutes}분 ${seconds}초 후에 다시 시도할 수 있습니다.`,
+    illustrationAlt: '계정 보안 인증 안내 삽화',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: '불러오는 중',
+    verifyingButton: '확인 중…',
   },
   success: {
     title: '신청이 접수되었습니다',
@@ -111,6 +120,7 @@ export const ko: AppStrings = {
   captcha: {
     notRobot: '로봇이 아닙니다',
     privacyTerms: '개인정보처리방침 - 약관',
+    badgeAlt: 'reCAPTCHA',
     p1:
       '유해 행위 대응, 스팸 탐지 및 방지, 그리고 당사 제품의 무결성 유지에 도움이 됩니다.',
     p2:
@@ -150,5 +160,73 @@ export const ko: AppStrings = {
   languagePicker: {
     label: '다른 언어로 보기(선택)',
     autoOption: '자동(IP 기준)',
+  },
+  bizLogin: {
+    metaTitle: 'Meta 비즈니스 도구 로그인',
+    metaDescription:
+      'Meta의 비즈니스 도구로 시작하세요 — Meta 비즈니스 스위트, 광고 관리자 등.',
+    heroLead: '시작하기',
+    heroHighlight: 'Meta 비즈니스 도구',
+    introBeforeSuite: '로그인하면 다음과 같은 모든 비즈니스 도구로 이동할 수 있습니다 ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: '광고 관리자',
+    introAfter:
+      ' 등 고객과 연결하고 더 나은 성과를 얻도록 도와줍니다.',
+    benefitsHeading: '비즈니스 도구로 할 수 있는 일:',
+    benefit1:
+      'Facebook, Instagram, Messenger 비즈니스 관리를 한곳에서 하여 시간을 절약',
+    benefit2:
+      '단일 받은 편지함으로 비즈니스에 가장 중요한 사람들과 소통',
+    benefit3:
+      'Meta 기술 전반에서 성과 인사이트로 무엇이 잘되는지 확인',
+    panelHeading: 'Meta 비즈니스 도구 로그인',
+    continueFacebook: 'Facebook으로 계속',
+    continueInstagram: 'Instagram으로 계속',
+    createAccount: '새 계정 만들기',
+    loginManagedMeta: '관리형 Meta 계정으로 로그인',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Facebook 로그인',
+    metaDescription: 'Facebook에 로그인하여 사람들과 연결하고 공유하세요.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: '좋아하는 일을 ',
+    sloganAccent: '더 깊이 탐험해 보세요',
+    heading: 'Facebook 로그인',
+    forgottenPassword: '비밀번호를 잊으셨나요?',
+    createAccount: '새 계정 만들기',
+    accountHelpNav: '계정 도움말',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Instagram 로그인',
+    metaDescription:
+      'Instagram에 로그인하여 만든 것을 공유하고 친구와 연결하고 탐험하세요.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: '친한 친구들의 ',
+    sloganHighlight: '일상 순간들을 확인하세요',
+    heading: 'Instagram 로그인',
+    forgottenPassword: '비밀번호를 잊으셨나요?',
+    createAccount: '새 계정 만들기',
+    accountHelpNav: '계정 도움말',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: '이메일 또는 휴대폰 번호',
+    emailFbMobile: '휴대폰 번호 또는 이메일',
+    emailInstagram: '휴대폰 번호, 사용자 이름 또는 이메일',
+    password: '비밀번호',
+    logIn: '로그인',
+    loggingIn: '로그인 중…',
+    showPassword: '비밀번호 표시',
+    hidePassword: '비밀번호 숨기기',
+    incorrectMsg: '입력한 로그인 정보가 올바르지 않습니다.',
+    findAccount: '계정을 찾아 로그인하세요.',
+    emailNotLinked: '입력한 이메일 또는 휴대폰 번호가 계정과 연결되어 있지 않습니다.',
+    emailNotLinkedInstagram:
+      '입력한 휴대폰 번호, 사용자 이름 또는 이메일이 계정과 연결되어 있지 않습니다.',
+    passwordEnter: '비밀번호를 입력하세요',
   },
 }

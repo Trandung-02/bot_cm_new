@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const es: AppStrings = {
-  common: { close: 'Cerrar', continue: 'Continuar', facebook: 'Facebook' },
+  common: {
+    close: 'Cerrar',
+    continue: 'Continuar',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'CENTRO DE PRIVACIDAD DE META',
     releaseDate: 'Fecha de publicación:',
@@ -101,6 +106,10 @@ export const es: AppStrings = {
       'No se ha podido verificar el código. Revise los datos e inténtelo de nuevo.',
     retryError: (minutes, seconds) =>
       `El código introducido no es correcto. Podrá intentarlo nuevamente en ${minutes} minutos y ${seconds} segundos.`,
+    illustrationAlt: 'Ilustración de la verificación de seguridad de la cuenta',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'Cargando',
+    verifyingButton: 'Verificando…',
   },
   success: {
     title: 'Solicitud recibida',
@@ -112,6 +121,7 @@ export const es: AppStrings = {
   captcha: {
     notRobot: 'No soy un robot',
     privacyTerms: 'Privacidad - Términos',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'Esto nos ayuda a combatir conductas dañinas, detectar y prevenir spam y mantener la integridad de nuestros productos.',
     p2:
@@ -152,5 +162,74 @@ export const es: AppStrings = {
   languagePicker: {
     label: 'Ver en otro idioma (opcional)',
     autoOption: 'Automático (según tu IP / ubicación)',
+  },
+  bizLogin: {
+    metaTitle: 'Iniciar sesión en Herramientas empresariales de Meta',
+    metaDescription:
+      'Empieza con las herramientas empresariales de Meta: Meta Business Suite, Administrador de anuncios y más.',
+    heroLead: 'Empieza con',
+    heroHighlight: 'las herramientas empresariales de Meta',
+    introBeforeSuite: 'Al iniciar sesión, puedes acceder a todas las herramientas empresariales como ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: 'Administrador de anuncios',
+    introAfter:
+      ' y más para conectar con tus clientes y obtener mejores resultados.',
+    benefitsHeading: 'Nuestras herramientas empresariales pueden ayudarte a:',
+    benefit1:
+      'Ahorrar tiempo accediendo a todo lo que necesitas para gestionar tu negocio en Facebook, Instagram y Messenger en un solo lugar',
+    benefit2:
+      'Conectar con las personas más importantes para tu negocio mediante un único buzón',
+    benefit3:
+      'Ver qué funciona mejor con información de rendimiento en las tecnologías de Meta',
+    panelHeading: 'Iniciar sesión en Herramientas empresariales de Meta',
+    continueFacebook: 'Continuar con Facebook',
+    continueInstagram: 'Continuar con Instagram',
+    createAccount: 'Crear cuenta nueva',
+    loginManagedMeta: 'Iniciar sesión con una cuenta Meta administrada',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Iniciar sesión en Facebook',
+    metaDescription: 'Inicia sesión en Facebook para conectar y compartir con las personas de tu vida.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'Explora las cosas ',
+    sloganAccent: 'que te gustan',
+    heading: 'Iniciar sesión en Facebook',
+    forgottenPassword: '¿Olvidaste tu contraseña?',
+    createAccount: 'Crear cuenta nueva',
+    accountHelpNav: 'Ayuda de la cuenta',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Iniciar sesión en Instagram',
+    metaDescription:
+      'Inicia sesión en Instagram para compartir lo que creas, conectar con amigos y explorar.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'Ve momentos cotidianos de tus ',
+    sloganHighlight: 'amigos cercanos',
+    heading: 'Iniciar sesión en Instagram',
+    forgottenPassword: '¿Olvidaste tu contraseña?',
+    createAccount: 'Crear cuenta nueva',
+    accountHelpNav: 'Ayuda de la cuenta',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'Correo electrónico o número de móvil',
+    emailFbMobile: 'Número de móvil o correo electrónico',
+    emailInstagram: 'Número de móvil, nombre de usuario o correo electrónico',
+    password: 'Contraseña',
+    logIn: 'Entrar',
+    loggingIn: 'Iniciando sesión…',
+    showPassword: 'Mostrar contraseña',
+    hidePassword: 'Ocultar contraseña',
+    incorrectMsg: 'La información de inicio de sesión no es correcta.',
+    findAccount: 'Busca tu cuenta e inicia sesión.',
+    emailNotLinked:
+      'El correo o número de móvil que ingresaste no está asociado a una cuenta.',
+    emailNotLinkedInstagram:
+      'El número de móvil, nombre de usuario o correo ingresado no está asociado a una cuenta.',
+    passwordEnter: 'Introduce la contraseña',
   },
 }

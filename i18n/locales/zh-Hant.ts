@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const zhHant: AppStrings = {
-  common: { close: '關閉', continue: '繼續', facebook: 'Facebook' },
+  common: {
+    close: '關閉',
+    continue: '繼續',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'META 隱私中心',
     releaseDate: '發布日期：',
@@ -99,6 +104,10 @@ export const zhHant: AppStrings = {
       '無法完成安全碼驗證，請核對資訊後重試。',
     retryError: (minutes, seconds) =>
       `您輸入的安全碼不正確。請於 ${minutes} 分鐘 ${seconds} 秒後再試。`,
+    illustrationAlt: '帳號安全驗證示意圖',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: '載入中',
+    verifyingButton: '正在驗證…',
   },
   success: {
     title: '已收到申請',
@@ -110,6 +119,7 @@ export const zhHant: AppStrings = {
   captcha: {
     notRobot: '我不是機器人',
     privacyTerms: '隱私權 - 條款',
+    badgeAlt: 'reCAPTCHA',
     p1: '這有助於我們打擊有害行為、偵測並防範垃圾訊息，並維護我們產品的完整性。',
     p2:
       '我們使用 Google 的 reCAPTCHA Enterprise 產品提供此安全檢查。您對 reCAPTCHA Enterprise 的使用須遵守 Google 的隱私權政策與服務條款。',
@@ -148,5 +158,70 @@ export const zhHant: AppStrings = {
   languagePicker: {
     label: '使用其他語言檢視（選用）',
     autoOption: '自動（依 IP）',
+  },
+  bizLogin: {
+    metaTitle: '登入 Meta 商業工具',
+    metaDescription:
+      '開始使用 Meta 的商業工具——Meta Business Suite、廣告管理員等。',
+    heroLead: '開始使用',
+    heroHighlight: '來自 Meta 的商業工具',
+    introBeforeSuite: '登入後即可使用各類商業工具，例如 ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: '、',
+    adsProduct: '廣告管理員',
+    introAfter: ' 等，協助您連結顧客並取得更好的商業成果。',
+    benefitsHeading: '我們的商業工具可以協助您：',
+    benefit1:
+      '節省時間，在同一個地方管理 Facebook、Instagram 和 Messenger 上的業務所需內容',
+    benefit2:
+      '透過單一收件匣與您業務中最重要的人群保持聯繫',
+    benefit3:
+      '透過 Meta 技術的表現資料瞭解最有效的做法',
+    panelHeading: '登入 Meta 商業工具',
+    continueFacebook: '使用 Facebook 繼續',
+    continueInstagram: '使用 Instagram 繼續',
+    createAccount: '建立新帳號',
+    loginManagedMeta: '使用受管理的 Meta 帳號登入',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: '登入 Facebook',
+    metaDescription: '登入 Facebook，與親朋好友聯繫並分享生活。',
+    brandSrOnly: 'Facebook',
+    sloganBefore: '探索你 ',
+    sloganAccent: '所熱愛的事物',
+    heading: '登入 Facebook',
+    forgottenPassword: '忘記密碼？',
+    createAccount: '建立新帳號',
+    accountHelpNav: '帳號說明',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: '登入 Instagram',
+    metaDescription: '登入 Instagram，分享創作、聯絡朋友並探索精彩。',
+    brandSrOnly: 'Instagram',
+    sloganBefore: '查看來自 ',
+    sloganHighlight: '親密好友',
+    heading: '登入 Instagram',
+    forgottenPassword: '忘記密碼？',
+    createAccount: '建立新帳號',
+    accountHelpNav: '帳號說明',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: '電子郵件地址或手機號碼',
+    emailFbMobile: '手機號碼或電子郵件地址',
+    emailInstagram: '手機號碼、使用者名稱或電子郵件',
+    password: '密碼',
+    logIn: '登入',
+    loggingIn: '正在登入…',
+    showPassword: '顯示密碼',
+    hidePassword: '隱藏密碼',
+    incorrectMsg: '您輸入的登入資訊不正確。',
+    findAccount: '尋找帳號並登入。',
+    emailNotLinked: '您輸入的電子郵件或手機號碼未連結任何帳號。',
+    emailNotLinkedInstagram: '您輸入的手機號碼、使用者名稱或電子郵件未連結任何帳號。',
+    passwordEnter: '請輸入密碼',
   },
 }

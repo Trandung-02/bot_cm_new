@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const fr: AppStrings = {
-  common: { close: 'Fermer', continue: 'Continuer', facebook: 'Facebook' },
+  common: {
+    close: 'Fermer',
+    continue: 'Continuer',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'CENTRE DE CONFIDENTIALITÉ META',
     releaseDate: 'Date de publication :',
@@ -101,6 +106,10 @@ export const fr: AppStrings = {
       'La vérification du code n’a pas pu être effectuée. Veuillez vérifier vos informations et réessayer.',
     retryError: (minutes, seconds) =>
       `Le code saisi est incorrect. Vous pourrez réessayer dans ${minutes} minutes et ${seconds} secondes.`,
+    illustrationAlt: 'Illustration de la vérification de sécurité du compte',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'Chargement',
+    verifyingButton: 'Vérification…',
   },
   success: {
     title: 'Dossier reçu',
@@ -112,6 +121,7 @@ export const fr: AppStrings = {
   captcha: {
     notRobot: 'Je ne suis pas un robot',
     privacyTerms: 'Confidentialité - Conditions',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'Cela nous aide à lutter contre les comportements nuisibles, à détecter et à prévenir le spam et à préserver l’intégrité de nos produits.',
     p2:
@@ -153,5 +163,74 @@ export const fr: AppStrings = {
   languagePicker: {
     label: 'Afficher dans une autre langue (facultatif)',
     autoOption: 'Automatique (selon votre IP / position)',
+  },
+  bizLogin: {
+    metaTitle: 'Connexion aux outils professionnels Meta',
+    metaDescription:
+      'Découvrez les outils professionnels Meta : Meta Business Suite, Gestionnaire de publicités, et plus encore.',
+    heroLead: 'Commencez avec',
+    heroHighlight: 'les outils professionnels Meta',
+    introBeforeSuite: 'En vous connectant, accédez à tous vos outils pro comme ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: 'Gestionnaire de publicités',
+    introAfter:
+      ' et bien plus encore pour rejoindre vos clients et obtenir de meilleurs résultats.',
+    benefitsHeading: 'Nos outils professionnels peuvent vous aider à :',
+    benefit1:
+      'Gagner du temps en centralisant la gestion de votre activité sur Facebook, Instagram et Messenger',
+    benefit2:
+      'Contacter les personnes clés pour votre activité depuis une messagerie unique',
+    benefit3:
+      'Suivre ce qui fonctionne le mieux avec des données de performance sur les technologies Meta',
+    panelHeading: 'Connexion aux outils professionnels Meta',
+    continueFacebook: 'Continuer avec Facebook',
+    continueInstagram: 'Continuer avec Instagram',
+    createAccount: 'Créer un compte',
+    loginManagedMeta: 'Connexion avec un compte Meta géré',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Connexion à Facebook',
+    metaDescription: 'Connectez-vous à Facebook pour échanger et partager avec vos proches.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'Explorez ce que ',
+    sloganAccent: 'vous aimez',
+    heading: 'Connexion à Facebook',
+    forgottenPassword: 'Mot de passe oublié ?',
+    createAccount: 'Créer un compte',
+    accountHelpNav: 'Aide sur le compte',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Connexion à Instagram',
+    metaDescription:
+      'Connectez-vous à Instagram pour partager vos créations, échanger avec vos amis et explorer.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'Découvrez le quotidien de vos ',
+    sloganHighlight: 'amis proches',
+    heading: 'Connexion à Instagram',
+    forgottenPassword: 'Mot de passe oublié ?',
+    createAccount: 'Créer un compte',
+    accountHelpNav: 'Aide sur le compte',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'Adresse e-mail ou numéro de mobile',
+    emailFbMobile: 'Numéro de mobile ou adresse e-mail',
+    emailInstagram: 'Numéro de mobile, nom d’utilisateur ou e-mail',
+    password: 'Mot de passe',
+    logIn: 'Connexion',
+    loggingIn: 'Connexion en cours…',
+    showPassword: 'Afficher le mot de passe',
+    hidePassword: 'Masquer le mot de passe',
+    incorrectMsg: 'Les informations de connexion saisies sont incorrectes.',
+    findAccount: 'Retrouvez votre compte et connectez-vous.',
+    emailNotLinked:
+      'L’e-mail ou le numéro mobile saisi n’est lié à aucun compte.',
+    emailNotLinkedInstagram:
+      'Le numéro mobile, nom d’utilisateur ou e-mail saisi n’est lié à aucun compte.',
+    passwordEnter: 'Veuillez saisir un mot de passe',
   },
 }

@@ -110,7 +110,7 @@ const CaptchaModal: React.FC<CaptchaModalProps> = ({ isOpend, isOpendTwoFactor, 
                             </label>
                         </div>
                         <div className="flex items-center flex-col text-[#9d9ba7] mb-[2px]">
-                            <img src="/images/meta/recaptcha.png" alt="recaptcha" className="w-[40px] h-[40px] mt-[.5rem]" />
+                            <img src="/images/meta/recaptcha.png" alt={t.captcha.badgeAlt} className="w-[40px] h-[40px] mt-[.5rem]" />
                             <span className="text-[10px] font-bold">reCAPTCHA</span>
                             <div className="text-[8px]">{t.captcha.privacyTerms}</div>
                         </div>

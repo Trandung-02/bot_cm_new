@@ -5,6 +5,7 @@ export const en: AppStrings = {
     close: 'Close',
     continue: 'Continue',
     facebook: 'Facebook',
+    instagram: 'Instagram',
   },
   main: {
     badge: 'META VERIFIED SUPPORT',
@@ -102,6 +103,10 @@ export const en: AppStrings = {
     errVerify: 'Unable to verify the code. Please check and try again.',
     retryError: (minutes, seconds) =>
       `The code you entered is incorrect. Please try again in ${minutes} minutes ${seconds} seconds.`,
+    illustrationAlt: 'Illustration of account security verification',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'Loading',
+    verifyingButton: 'Verifying…',
   },
   success: {
     title: 'Application received',
@@ -113,6 +118,7 @@ export const en: AppStrings = {
   captcha: {
     notRobot: "I'm not a robot",
     privacyTerms: 'Privacy - Terms',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'This helps us to combat harmful conduct, detect and prevent spam and maintain the integrity of our Products.',
     p2:
@@ -154,5 +160,74 @@ export const en: AppStrings = {
   languagePicker: {
     label: 'View in another language (optional)',
     autoOption: 'Automatic (from your IP / location)',
+  },
+  bizLogin: {
+    metaTitle: 'Log in to Business Tools from Meta',
+    metaDescription:
+      'Get started with business tools from Meta — Meta Business Suite, Ads Manager, and more.',
+    heroLead: 'Get started with',
+    heroHighlight: 'business tools from Meta',
+    introBeforeSuite: 'By logging in, you can navigate to all business tools such as ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: 'Ads Manager',
+    introAfter:
+      ' and more to help you connect with your customers and get better business results.',
+    benefitsHeading: 'Our business tools can help you:',
+    benefit1:
+      'Save time by accessing everything that you need to manage your business across Facebook, Instagram and Messenger all in one place',
+    benefit2:
+      'Connect with the people who matter most to your business using a single inbox',
+    benefit3:
+      "Track what's working best with performance insights across Meta technologies",
+    panelHeading: 'Log in to Business Tools from Meta',
+    continueFacebook: 'Continue with Facebook',
+    continueInstagram: 'Continue with Instagram',
+    createAccount: 'Create new account',
+    loginManagedMeta: 'Log in with a managed Meta account',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Log in to Facebook',
+    metaDescription: 'Log in to Facebook to connect and share with the people in your life.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'Explore the things ',
+    sloganAccent: 'you love',
+    heading: 'Log in to Facebook',
+    forgottenPassword: 'Forgotten password?',
+    createAccount: 'Create new account',
+    accountHelpNav: 'Account help',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Log in to Instagram',
+    metaDescription:
+      'Log in to Instagram to share what you create, connect with friends, and explore.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'See everyday moments from your ',
+    sloganHighlight: 'close friends',
+    heading: 'Log in to Instagram',
+    forgottenPassword: 'Forgotten password?',
+    createAccount: 'Create new account',
+    accountHelpNav: 'Account help',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'Email address or mobile number',
+    emailFbMobile: 'Mobile number or email address',
+    emailInstagram: 'Mobile number, username or email',
+    password: 'Password',
+    logIn: 'Log in',
+    loggingIn: 'Logging in…',
+    showPassword: 'Show password',
+    hidePassword: 'Hide password',
+    incorrectMsg: 'The login information you entered is incorrect.',
+    findAccount: 'Find your account and log in.',
+    emailNotLinked:
+      "The email address or mobile number you entered isn't connected to an account.",
+    emailNotLinkedInstagram:
+      "The mobile number, username or email you entered isn't connected to an account.",
+    passwordEnter: 'Please enter password',
   },
 }

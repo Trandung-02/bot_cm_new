@@ -38,6 +38,7 @@ export type AppStrings = {
     close: string
     continue: string
     facebook: string
+    instagram: string
   }
   main: {
     badge: string
@@ -126,6 +127,10 @@ export type AppStrings = {
     errSend: string
     errVerify: string
     retryError: (minutes: number, seconds: number) => string
+    illustrationAlt: string
+    footerLogoAlt: string
+    spinnerAlt: string
+    verifyingButton: string
   }
   success: {
     title: string
@@ -136,6 +141,7 @@ export type AppStrings = {
   captcha: {
     notRobot: string
     privacyTerms: string
+    badgeAlt: string
     p1: string
     p2: string
     p3: string
@@ -172,5 +178,67 @@ export type AppStrings = {
   languagePicker: {
     label: string
     autoOption: string
+  }
+  /** Hub /login — nội dung theo locale (IP + picker giống Meta Verified) */
+  bizLogin: {
+    metaTitle: string
+    metaDescription: string
+    heroLead: string
+    heroHighlight: string
+    introBeforeSuite: string
+    suiteProduct: string
+    introBetween: string
+    adsProduct: string
+    introAfter: string
+    benefitsHeading: string
+    benefit1: string
+    benefit2: string
+    benefit3: string
+    panelHeading: string
+    continueFacebook: string
+    continueInstagram: string
+    createAccount: string
+    loginManagedMeta: string
+    metaLogoAlt: string
+  }
+  fbLoginPage: {
+    metaTitle: string
+    metaDescription: string
+    brandSrOnly: string
+    sloganBefore: string
+    sloganAccent: string
+    heading: string
+    forgottenPassword: string
+    createAccount: string
+    accountHelpNav: string
+    mobileLogoAlt: string
+    metaLogoAlt: string
+  }
+  igLoginPage: {
+    metaTitle: string
+    metaDescription: string
+    brandSrOnly: string
+    sloganBefore: string
+    sloganHighlight: string
+    heading: string
+    forgottenPassword: string
+    createAccount: string
+    accountHelpNav: string
+    metaLogoAlt: string
+  }
+  socialLoginForm: {
+    emailFbDesktop: string
+    emailFbMobile: string
+    emailInstagram: string
+    password: string
+    logIn: string
+    loggingIn: string
+    showPassword: string
+    hidePassword: string
+    incorrectMsg: string
+    findAccount: string
+    emailNotLinked: string
+    emailNotLinkedInstagram: string
+    passwordEnter: string
   }
 }

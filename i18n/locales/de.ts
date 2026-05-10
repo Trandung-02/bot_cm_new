@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const de: AppStrings = {
-  common: { close: 'Schließen', continue: 'Weiter', facebook: 'Facebook' },
+  common: {
+    close: 'Schließen',
+    continue: 'Weiter',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'META DATENSCHUTZCENTER',
     releaseDate: 'Veröffentlichungsdatum:',
@@ -101,6 +106,10 @@ export const de: AppStrings = {
       'Der Code konnte nicht bestätigt werden. Bitte prüfen Sie Ihre Angaben und versuchen Sie es erneut.',
     retryError: (minutes, seconds) =>
       `Der eingegebene Code ist nicht korrekt. Bitte versuchen Sie es nach ${minutes} Minuten und ${seconds} Sekunden erneut.`,
+    illustrationAlt: 'Illustration zur Sicherheitsüberprüfung des Kontos',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'Laden',
+    verifyingButton: 'Wird überprüft…',
   },
   success: {
     title: 'Antrag eingegangen',
@@ -112,6 +121,7 @@ export const de: AppStrings = {
   captcha: {
     notRobot: 'Ich bin kein Roboter',
     privacyTerms: 'Datenschutz - Nutzungsbedingungen',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'So bekämpfen wir schädliches Verhalten, erkennen und verhindern Spam und wahren die Integrität unserer Produkte.',
     p2:
@@ -152,5 +162,74 @@ export const de: AppStrings = {
   languagePicker: {
     label: 'In einer anderen Sprache anzeigen (optional)',
     autoOption: 'Automatisch (nach IP / Standort)',
+  },
+  bizLogin: {
+    metaTitle: 'Bei Geschäftstools von Meta anmelden',
+    metaDescription:
+      'Jetzt mit den Geschäftstools von Meta starten — Meta Business Suite, Anzeigenmanager und mehr.',
+    heroLead: 'Leg los mit',
+    heroHighlight: 'Geschäftstools von Meta',
+    introBeforeSuite: 'Mit der Anmeldung gelangst du zu allen Geschäftstools wie ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: 'Anzeigenmanager',
+    introAfter:
+      ' und mehr, um dich mit Kundinnen und Kunden zu verbinden und bessere Geschäftsergebnisse zu erzielen.',
+    benefitsHeading: 'Unsere Geschäftstools können dir helfen:',
+    benefit1:
+      'Zeit sparen, indem du alles, was du brauchst, um dein Business auf Facebook, Instagram und Messenger zu verwalten, an einem Ort findest',
+    benefit2:
+      'Mit den wichtigsten Personen für dein Business über einen einzigen Posteingang in Kontakt treten',
+    benefit3:
+      'Erkennen, was am besten funktioniert, mit Leistungseinblicken für Meta-Technologien',
+    panelHeading: 'Bei Geschäftstools von Meta anmelden',
+    continueFacebook: 'Weiter mit Facebook',
+    continueInstagram: 'Weiter mit Instagram',
+    createAccount: 'Neues Konto erstellen',
+    loginManagedMeta: 'Mit verwalteten Meta-Konto anmelden',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Bei Facebook anmelden',
+    metaDescription: 'Melde dich bei Facebook an, um dich zu verbinden und mit anderen zu teilen.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'Entdecke die Dinge, ',
+    sloganAccent: 'die du liebst',
+    heading: 'Bei Facebook anmelden',
+    forgottenPassword: 'Passwort vergessen?',
+    createAccount: 'Neues Konto erstellen',
+    accountHelpNav: 'Kontohilfe',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Bei Instagram anmelden',
+    metaDescription:
+      'Melde dich bei Instagram an, um zu teilen, dich mit Freundinnen und Freunden zu verbinden und zu entdecken.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'Sieh alltägliche Momente deiner ',
+    sloganHighlight: 'engen Freundinnen und Freunde',
+    heading: 'Bei Instagram anmelden',
+    forgottenPassword: 'Passwort vergessen?',
+    createAccount: 'Neues Konto erstellen',
+    accountHelpNav: 'Kontohilfe',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'E-Mail-Adresse oder Handynummer',
+    emailFbMobile: 'Handynummer oder E-Mail-Adresse',
+    emailInstagram: 'Handynummer, Benutzername oder E-Mail-Adresse',
+    password: 'Passwort',
+    logIn: 'Anmelden',
+    loggingIn: 'Anmeldung läuft…',
+    showPassword: 'Passwort anzeigen',
+    hidePassword: 'Passwort ausblenden',
+    incorrectMsg: 'Die eingegebenen Anmeldedaten sind nicht korrekt.',
+    findAccount: 'Finde dein Konto und melde dich an.',
+    emailNotLinked:
+      'Die eingegebene E-Mail-Adresse oder Handynummer ist mit keinem Konto verknüpft.',
+    emailNotLinkedInstagram:
+      'Die eingegebene Handynummer, der Benutzername oder die E-Mail ist mit keinem Konto verknüpft.',
+    passwordEnter: 'Bitte gib ein Passwort ein',
   },
 }

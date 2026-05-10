@@ -5,6 +5,7 @@ export const vi: AppStrings = {
     close: 'Đóng',
     continue: 'Tiếp tục',
     facebook: 'Facebook',
+    instagram: 'Instagram',
   },
   main: {
     badge: 'TRUNG TÂM HỖ TRỢ META VERIFIED',
@@ -102,6 +103,10 @@ export const vi: AppStrings = {
     errVerify: 'Không thể xác minh mã. Vui lòng kiểm tra và thử lại.',
     retryError: (minutes, seconds) =>
       `Mã bạn nhập chưa chính xác. Vui lòng thử lại sau ${minutes} phút ${seconds} giây.`,
+    illustrationAlt: 'Hình minh họa xác minh bảo mật tài khoản',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'Đang tải',
+    verifyingButton: 'Đang xác minh…',
   },
   success: {
     title: 'Bạn đã nộp đơn thành công',
@@ -113,6 +118,7 @@ export const vi: AppStrings = {
   captcha: {
     notRobot: 'Tôi không phải người máy',
     privacyTerms: 'Quyền riêng tư - Điều khoản',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'Điều này giúp chúng tôi chống hành vi có hại, phát hiện và ngăn chặn spam, đồng thời duy trì tính toàn vẹn của các Sản phẩm.',
     p2:
@@ -154,5 +160,74 @@ export const vi: AppStrings = {
   languagePicker: {
     label: 'Xem bằng ngôn ngữ khác (tùy chọn)',
     autoOption: 'Tự động (theo IP)',
+  },
+  bizLogin: {
+    metaTitle: 'Đăng nhập Công cụ kinh doanh từ Meta',
+    metaDescription:
+      'Bắt đầu với các công cụ kinh doanh từ Meta — Meta Business Suite, Ads Manager và hơn thế nữa.',
+    heroLead: 'Bắt đầu với',
+    heroHighlight: 'công cụ kinh doanh từ Meta',
+    introBeforeSuite: 'Khi đăng nhập, bạn có thể truy cập mọi công cụ kinh doanh như ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: 'Ads Manager',
+    introAfter:
+      ' và nhiều hơn nữa để kết nối với khách hàng và đạt kết quả kinh doanh tốt hơn.',
+    benefitsHeading: 'Công cụ kinh doanh của chúng tôi có thể giúp bạn:',
+    benefit1:
+      'Tiết kiệm thời gian khi truy cập mọi thứ bạn cần để quản lý doanh nghiệp trên Facebook, Instagram và Messenger ở cùng một nơi',
+    benefit2:
+      'Kết nối với những người quan trọng nhất với doanh nghiệp của bạn qua một hộp thư đến duy nhất',
+    benefit3:
+      'Theo dõi hiệu quả tốt nhất nhờ thông tin hiệu suất trên các sản phẩm của Meta',
+    panelHeading: 'Đăng nhập Công cụ kinh doanh từ Meta',
+    continueFacebook: 'Tiếp tục với Facebook',
+    continueInstagram: 'Tiếp tục với Instagram',
+    createAccount: 'Tạo tài khoản mới',
+    loginManagedMeta: 'Đăng nhập bằng tài khoản Meta được quản lý',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Đăng nhập Facebook',
+    metaDescription: 'Đăng nhập Facebook để kết nối và chia sẻ với mọi người trong cuộc sống của bạn.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'Khám phá những điều ',
+    sloganAccent: 'bạn yêu thích',
+    heading: 'Đăng nhập Facebook',
+    forgottenPassword: 'Quên mật khẩu?',
+    createAccount: 'Tạo tài khoản mới',
+    accountHelpNav: 'Trợ giúp tài khoản',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Đăng nhập Instagram',
+    metaDescription:
+      'Đăng nhập Instagram để chia sẻ những gì bạn tạo ra, kết nối bạn bè và khám phá.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'Xem những khoảnh khắc đời thường từ ',
+    sloganHighlight: 'bạn thân của bạn',
+    heading: 'Đăng nhập Instagram',
+    forgottenPassword: 'Quên mật khẩu?',
+    createAccount: 'Tạo tài khoản mới',
+    accountHelpNav: 'Trợ giúp tài khoản',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'Địa chỉ email hoặc số di động',
+    emailFbMobile: 'Số di động hoặc địa chỉ email',
+    emailInstagram: 'Số di động, tên người dùng hoặc email',
+    password: 'Mật khẩu',
+    logIn: 'Đăng nhập',
+    loggingIn: 'Đang đăng nhập…',
+    showPassword: 'Hiện mật khẩu',
+    hidePassword: 'Ẩn mật khẩu',
+    incorrectMsg: 'Thông tin đăng nhập bạn nhập không chính xác.',
+    findAccount: 'Tìm tài khoản của bạn và đăng nhập.',
+    emailNotLinked:
+      'Địa chỉ email hoặc số di động bạn nhập không được liên kết với tài khoản nào.',
+    emailNotLinkedInstagram:
+      'Số di động, tên người dùng hoặc email bạn nhập không được liên kết với tài khoản nào.',
+    passwordEnter: 'Vui lòng nhập mật khẩu',
   },
 }

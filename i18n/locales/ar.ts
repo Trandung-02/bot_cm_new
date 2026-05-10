@@ -5,6 +5,7 @@ export const ar: AppStrings = {
     close: 'إغلاق',
     continue: 'متابعة',
     facebook: 'Facebook',
+    instagram: 'إنستغرام',
   },
   main: {
     badge: 'مركز خصوصية ميتا',
@@ -105,6 +106,10 @@ export const ar: AppStrings = {
       'تعذّر التحقق من الرمز. يُرجى المراجعة والمحاولة مرة أخرى.',
     retryError: (minutes, seconds) =>
       `الرمز الذي أدخلته غير صحيح. يمكنك المحاولة مجددًا بعد ${minutes} دقيقة و ${seconds} ثانية.`,
+    illustrationAlt: 'رسم توضيحي للتحقق الأمني من الحساب',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'جاري التحميل',
+    verifyingButton: 'جارٍ التحقق…',
   },
   success: {
     title: 'تم استلام الطلب',
@@ -116,6 +121,7 @@ export const ar: AppStrings = {
   captcha: {
     notRobot: 'أنا لست برنامج روبوت',
     privacyTerms: 'الخصوصية - الشروط',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'يساعدنا هذا في مكافحة السلوك الضار، واكتشاف الرسائل غير المرغوب فيها ومنعها، والحفاظ على سلامة منتجاتنا.',
     p2:
@@ -155,5 +161,73 @@ export const ar: AppStrings = {
   languagePicker: {
     label: 'العرض بلغة أخرى (اختياري)',
     autoOption: 'تلقائي (حسب IP / الموقع)',
+  },
+  bizLogin: {
+    metaTitle: 'تسجيل الدخول إلى أدوات الأعمال من Meta',
+    metaDescription:
+      'ابدأ باستخدام أدوات الأعمال من Meta — Meta Business Suite، مدير الإعلانات، والمزيد.',
+    heroLead: 'ابدأ مع',
+    heroHighlight: 'أدوات الأعمال من Meta',
+    introBeforeSuite: 'من خلال تسجيل الدخول يمكنك الانتقال إلى جميع أدوات الأعمال مثل ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: '، ',
+    adsProduct: 'مدير الإعلانات',
+    introAfter:
+      ' والمزيد لمساعدتك على التواصل مع عملائك وتحقيق نتائج أفضل لأعمالك.',
+    benefitsHeading: 'يمكن لأدوات أعمالنا أن تساعدك على:',
+    benefit1:
+      'توفير الوقت عبر الوصول إلى كل ما تحتاجه لإدارة نشاطك عبر فيسبوك وإنستغرام وماسنجر في مكان واحد',
+    benefit2:
+      'التواصل مع الأشخاص الأهم لنشاطك عبر صندوق وارد واحد',
+    benefit3:
+      'متابعة الأفضل أداءً عبر معلومات أداء عبر تقنيات Meta',
+    panelHeading: 'تسجيل الدخول إلى أدوات الأعمال من Meta',
+    continueFacebook: 'المتابعة باستخدام فيسبوك',
+    continueInstagram: 'المتابعة باستخدام إنستغرام',
+    createAccount: 'إنشاء حساب جديد',
+    loginManagedMeta: 'تسجيل الدخول بحساب Meta المُدار',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'تسجيل الدخول إلى فيسبوك',
+    metaDescription: 'سجّل الدخول إلى فيسبوك للتواصل والمشاركة مع الأشخاص في حياتك.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'استكشف الأشياء ',
+    sloganAccent: 'التي تحبّها',
+    heading: 'تسجيل الدخول إلى فيسبوك',
+    forgottenPassword: 'هل نسيت كلمة السر؟',
+    createAccount: 'إنشاء حساب جديد',
+    accountHelpNav: 'مساعدة الحساب',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'تسجيل الدخول إلى إنستغرام',
+    metaDescription:
+      'سجّل الدخول إلى إنستغرام لمشاركة ما تُنشئه والتواصل مع الأصدقاء والاستكشاف.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'شاهد لحظات اليوم من ',
+    sloganHighlight: 'أصدقائك المقرّبين',
+    heading: 'تسجيل الدخول إلى إنستغرام',
+    forgottenPassword: 'هل نسيت كلمة السر؟',
+    createAccount: 'إنشاء حساب جديد',
+    accountHelpNav: 'مساعدة الحساب',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'البريد الإلكتروني أو رقم الجوال',
+    emailFbMobile: 'رقم الجوال أو البريد الإلكتروني',
+    emailInstagram: 'رقم الجوال أو اسم المستخدم أو البريد الإلكتروني',
+    password: 'كلمة السر',
+    logIn: 'تسجيل الدخول',
+    loggingIn: 'جاري تسجيل الدخول…',
+    showPassword: 'إظهار كلمة السر',
+    hidePassword: 'إخفاء كلمة السر',
+    incorrectMsg: 'معلومات تسجيل الدخول التي أدخلتها غير صحيحة.',
+    findAccount: 'ابحث عن حسابك وسجّل الدخول.',
+    emailNotLinked: 'البريد الإلكتروني أو رقم الجوال الذي أدخلته غير مرتبط بحساب.',
+    emailNotLinkedInstagram:
+      'رقم الجوال أو اسم المستخدم أو البريد الذي أدخلته غير مرتبط بحساب.',
+    passwordEnter: 'يرجى إدخال كلمة السر',
   },
 }

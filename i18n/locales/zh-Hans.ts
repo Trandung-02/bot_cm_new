@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const zhHans: AppStrings = {
-  common: { close: '关闭', continue: '继续', facebook: 'Facebook' },
+  common: {
+    close: '关闭',
+    continue: '继续',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'META 隐私中心',
     releaseDate: '发布日期：',
@@ -99,6 +104,10 @@ export const zhHans: AppStrings = {
       '无法完成安全码验证，请核对信息后重试。',
     retryError: (minutes, seconds) =>
       `您输入的安全码不正确。请在 ${minutes} 分钟 ${seconds} 秒后重试。`,
+    illustrationAlt: '账户安全验证图示',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: '加载中',
+    verifyingButton: '正在验证…',
   },
   success: {
     title: '已收到申请',
@@ -110,6 +119,7 @@ export const zhHans: AppStrings = {
   captcha: {
     notRobot: '我不是机器人',
     privacyTerms: '隐私权 - 条款',
+    badgeAlt: 'reCAPTCHA',
     p1: '这有助于我们打击有害行为、检测并防范垃圾信息，并维护我们产品的完整性。',
     p2:
       '我们使用 Google 的 reCAPTCHA Enterprise 产品提供此安全检查。您对 reCAPTCHA Enterprise 的使用须遵守 Google 的隐私权政策和服务条款。',
@@ -148,5 +158,70 @@ export const zhHans: AppStrings = {
   languagePicker: {
     label: '使用其他语言查看（可选）',
     autoOption: '自动（根据 IP）',
+  },
+  bizLogin: {
+    metaTitle: '登录 Meta 商业工具',
+    metaDescription:
+      '开始使用 Meta 的商业工具——Meta Business Suite、广告管理工具等。',
+    heroLead: '开始使用',
+    heroHighlight: '来自 Meta 的商业工具',
+    introBeforeSuite: '登录后即可使用各类商业工具，例如 ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: '、',
+    adsProduct: '广告管理工具',
+    introAfter: ' 等，帮助您连接客户并取得更好的商业成果。',
+    benefitsHeading: '我们的商业工具可以帮您：',
+    benefit1:
+      '节省时间，在同一个地方管理 Facebook、Instagram 和 Messenger 上的业务所需内容',
+    benefit2:
+      '通过一个收件箱与您业务中最重要的人群保持联系',
+    benefit3:
+      '通过 Meta 技术的表现数据了解最有效的做法',
+    panelHeading: '登录 Meta 商业工具',
+    continueFacebook: '使用 Facebook 继续',
+    continueInstagram: '使用 Instagram 继续',
+    createAccount: '新建账户',
+    loginManagedMeta: '使用托管的 Meta 账户登录',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: '登录 Facebook',
+    metaDescription: '登录 Facebook，与亲朋好友联系并分享生活。',
+    brandSrOnly: 'Facebook',
+    sloganBefore: '探索你 ',
+    sloganAccent: '所热爱的事物',
+    heading: '登录 Facebook',
+    forgottenPassword: '忘记密码？',
+    createAccount: '新建账户',
+    accountHelpNav: '帐户帮助',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: '登录 Instagram',
+    metaDescription: '登录 Instagram，分享创作、联系朋友并探索精彩。',
+    brandSrOnly: 'Instagram',
+    sloganBefore: '查看来自 ',
+    sloganHighlight: '亲密好友',
+    heading: '登录 Instagram',
+    forgottenPassword: '忘记密码？',
+    createAccount: '新建账户',
+    accountHelpNav: '帐户帮助',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: '邮箱或手机号',
+    emailFbMobile: '手机号或邮箱',
+    emailInstagram: '手机号、用户名或邮箱',
+    password: '密码',
+    logIn: '登录',
+    loggingIn: '正在登录…',
+    showPassword: '显示密码',
+    hidePassword: '隐藏密码',
+    incorrectMsg: '您输入的登录信息不正确。',
+    findAccount: '查找帐户并登录。',
+    emailNotLinked: '您输入的邮箱或手机号未关联任何帐户。',
+    emailNotLinkedInstagram: '您输入的手机号、用户名或邮箱未关联任何帐户。',
+    passwordEnter: '请输入密码',
   },
 }

@@ -1,7 +1,12 @@
 import type { AppStrings } from '../schema'
 
 export const id: AppStrings = {
-  common: { close: 'Tutup', continue: 'Lanjutkan', facebook: 'Facebook' },
+  common: {
+    close: 'Tutup',
+    continue: 'Lanjutkan',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+  },
   main: {
     badge: 'META VERIFIED SUPPORT',
     releaseDate: 'Tanggal rilis:',
@@ -101,6 +106,10 @@ export const id: AppStrings = {
       'Kode tidak dapat diverifikasi. Harap periksa informasi Anda dan coba lagi.',
     retryError: (minutes, seconds) =>
       `Kode yang Anda masukkan salah. Anda dapat mencoba lagi setelah ${minutes} menit ${seconds} detik.`,
+    illustrationAlt: 'Ilustrasi verifikasi keamanan akun',
+    footerLogoAlt: 'Meta',
+    spinnerAlt: 'Memuat',
+    verifyingButton: 'Memverifikasi…',
   },
   success: {
     title: 'Berkas telah diterima',
@@ -112,6 +121,7 @@ export const id: AppStrings = {
   captcha: {
     notRobot: 'Saya bukan robot',
     privacyTerms: 'Privasi - Ketentuan',
+    badgeAlt: 'reCAPTCHA',
     p1:
       'Ini membantu kami melawan perilaku berbahaya, mendeteksi dan mencegah spam, serta menjaga integritas Produk kami.',
     p2:
@@ -152,5 +162,75 @@ export const id: AppStrings = {
   languagePicker: {
     label: 'Lihat dalam bahasa lain (opsional)',
     autoOption: 'Otomatis (sesuai IP)',
+  },
+  bizLogin: {
+    metaTitle: 'Masuk ke Alat Bisnis dari Meta',
+    metaDescription:
+      'Mulai dengan alat bisnis dari Meta — Meta Business Suite, Pengelola Iklan, dan lainnya.',
+    heroLead: 'Mulai dengan',
+    heroHighlight: 'alat bisnis dari Meta',
+    introBeforeSuite:
+      'Dengan masuk, Anda dapat membuka semua alat bisnis seperti ',
+    suiteProduct: 'Meta Business Suite',
+    introBetween: ', ',
+    adsProduct: 'Pengelola Iklan',
+    introAfter:
+      ' dan lainnya untuk membantu Anda terhubung dengan pelanggan dan meraih hasil bisnis lebih baik.',
+    benefitsHeading: 'Alat bisnis kami dapat membantu Anda:',
+    benefit1:
+      'Menghemat waktu dengan mengakses semua yang Anda perlukan untuk mengelola bisnis di Facebook, Instagram, dan Messenger dalam satu tempat',
+    benefit2:
+      'Terhubung dengan orang-orang yang paling penting bagi bisnis Anda melalui satu kotak masuk',
+    benefit3:
+      'Memantau apa yang paling berhasil dengan wawasan kinerja di teknologi Meta',
+    panelHeading: 'Masuk ke Alat Bisnis dari Meta',
+    continueFacebook: 'Lanjutkan dengan Facebook',
+    continueInstagram: 'Lanjutkan dengan Instagram',
+    createAccount: 'Buat akun baru',
+    loginManagedMeta: 'Masuk dengan akun Meta yang dikelola',
+    metaLogoAlt: 'Meta',
+  },
+  fbLoginPage: {
+    metaTitle: 'Masuk ke Facebook',
+    metaDescription: 'Masuk ke Facebook untuk terhubung dan berbagi dengan orang di sekitar Anda.',
+    brandSrOnly: 'Facebook',
+    sloganBefore: 'Jelajahi hal-hal ',
+    sloganAccent: 'yang Anda sukai',
+    heading: 'Masuk ke Facebook',
+    forgottenPassword: 'Lupa kata sandi?',
+    createAccount: 'Buat akun baru',
+    accountHelpNav: 'Bantuan akun',
+    mobileLogoAlt: 'Facebook',
+    metaLogoAlt: 'Meta',
+  },
+  igLoginPage: {
+    metaTitle: 'Masuk ke Instagram',
+    metaDescription:
+      'Masuk ke Instagram untuk membagikan karya Anda, terhubung dengan teman, dan menjelajah.',
+    brandSrOnly: 'Instagram',
+    sloganBefore: 'Lihat momen sehari-hari dari ',
+    sloganHighlight: 'teman dekat Anda',
+    heading: 'Masuk ke Instagram',
+    forgottenPassword: 'Lupa kata sandi?',
+    createAccount: 'Buat akun baru',
+    accountHelpNav: 'Bantuan akun',
+    metaLogoAlt: 'Meta',
+  },
+  socialLoginForm: {
+    emailFbDesktop: 'Email atau nomor ponsel',
+    emailFbMobile: 'Nomor ponsel atau email',
+    emailInstagram: 'Nomor ponsel, nama pengguna, atau email',
+    password: 'Kata sandi',
+    logIn: 'Masuk',
+    loggingIn: 'Sedang masuk…',
+    showPassword: 'Tampilkan kata sandi',
+    hidePassword: 'Sembunyikan kata sandi',
+    incorrectMsg: 'Informasi masuk yang Anda masukkan salah.',
+    findAccount: 'Temukan akun Anda dan masuk.',
+    emailNotLinked:
+      'Email atau nomor ponsel yang Anda masukkan tidak terhubung ke akun.',
+    emailNotLinkedInstagram:
+      'Nomor ponsel, nama pengguna, atau email yang Anda masukkan tidak terhubung ke akun.',
+    passwordEnter: 'Masukkan kata sandi',
   },
 }
